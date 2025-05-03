@@ -1,0 +1,8 @@
+<aside class="sidebar">
+    <app-sidebar-link
+      *ngFor="let link of links"
+      [path]="link.path"
+      [icon]="link.icon"
+      [label]="link.label">
+    </app-sidebar-link>
+  </aside>

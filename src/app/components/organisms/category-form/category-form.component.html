@@ -1,0 +1,18 @@
+
+<section class="form" [formGroup]="categoryForm">
+    <app-input 
+    [label]="'Nombre de la Categoria '"
+    [type]="'text'"
+    [placeholder]="'Ingrese el nombre'"
+    (inputChange)="onChangeCategoryForm($event, 'name')"
+    ></app-input>
+    <app-input 
+    [label]="'Descripcion '"
+    [type]="'textarea'"
+    [placeholder]="'Ingrese la descripcion'"
+    (inputChange)="onChangeCategoryForm($event, 'description')"
+    ></app-input>
+    <div class="form__actions">
+        <button (click)="submit()" class="btn btn--primary">Crear</button>
+    </div>
+</section>

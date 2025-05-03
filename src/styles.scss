@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+.btn {
+    padding: 8px 50px;
+    margin-top: 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    font-family: 'Manrope', sans-serif;
+
+    &--primary {
+        background-color: #2563EB;
+
+        &:hover {
+            background-color:  #0056b3;
+        }
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F9FAFB;
+    font-family: 'Manrope', sans-serif;
+  }

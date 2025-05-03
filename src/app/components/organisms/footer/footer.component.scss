@@ -1,0 +1,62 @@
+
+.footer {
+    padding:50px 80px 50px 80px;
+    border-top: 1px solid #E5E7EB;
+    background-color: white;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+
+    &__content {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        gap: 50px;
+
+        .column{
+            display: flex;
+            flex-direction: column;
+            width: 288px;
+
+            &__title {
+                margin-bottom: 5px;
+                margin-top: 0px;
+
+                &-company {
+                    font-size: 20px;
+                    color: #2563EB;
+                    margin-bottom: 10px;
+                    margin-top: 0px;
+                }
+            }
+            
+            .row {
+                text-decoration: none;
+                color: #4B5563;
+                margin: 5px 5px 5px 0px;
+                display: flex;
+                align-items: center;
+
+                img {
+                    margin-right: 5px;
+                }
+
+                &-link:hover {
+                    color: #8d98a7;
+                }
+
+                &-icons {
+                    img {
+                        margin-right: 12px;
+                    }
+                }
+            }
+        }
+    }
+
+    &__rights {
+        border-top: 1px solid #E5E7EB;
+        padding-top: 25px;
+        color: #4B5563;
+        text-align: center;
+    }
+}

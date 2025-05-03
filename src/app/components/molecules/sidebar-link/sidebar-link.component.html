@@ -1,0 +1,14 @@
+<a *ngIf="isActive()"
+  [routerLink]="path"
+  class="sidebar-link active"
+>
+  <img [src]="'/assets/img/sidebar-icons/' + icon + '-selected.svg'" class="sidebar-icon" [alt]="label + ' icon'">
+  <span>{{ label }}</span>
+</a>
+<a *ngIf="!isActive()"
+  [routerLink]="path"
+  class="sidebar-link"
+>
+  <img [src]="'/assets/img/sidebar-icons/' + icon + '.svg'" class="sidebar-icon" [alt]="label + ' icon'">
+  <span>{{ label }}</span>
+</a>

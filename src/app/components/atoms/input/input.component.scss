@@ -1,0 +1,48 @@
+
+.label {
+    font-size: 14px;
+    color: #374151;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+
+    &__text {
+        display: flex;
+        align-items: center;
+        margin-bottom: 6px;
+    }
+
+    &__required-simbol {
+        color: red;
+        margin-left: 4px;
+    }
+
+    .input {
+        display: inline;
+        padding: 12px 15px;
+        border: 1px solid #D1D5DB;
+        border-radius: 8px;
+        outline: none;
+        font-family: 'Manrope', sans-serif;
+        font-size: 14px;
+        resize: none;
+
+        &:focus {
+            border: 1px solid #888b8f;
+        }
+    }
+
+    
+    .textarea-count {
+        position: absolute;
+        bottom: 12px;
+        right: 15px;
+        font-size: 14px;
+        color: #6B7280;
+    }
+
+    .red {
+        color: red;
+    }
+}
