@@ -1,24 +1,35 @@
 <label class="label">
     <div class="label__text">
         {{ label }} 
-        <p class="label__required-simbol">*</p>
+        <p class="label__required-simbol" *ngIf="showRequiredSymbol">*</p>
     </div>
+
     <input *ngIf="type !== 'textarea'"
-    class="input"
-    [type]="type"
-    [placeholder]="placeholder"
-    [(ngModel)]="contentText"
-    (required)="(required)"
-    (input)="onInputChange()"
-    />
+           class="input"
+           [type]="type"
+           [placeholder]="placeholder"
+           [value]="value"
+           (input)="onInputChange($event)"
+           (blur)="onTouched()" />
 
     <textarea *ngIf="type === 'textarea'"
-        rows="4"
-        class="input"
-        [placeholder]="placeholder"
-        [(ngModel)]="contentText"
-        (required)="(required)"
-        (input)="onInputChange()"
-    ></textarea>
-    <span *ngIf="type === 'textarea'" class="textarea-count" [class.red]="count > maxwidth">{{ count + '/' + maxwidth }}</span>
+              rows="4"
+              class="input"
+              [placeholder]="placeholder"
+              [value]="value"
+              (input)="onInputChange($event)"
+              (blur)="onTouched()">
+    </textarea>
+
+    <span
+           class="input-count" 
+           [class.red]="count > maxwidth">
+        {{ count + '/' + maxwidth }}
+    </span>
+    <div class="input-error" >
+        <small
+            *ngIf="errors && (formControl?.touched || formControl?.dirty)">
+            {{ getErrorMessage() }}
+        </small>
+    </div>
 </label>

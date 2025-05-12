@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Category } from '@app/core/models/category';
+import { CategoryService } from '@app/core/services/api/category/category.service';
+import { NotificationService } from '@app/core/services/notification/notification.service';
+import { TranslatorService } from '@app/core/services/translator/translator.service';
 
 
 @Component({
@@ -8,18 +12,47 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./category-form.component.scss']
 })
 export class CategoryFormComponent {
-  public categoryForm: FormGroup = new FormGroup ({
-    name: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-  });
 
-  onChangeCategoryForm(value: string, key: string): void{
-    const updateRow: { [key: string]: string} = {}
-    updateRow[key] = value;
-    this.categoryForm.patchValue(updateRow);
+  public categoryForm: FormGroup;
+
+  constructor(
+    private fb: FormBuilder, 
+    private categoryService: CategoryService,
+    private notificationService: NotificationService,
+    private translatorService: TranslatorService
+  ){ 
+    this.categoryForm = this.fb.group ({
+      name: ['', [Validators.required, Validators.maxLength(50)]],
+      description: ['', [Validators.required, Validators.maxLength(90)]],
+    });
   }
 
+  get nameControl(): FormControl {
+    return this.categoryForm.get('name') as FormControl;
+  }
+  
+  get descriptionControl(): FormControl {
+    return this.categoryForm.get('description') as FormControl;
+  }  
+
   submit(): void {
-    console.log(this.categoryForm.value);
+    console.log(this.categoryForm.value)
+    if (this.categoryForm.invalid) {
+      this.categoryForm.markAllAsTouched();
+      return;
+    }
+
+    this.categoryService.createCategory(this.categoryForm.value as Category).subscribe({
+      next: (response) => {
+        this.notificationService.success(this.translatorService.translate(response.message) || 'Guardado Exitoso');
+        console.log(response.message);
+        this.categoryForm.reset();
+      },
+      error: (error) => {
+        const message = error?.error?.message || 'Ocurrió un error inesperado';
+        this.notificationService.error(this.translatorService.translate(message));
+        console.log(message);
+      }
+    });
   }
 }

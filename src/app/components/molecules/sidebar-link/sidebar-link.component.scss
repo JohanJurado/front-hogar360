@@ -1,9 +1,11 @@
+@import '../../../../styles/variables.scss';
+
 .sidebar-link {
     border-radius: 6px;
     padding: 8px;
     font-family: 'Manrope', sans-serif;
     font-size: 14px;
-    color: #4B5563;
+    color: $secondaryText;
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
@@ -11,14 +13,14 @@
     text-decoration: none;
 
     &:hover {
-        background-color: #f7f7f7;
+        background-color: $secondaryBackground;
     }
 
     &.active {
-        color: #2563EB;
-        background-color: #EFF6FF;
+        color: $primaryColor;
+        background-color: $thirdColor;
         .sidebar-icon {
-            color: #2563EB;
+            color: $secondaryColor;
         }
     }
 }

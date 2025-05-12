@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarAdminComponent } from './sidebar-admin/sidebar-admin.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 import { MoleculesModule } from '../molecules/molecules.module';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { CategoryFormComponent } from './category-form/category-form.component';
@@ -9,10 +9,9 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { FooterComponent } from './footer/footer.component';
 
 
-
 @NgModule({
   declarations: [
-    SidebarAdminComponent,
+    SidebarComponent,
     TopNavbarComponent,
     CategoryFormComponent,
     FooterComponent
@@ -25,7 +24,7 @@ import { FooterComponent } from './footer/footer.component';
     FormsModule
   ],
   exports: [
-    SidebarAdminComponent,
+    SidebarComponent,
     TopNavbarComponent,
     CategoryFormComponent,
     FooterComponent

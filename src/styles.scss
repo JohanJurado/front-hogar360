@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import './styles/fonts.scss';
+@import './styles/variables.scss';
+@import 'ngx-toastr/toastr';
+
 .btn {
     padding: 8px 50px;
     margin-top: 16px;
@@ -6,22 +10,29 @@
     border: 1px solid transparent;
     display: flex;
     align-items: center;
-    color: white;
+    color: $whiteText;
     cursor: pointer;
     font-family: 'Manrope', sans-serif;
+    transition: all 0.3s ease;
 
     &--primary {
-        background-color: #2563EB;
+        background-color: $primaryColor;
 
         &:hover {
-            background-color:  #0056b3;
+            background-color: $secondaryColor;
         }
+    }
+
+    &:disabled {
+        background-color: $primaryBackground;
+        color: $fourthText;
+        cursor: no-drop;
     }
 }
 
 body {
     margin: 0;
     padding: 0;
-    background-color: #F9FAFB;
+    background-color: $primaryBackground;
     font-family: 'Manrope', sans-serif;
   }
