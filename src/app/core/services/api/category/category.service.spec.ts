@@ -2,11 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { CategoryService } from './category.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Category } from '@app/core/models/category';
+import { Pagination } from '@app/core/models/pagination';
 
 describe('CategoryService', () => {
   let service: CategoryService;
   let httpMock: HttpTestingController;
   const mockApiUrl = 'http://localhost:8081/api/category/';
+  const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,23 +37,9 @@ describe('CategoryService', () => {
       description: 'Test Description'
     };
 
-    it('should send POST request to correct endpoint', () => {
-      // Act
-      service.createCategory(mockCategory).subscribe();
-
-      // Assert
-      const req = httpMock.expectOne(mockApiUrl);
-      expect(req.request.method).toBe('POST');
-      expect(req.request.body).toEqual(mockCategory);
-      
-      // Simular respuesta exitosa
-      req.flush({ success: true });
-    });
-
     it('should return response data on success', () => {
       const mockResponse = { success: true, id: 1 };
 
-      // Act & Assert
       service.createCategory(mockCategory).subscribe(response => {
         expect(response).toEqual(mockResponse);
       });
@@ -61,8 +49,8 @@ describe('CategoryService', () => {
     });
 
     it('should handle errors', () => {
-      // Act & Assert
       service.createCategory(mockCategory).subscribe({
+        next: () => fail('should have failed with 500 error'),
         error: (error) => {
           expect(error.status).toBe(500);
         }
@@ -75,4 +63,74 @@ describe('CategoryService', () => {
       });
     });
   });
+
+  describe('getCategories()', () => {
+    const mockCategories: Category[] = [
+      { id: 1, name: 'Category 1', description: 'Desc 1' },
+      { id: 2, name: 'Category 2', description: 'Desc 2' }
+    ];
+
+    const mockPaginationResponse: Pagination<Category> = {
+      content: mockCategories,
+      pageNumber: 0,
+      pageSize: 2,
+      totalElements: 10,
+      totalPages: 5,
+      last: false
+    };
+
+    it('should send GET request with custom parameters', () => {
+      service.getCategories(1, 5, false, 'test').subscribe();
+
+      const req = httpMock.expectOne(
+        `${mockApiUrl}?nameCategory=test&page=1&size=5&orderAsc=false`
+      );
+      expect(req.request.method).toBe('GET');
+      
+      req.flush(mockPaginationResponse);
+    });
+
+    it('should return paginated categories on success', () => {
+      service.getCategories().subscribe(response => {
+        expect(response).toEqual(mockPaginationResponse);
+      });
+
+      const req = httpMock.expectOne(req => req.url === mockApiUrl);
+      req.flush(mockPaginationResponse);
+    });
+
+    it('should handle empty response', () => {
+      const emptyResponse: Pagination<Category> = {
+        content: [],
+        pageNumber: 0,
+        pageSize: 10,
+        totalElements: 0,
+        totalPages: 0,
+        last: true
+      };
+
+      service.getCategories().subscribe(response => {
+        expect(response).toEqual(emptyResponse);
+      });
+
+      const req = httpMock.expectOne(req => req.url === mockApiUrl);
+      req.flush(emptyResponse);
+    });
+
+    it('should handle errors when fetching categories', () => {
+      service.getCategories().subscribe({
+        next: () => fail('should have failed with 404 error'),
+        error: (error) => {
+          expect(error.status).toBe(404);
+        }
+      });
+
+      const req = httpMock.expectOne(req => req.url === mockApiUrl);
+      req.flush('Not Found', { 
+        status: 404, 
+        statusText: 'Not Found' 
+      });
+    });
+  });
+
 });

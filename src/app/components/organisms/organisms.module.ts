@@ -7,6 +7,7 @@ import { CategoryFormComponent } from './category-form/category-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AtomsModule } from '../atoms/atoms.module';
 import { FooterComponent } from './footer/footer.component';
+import { TableComponent } from './table/table.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FooterComponent } from './footer/footer.component';
     SidebarComponent,
     TopNavbarComponent,
     CategoryFormComponent,
-    FooterComponent
+    FooterComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { FooterComponent } from './footer/footer.component';
     SidebarComponent,
     TopNavbarComponent,
     CategoryFormComponent,
-    FooterComponent
+    FooterComponent,
+    TableComponent
   ]
 })
 export class OrganismsModule { }

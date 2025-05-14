@@ -36,7 +36,6 @@ export class CategoryFormComponent {
   }  
 
   submit(): void {
-    console.log(this.categoryForm.value)
     if (this.categoryForm.invalid) {
       this.categoryForm.markAllAsTouched();
       return;
@@ -51,7 +50,6 @@ export class CategoryFormComponent {
       error: (error) => {
         const message = error?.error?.message || 'Ocurrió un error inesperado';
         this.notificationService.error(this.translatorService.translate(message));
-        console.log(message);
       }
     });
   }

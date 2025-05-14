@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Category } from '@app/core/models/category';
 import { environment } from '@env/environment';
 import { SaveDtoResponse } from '@app/core/models/dtos/saveDtoResponse';
+import { Pagination } from '@app/core/models/pagination';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDY4MTE4MDUsImV4cCI6MTc0NjgxOTAwNSwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.IBLcHyHad_1EG3QtiReIARakjEjL7sCCAs0w1LHhqnk';
+  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDcxNzU1MzQsImV4cCI6MTc0NzE4MjczNCwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.Mk14jDx2ixqW4kaXSqxOvZhBLrN1gE9m8Wlrf_bJnFg';
+  private apiHomeCategory = `${environment.apiHomeUrl}/category/`;
 
   constructor(private http: HttpClient) { }
 
@@ -18,6 +20,23 @@ export class CategoryService {
       'Authorization': `Bearer ${this.token}`
     });
 
-    return this.http.post<SaveDtoResponse>(`${environment.apiHomeUrl}/category/`, categoryData, { headers });
+    return this.http.post<SaveDtoResponse>(this.apiHomeCategory, categoryData, { headers });
+  }
+
+  getCategories(
+    page: number = 0, 
+    size: number = 10, 
+    orderAsc: boolean = true, 
+    nameCategory: string = ''
+  ): Observable<Pagination<Category>> {
+
+    const params = new HttpParams()
+      .set('nameCategory', nameCategory)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('orderAsc', orderAsc.toString()
+    );
+      
+    return this.http.get<Pagination<Category>>(this.apiHomeCategory, { params });
   }
 }

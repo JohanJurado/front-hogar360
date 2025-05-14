@@ -1,0 +1,1372 @@
+<html><head><meta charset="utf-8"/><title>Reporte de Pruebas</title><style type="text/css">:root {
+  --text-primary: #111;
+  --text-secondary: #4f4f4f;
+  --success: #006633;
+  --success-bright: #80ffbf;
+  --danger: #cc071e;
+  --danger-bright: #fbdfe0;
+  --warning: #995c00;
+  --warning-bright: #ffeea8;
+  --panel: #eee;
+  --border: #949494;
+  --disabled: #6b6b6b;
+}
+
+html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  color: var(--text-primary);
+}
+body {
+  padding: 2rem 1rem;
+}
+.jesthtml-content {
+  margin: 0 auto;
+  max-width: 70rem;
+}
+header {
+  display: flex;
+  align-items: center;
+}
+#title {
+  margin: 0;
+  flex-grow: 1;
+}
+#logo {
+  height: 4rem;
+}
+#timestamp {
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+}
+
+#metadata-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.additional-information-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+/** SUMMARY */
+#summary {
+  color: var(--text-primary);
+  display: flex;
+  font-family: monospace;
+  font-size: 1rem;
+}
+#summary > div {
+  margin-right: 0.5rem;
+  background: var(--panel);
+  padding: 1rem;
+  min-width: 15rem;
+}
+#summary > div:last-child {
+  margin-right: 0;
+}
+@media only screen and (max-width: 720px) {
+  #summary {
+    flex-direction: column;
+  }
+  #summary > div {
+    margin-right: 0;
+    margin-top: 1rem;
+  }
+  #summary > div:first-child {
+    margin-top: 0;
+  }
+}
+
+.summary-total {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+.summary-passed {
+  color: var(--success);
+  border-left: 0.4rem solid var(--success);
+  padding-left: 0.5rem;
+  margin-bottom: 0.15rem;
+}
+.summary-failed,
+.summary-obsolete-snapshots {
+  color: var(--danger);
+  border-left: 0.4rem solid var(--danger);
+  padding-left: 0.5rem;
+  margin-bottom: 0.15rem;
+}
+.summary-pending {
+  color: var(--warning);
+  border-left: 0.4rem solid var(--warning);
+  padding-left: 0.5rem;
+  margin-bottom: 0.15rem;
+}
+.summary-empty {
+  color: var(--disabled);
+  border-left: 0.4rem solid var(--disabled);
+  margin-bottom: 0.15rem;
+}
+
+.test-result {
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+.test-result:last-child {
+  border: 0;
+}
+.test-result.passed {
+  background-color: var(--success-bright);
+  color: var(--success);
+}
+.test-result.failed {
+  background-color: var(--danger-bright);
+  color: var(--danger);
+}
+.test-result.pending {
+  background-color: var(--warning-bright);
+  color: var(--warning);
+}
+
+.test-info {
+  display: flex;
+  justify-content: space-between;
+}
+.test-suitename {
+  width: 20%;
+  text-align: left;
+  font-weight: bold;
+  word-break: break-word;
+}
+.test-title {
+  width: 40%;
+  text-align: left;
+  font-style: italic;
+}
+.test-status {
+  width: 20%;
+  text-align: right;
+}
+.test-duration {
+  width: 10%;
+  text-align: right;
+  font-size: 0.85rem;
+}
+
+.failureMessages {
+  padding: 0 1rem;
+  margin-top: 1rem;
+  border-top: 1px dashed var(--danger);
+}
+.failureMessages.suiteFailure {
+  border-top: none;
+}
+.failureMsg {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+.suite-container {
+  margin-bottom: 1rem;
+}
+.suite-info {
+  padding: 1rem;
+  background-color: var(--panel);
+  color: var(--text-secondary);
+  border: 0.15rem solid;
+  border-color: var(--panel);
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.suite-info:hover {
+  border-color: var(--border);
+  cursor: pointer;
+}
+.suite-info .suite-path {
+  word-break: break-all;
+  flex-grow: 1;
+  font-family: monospace;
+  font-size: 1rem;
+}
+.suite-info .suite-time {
+  margin-left: 1rem;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.85rem;
+}
+.suite-info .suite-time.warn {
+  background-color: var(--danger);
+  color: #fff;
+}
+.suite-info:before {
+  content: "\2303";
+  display: inline-block;
+  margin-right: 1rem;
+  transform: rotate(180deg) translateY(0.15rem);
+}
+.suite-container[open] .suite-info:before {
+  transform: rotate(0deg) translateY(0.15rem);
+}
+
+/* CONSOLE LOGS */
+.suite-consolelog {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: var(--panel);
+}
+.suite-consolelog-header {
+  font-weight: bold;
+}
+.suite-consolelog-item {
+  padding: 0.5rem;
+}
+.suite-consolelog-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-consolelog-item-origin {
+  color: var(--text-secondary);
+  font-weight: bold;
+}
+.suite-consolelog-item-message {
+  color: var(--text-primary);
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+
+/* OBSOLETE SNAPSHOTS */
+.suite-obsolete-snapshots {
+  margin-bottom: 0.25rem;
+  padding: 1rem;
+  background-color: var(--danger-bright);
+  color: var(--danger);
+}
+.suite-obsolete-snapshots-header {
+  font-weight: bold;
+}
+.suite-obsolete-snapshots-item {
+  padding: 0.5rem;
+}
+.suite-obsolete-snapshots-item pre {
+  margin: 0.5rem 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+.suite-obsolete-snapshots-item-message {
+  color: var(--text-primary);
+  font-size: 1rem;
+  padding: 0 0.5rem;
+}
+</style></head><body><main class="jesthtml-content"><header><h1 id="title">Reporte de Pruebas</h1></header><section id="metadata-container"><div id="timestamp">Started: 2025-05-14 16:56:58</div><div id="summary"><div id="suite-summary"><div class="summary-total">Suites (13)</div><div class="summary-passed ">13 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div><div id="test-summary"><div class="summary-total">Tests (93)</div><div class="summary-passed ">93 passed</div><div class="summary-failed  summary-empty">0 failed</div><div class="summary-pending  summary-empty">0 pending</div></div></div></section><details id="suite-1" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\app.component.spec.ts</div><div class="suite-time warn">6.982s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">AppComponent</div><div class="test-title">should create the app</div><div class="test-status">passed</div><div class="test-duration">0.12s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">AppComponent</div><div class="test-title">should have user property</div><div class="test-status">passed</div><div class="test-duration">0.025s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">AppComponent</div><div class="test-title">should render router-outlet</div><div class="test-status">passed</div><div class="test-duration">0.02s</div></div></div></div></details><details id="suite-2" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts</div><div class="suite-time">1.717s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">0.74s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarComponent</div><div class="test-title">should render correct number of links</div><div class="test-status">passed</div><div class="test-duration">0.046s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarComponent</div><div class="test-title">should pass correct inputs to link components</div><div class="test-status">passed</div><div class="test-duration">0.034s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarComponent</div><div class="test-title">should display empty state when no links</div><div class="test-status">passed</div><div class="test-duration">0.027s</div></div></div></div><div class="suite-consolelog"><div class="suite-consolelog-header">Console Log</div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at SidebarLinkComponent_a_1_Template (ng:///SidebarLinkComponent.js:32:5)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts:23:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'routerLink' since it isn't a known property of 'a' (used in the 'SidebarLinkComponent' component template).
+1. If 'a' is an Angular component and it has the 'routerLink' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at SidebarLinkComponent_a_1_Template (ng:///SidebarLinkComponent.js:32:5)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts:23:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'routerLink' since it isn't a known property of 'a' (used in the 'SidebarLinkComponent' component template).
+1. If 'a' is an Angular component and it has the 'routerLink' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at SidebarLinkComponent_a_1_Template (ng:///SidebarLinkComponent.js:32:5)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts:23:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'routerLink' since it isn't a known property of 'a' (used in the 'SidebarLinkComponent' component template).
+1. If 'a' is an Angular component and it has the 'routerLink' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at SidebarLinkComponent_a_1_Template (ng:///SidebarLinkComponent.js:32:5)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts:23:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'routerLink' since it isn't a known property of 'a' (used in the 'SidebarLinkComponent' component template).
+1. If 'a' is an Angular component and it has the 'routerLink' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at SidebarLinkComponent_a_1_Template (ng:///SidebarLinkComponent.js:32:5)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts:23:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'routerLink' since it isn't a known property of 'a' (used in the 'SidebarLinkComponent' component template).
+1. If 'a' is an Angular component and it has the 'routerLink' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at SidebarLinkComponent_a_1_Template (ng:///SidebarLinkComponent.js:32:5)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts:23:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'routerLink' since it isn't a known property of 'a' (used in the 'SidebarLinkComponent' component template).
+1. If 'a' is an Angular component and it has the 'routerLink' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at SidebarLinkComponent_a_1_Template (ng:///SidebarLinkComponent.js:32:5)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts:23:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'routerLink' since it isn't a known property of 'a' (used in the 'SidebarLinkComponent' component template).
+1. If 'a' is an Angular component and it has the 'routerLink' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at SidebarLinkComponent_a_1_Template (ng:///SidebarLinkComponent.js:32:5)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInEmbeddedViews (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13606:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13522:9)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\sidebar\sidebar.component.spec.ts:23:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'routerLink' since it isn't a known property of 'a' (used in the 'SidebarLinkComponent' component template).
+1. If 'a' is an Angular component and it has the 'routerLink' input, then verify that it is a part of an @NgModule where this component is declared.
+2. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div></div></details><details id="suite-3" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\organisms\top-navbar\top-navbar.component.spec.ts</div><div class="suite-time">1.159s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">TopNavbarComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">0.046s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TopNavbarComponent &gt; Input Properties</div><div class="test-title">should display default text when no input provided</div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TopNavbarComponent &gt; Input Properties</div><div class="test-title">should display custom text when input provided</div><div class="test-status">passed</div><div class="test-duration">0.012s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TopNavbarComponent &gt; Navigation</div><div class="test-title">should navigate to home when logo is clicked</div><div class="test-status">passed</div><div class="test-duration">0.202s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TopNavbarComponent &gt; Accessibility</div><div class="test-title">should have alt text for logo image</div><div class="test-status">passed</div><div class="test-duration">0.044s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TopNavbarComponent &gt; Accessibility</div><div class="test-title">should have alt text for user image</div><div class="test-status">passed</div><div class="test-duration">0.015s</div></div></div></div><div class="suite-consolelog"><div class="suite-consolelog-header">Console Log</div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at _Console.warn (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:26661:17)
+    at _Router.navigateByUrl (C:\hogar360-front-end\hogar360\node_modules\@angular\router\fesm2022\router.mjs:5300:30)
+    at _Router.navigate (C:\hogar360-front-end\hogar360\node_modules\@angular\router\fesm2022\router.mjs:5339:21)
+    at _Router.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\jest-mock\build\index.js:794:25)
+    at C:\hogar360-front-end\hogar360\node_modules\jest-mock\build\index.js:397:39
+    at _Router.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\jest-mock\build\index.js:404:13)
+    at _Router.mockConstructor [as navigate] (C:\hogar360-front-end\hogar360\node_modules\jest-mock\build\index.js:148:19)
+    at TopNavbarComponent_Template_div_click_1_listener (ng:///TopNavbarComponent.js:12:29)
+    at executeListenerWithErrorHandling (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16795:16)
+    at HTMLDivElement.wrapListenerIn_markDirtyAndPreventDefault (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16828:22)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:29464:26
+    at Array.forEach (&lt;anonymous&gt;)
+    at DebugElement.triggerEventHandler (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:29461:24)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\top-navbar\top-navbar.component.spec.ts:48:12
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at Object.wrappedFunc (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:789:34)
+    at Promise.then.completed (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)</pre><pre class="suite-consolelog-item-message">Navigation triggered outside Angular zone, did you forget to call 'ngZone.run()'?</pre></div></div></details><details id="suite-4" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts</div><div class="suite-time warn">9.986s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">1.161s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Basic rendering</div><div class="test-title">should render the category form</div><div class="test-status">passed</div><div class="test-duration">0.128s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Basic rendering</div><div class="test-title">should render the table component</div><div class="test-status">passed</div><div class="test-duration">0.127s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Basic rendering</div><div class="test-title">should display the correct titles</div><div class="test-status">passed</div><div class="test-duration">0.174s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Initialization</div><div class="test-title">should initialize with default values</div><div class="test-status">passed</div><div class="test-duration">0.1s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Initialization</div><div class="test-title">should call getCategories on init</div><div class="test-status">passed</div><div class="test-duration">0.089s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Pagination</div><div class="test-title">should update page and call getCategories on pageChange</div><div class="test-status">passed</div><div class="test-duration">0.083s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Pagination</div><div class="test-title">should pass correct pagination inputs to table</div><div class="test-status">passed</div><div class="test-duration">0.089s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Table columns</div><div class="test-title">should have correct columns configuration</div><div class="test-status">passed</div><div class="test-duration">0.095s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Table columns</div><div class="test-title">should pass columns to table component</div><div class="test-status">passed</div><div class="test-duration">0.093s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Integration with TableComponent</div><div class="test-title">should update currentPage when table emits pageChange</div><div class="test-status">passed</div><div class="test-duration">0.072s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryPageComponent &gt; Integration with TableComponent</div><div class="test-title">should call getCategories with correct parameters after page change</div><div class="test-status">passed</div><div class="test-duration">0.062s</div></div></div></div><div class="suite-consolelog"><div class="suite-consolelog-header">Console Log</div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at log (C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.ts:20:15)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:57:33
+    at OperatorSubscriber._this._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\OperatorSubscriber.ts:70:13)
+    at OperatorSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\operators\map.ts:53:12
+    at SafeSubscriber.&lt;anonymous&gt; (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\lift.ts:24:18)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:217:22
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:38
+    at untracked (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:2886:16)
+    at SubscribableStrategy.createSubscription (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:3990:16)
+    at _AsyncPipe._subscribe (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4076:45)
+    at _AsyncPipe.transform (C:\hogar360-front-end\hogar360\node_modules\@angular\common\fesm2022\common.mjs:4063:22)
+    at ɵɵpipeBind1 (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:23715:22)
+    at CategoryPageComponent_Template (ng:///CategoryPageComponent.js:25:33)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\pages\category-page\category-page.component.spec.ts:74:13
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)</pre><pre class="suite-consolelog-item-message">{
+  content: [
+    { id: 1, name: 'Casa', description: 'Propiedad residencial' },
+    { id: 2, name: 'Apartamento', description: 'Propiedad urbana' }
+  ],
+  totalElements: 10,
+  page: 0,
+  size: 2
+}</pre></div></div></details><details id="suite-5" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\molecules\sidebar-link\sidebar-link.component.spec.ts</div><div class="suite-time">0.977s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">0.057s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Input Properties</div><div class="test-title">should display correct label</div><div class="test-status">passed</div><div class="test-duration">0.022s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Input Properties</div><div class="test-title">should use correct icon path</div><div class="test-status">passed</div><div class="test-duration">0.016s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Input Properties</div><div class="test-title">should use correct active icon path when active</div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Active State</div><div class="test-title">should have active class when isActive returns true</div><div class="test-status">passed</div><div class="test-duration">0.022s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Active State</div><div class="test-title">should not have active class when isActive returns false</div><div class="test-status">passed</div><div class="test-duration">0.018s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Navigation</div><div class="test-title">should call routerLink with correct path</div><div class="test-status">passed</div><div class="test-duration">0.044s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Navigation</div><div class="test-title">should update active state when route changes</div><div class="test-status">passed</div><div class="test-duration">0.037s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Accessibility</div><div class="test-title">should have proper alt text for icon</div><div class="test-status">passed</div><div class="test-duration">0.04s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">SidebarLinkComponent &gt; Accessibility</div><div class="test-title">should have proper alt text for active icon</div><div class="test-status">passed</div><div class="test-duration">0.035s</div></div></div></div></details><details id="suite-6" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\templates\admin-layout\admin-layout.component.spec.ts</div><div class="suite-time">0.598s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">AdminLayoutComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">0.066s</div></div></div></div><div class="suite-consolelog"><div class="suite-consolelog-header">Console Log</div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at validateElementIsKnown (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6215:25)
+    at ɵɵelementStart (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16319:9)
+    at ɵɵelement (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16394:5)
+    at AdminLayoutComponent_Template (ng:///AdminLayoutComponent.js:8:9)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at renderView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13201:13)
+    at renderComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13148:5)
+    at renderChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13246:9)
+    at renderView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13226:13)
+    at ComponentFactory.create (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:14138:13)
+    at initComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27492:51)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at _TestBedImpl.createComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27495:41)
+    at Function.createComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27302:37)
+    at C:\hogar360-front-end\hogar360\src\app\components\templates\admin-layout\admin-layout.component.spec.ts:13:23
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at Object.wrappedFunc (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:789:34)
+    at Promise.then.completed (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:281:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)</pre><pre class="suite-consolelog-item-message">NG0304: 'app-top-navbar' is not a known element (used in the 'AdminLayoutComponent' component template):
+1. If 'app-top-navbar' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-top-navbar' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at validateElementIsKnown (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6215:25)
+    at ɵɵelementStart (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16319:9)
+    at ɵɵelement (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16394:5)
+    at AdminLayoutComponent_Template (ng:///AdminLayoutComponent.js:10:9)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at renderView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13201:13)
+    at renderComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13148:5)
+    at renderChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13246:9)
+    at renderView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13226:13)
+    at ComponentFactory.create (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:14138:13)
+    at initComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27492:51)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at _TestBedImpl.createComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27495:41)
+    at Function.createComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27302:37)
+    at C:\hogar360-front-end\hogar360\src\app\components\templates\admin-layout\admin-layout.component.spec.ts:13:23
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at Object.wrappedFunc (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:789:34)
+    at Promise.then.completed (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:281:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)</pre><pre class="suite-consolelog-item-message">NG0304: 'app-sidebar' is not a known element (used in the 'AdminLayoutComponent' component template):
+1. If 'app-sidebar' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-sidebar' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at validateElementIsKnown (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6215:25)
+    at ɵɵelementStart (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16319:9)
+    at ɵɵelement (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16394:5)
+    at AdminLayoutComponent_Template (ng:///AdminLayoutComponent.js:12:9)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at renderView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13201:13)
+    at renderComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13148:5)
+    at renderChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13246:9)
+    at renderView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13226:13)
+    at ComponentFactory.create (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:14138:13)
+    at initComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27492:51)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at _TestBedImpl.createComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27495:41)
+    at Function.createComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27302:37)
+    at C:\hogar360-front-end\hogar360\src\app\components\templates\admin-layout\admin-layout.component.spec.ts:13:23
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at Object.wrappedFunc (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:789:34)
+    at Promise.then.completed (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:281:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)</pre><pre class="suite-consolelog-item-message">NG0304: 'router-outlet' is not a known element (used in the 'AdminLayoutComponent' component template):
+1. If 'router-outlet' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'router-outlet' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at validateElementIsKnown (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6215:25)
+    at ɵɵelementStart (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16319:9)
+    at ɵɵelement (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16394:5)
+    at AdminLayoutComponent_Template (ng:///AdminLayoutComponent.js:14:9)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at renderView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13201:13)
+    at renderComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13148:5)
+    at renderChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13246:9)
+    at renderView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13226:13)
+    at ComponentFactory.create (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:14138:13)
+    at initComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27492:51)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at _TestBedImpl.createComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27495:41)
+    at Function.createComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:27302:37)
+    at C:\hogar360-front-end\hogar360\src\app\components\templates\admin-layout\admin-layout.component.spec.ts:13:23
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at Object.wrappedFunc (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:789:34)
+    at Promise.then.completed (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:281:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)</pre><pre class="suite-consolelog-item-message">NG0304: 'app-footer' is not a known element (used in the 'AdminLayoutComponent' component template):
+1. If 'app-footer' is an Angular component, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-footer' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at reportUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6307:17)
+    at handleUnknownPropertyError (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:6300:5)
+    at elementPropertyInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12426:17)
+    at ɵɵproperty (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:16255:9)
+    at AdminLayoutComponent_Template (ng:///AdminLayoutComponent.js:18:9)
+    at executeTemplate (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:12003:13)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13498:13)
+    at detectChangesInView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13663:9)
+    at detectChangesInComponent (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13638:5)
+    at detectChangesInChildComponents (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13676:9)
+    at refreshView (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13548:13)
+    at detectChangesInternal (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13437:9)
+    at RootViewRef.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:13954:9)
+    at ComponentFixture._tick (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:127:32)
+    at C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:140:22
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Object.onInvoke (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:11083:33)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at NgZone.run (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\core.mjs:10934:28)
+    at ComponentFixture.detectChanges (C:\hogar360-front-end\hogar360\node_modules\@angular\core\fesm2022\testing.mjs:139:25)
+    at C:\hogar360-front-end\hogar360\src\app\components\templates\admin-layout\admin-layout.component.spec.ts:15:13
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at Object.wrappedFunc (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:789:34)
+    at Promise.then.completed (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusHook (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:281:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:246:5)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)</pre><pre class="suite-consolelog-item-message">NG0303: Can't bind to 'links' since it isn't a known property of 'app-sidebar' (used in the 'AdminLayoutComponent' component template).
+1. If 'app-sidebar' is an Angular component and it has the 'links' input, then verify that it is a part of an @NgModule where this component is declared.
+2. If 'app-sidebar' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.</pre></div></div></details><details id="suite-7" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\core\services\api\category\category.service.spec.ts</div><div class="suite-time warn">9.028s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryService</div><div class="test-title">should be created</div><div class="test-status">passed</div><div class="test-duration">0.063s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryService &gt; createCategory()</div><div class="test-title">should return response data on success</div><div class="test-status">passed</div><div class="test-duration">0.016s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryService &gt; createCategory()</div><div class="test-title">should handle errors</div><div class="test-status">passed</div><div class="test-duration">0.012s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryService &gt; getCategories()</div><div class="test-title">should send GET request with custom parameters</div><div class="test-status">passed</div><div class="test-duration">0.008s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryService &gt; getCategories()</div><div class="test-title">should return paginated categories on success</div><div class="test-status">passed</div><div class="test-duration">0.011s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryService &gt; getCategories()</div><div class="test-title">should handle empty response</div><div class="test-status">passed</div><div class="test-duration">0.013s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryService &gt; getCategories()</div><div class="test-title">should handle errors when fetching categories</div><div class="test-status">passed</div><div class="test-duration">0.013s</div></div></div></div></details><details id="suite-8" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\atoms\input\input.component.spec.ts</div><div class="suite-time">1.12s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">0.106s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; ControlValueAccessor</div><div class="test-title">should write value</div><div class="test-status">passed</div><div class="test-duration">0.016s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; ControlValueAccessor</div><div class="test-title">should register onChange</div><div class="test-status">passed</div><div class="test-duration">0.014s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; ControlValueAccessor</div><div class="test-title">should register onTouched</div><div class="test-status">passed</div><div class="test-duration">0.014s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; User Interaction</div><div class="test-title">should update value on input</div><div class="test-status">passed</div><div class="test-duration">0.016s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; User Interaction</div><div class="test-title">should call onTouched on blur</div><div class="test-status">passed</div><div class="test-duration">0.036s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; UI Rendering</div><div class="test-title">should show label</div><div class="test-status">passed</div><div class="test-duration">0.019s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; UI Rendering</div><div class="test-title">should show required symbol when enabled</div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; UI Rendering</div><div class="test-title">should hide required symbol when disabled</div><div class="test-status">passed</div><div class="test-duration">0.031s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; UI Rendering</div><div class="test-title">should render textarea when type is textarea</div><div class="test-status">passed</div><div class="test-duration">0.025s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; Validation</div><div class="test-title">should show error message when invalid and touched</div><div class="test-status">passed</div><div class="test-duration">0.032s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; Validation</div><div class="test-title">should show character count</div><div class="test-status">passed</div><div class="test-duration">0.019s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">InputComponent &gt; Validation</div><div class="test-title">should add red class when over maxwidth</div><div class="test-status">passed</div><div class="test-duration">0.022s</div></div></div></div></details><details id="suite-9" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\organisms\footer\footer.component.spec.ts</div><div class="suite-time">0.557s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">FooterComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">0.06s</div></div></div></div></details><details id="suite-10" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\core\services\notification\notification.service.spec.ts</div><div class="suite-time">0.834s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">NotificationService</div><div class="test-title">should be created</div><div class="test-status">passed</div><div class="test-duration">0.013s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">NotificationService &gt; success()</div><div class="test-title">should call toastr.success with correct message</div><div class="test-status">passed</div><div class="test-duration">0.014s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">NotificationService &gt; error()</div><div class="test-title">should call toastr.error with correct message and title</div><div class="test-status">passed</div><div class="test-duration">0.004s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">NotificationService &gt; warning()</div><div class="test-title">should call toastr.warning with correct message</div><div class="test-status">passed</div><div class="test-duration">0.019s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">NotificationService</div><div class="test-title">should handle empty messages</div><div class="test-status">passed</div><div class="test-duration">0.016s</div></div></div></div></details><details id="suite-11" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\core\services\translator\translator.service.spec.ts</div><div class="suite-time">0.576s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">TranslatorService</div><div class="test-title">should be created</div><div class="test-status">passed</div><div class="test-duration">0.015s</div></div></div></div></details><details id="suite-12" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\organisms\category-form\category-form.component.spec.ts</div><div class="suite-time">0.935s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">0.057s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; Form Initialization</div><div class="test-title">should initialize form with empty values</div><div class="test-status">passed</div><div class="test-duration">0.021s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; Form Initialization</div><div class="test-title">should have required validators</div><div class="test-status">passed</div><div class="test-duration">0.027s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; Form Initialization</div><div class="test-title">should have max length validators</div><div class="test-status">passed</div><div class="test-duration">0.019s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; Form Submission</div><div class="test-title">should not call API when form is invalid</div><div class="test-status">passed</div><div class="test-duration">0.021s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; Form Submission</div><div class="test-title">should mark all as touched when invalid form is submitted</div><div class="test-status">passed</div><div class="test-duration">0.027s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; Form Submission</div><div class="test-title">should call service when form is valid</div><div class="test-status">passed</div><div class="test-duration">0.032s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; Form Submission</div><div class="test-title">should show success notification on successful submission</div><div class="test-status">passed</div><div class="test-duration">0.021s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; Form Submission</div><div class="test-title">should handle API errors</div><div class="test-status">passed</div><div class="test-duration">0.014s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; UI Integration</div><div class="test-title">should disable submit button when form is invalid</div><div class="test-status">passed</div><div class="test-duration">0.026s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; UI Integration</div><div class="test-title">should enable submit button when form is valid</div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">CategoryFormComponent &gt; UI Integration</div><div class="test-title">should bind form controls to app-input components</div><div class="test-status">passed</div><div class="test-duration">0.024s</div></div></div></div><div class="suite-consolelog"><div class="suite-consolelog-header">Console Log</div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log [as next] (C:\hogar360-front-end\hogar360\src\app\components\organisms\category-form\category-form.component.ts:47:17)
+    at ConsumerObserver.Object.&lt;anonymous&gt;.ConsumerObserver.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:155:25)
+    at SafeSubscriber.Object.&lt;anonymous&gt;.Subscriber._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:113:22)
+    at SafeSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at CategoryFormComponent.subscribe [as submit] (C:\hogar360-front-end\hogar360\src\app\components\organisms\category-form\category-form.component.ts:44:78)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\category-form\category-form.component.spec.ts:104:17
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at Object.wrappedFunc (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:789:34)
+    at Promise.then.completed (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)</pre><pre class="suite-consolelog-item-message">Success</pre></div><div class="suite-consolelog-item"><pre class="suite-consolelog-item-origin">    at Object.log [as next] (C:\hogar360-front-end\hogar360\src\app\components\organisms\category-form\category-form.component.ts:47:17)
+    at ConsumerObserver.Object.&lt;anonymous&gt;.ConsumerObserver.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:155:25)
+    at SafeSubscriber.Object.&lt;anonymous&gt;.Subscriber._next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:113:22)
+    at SafeSubscriber.Object.&lt;anonymous&gt;.Subscriber.next (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Subscriber.ts:71:12)
+    at Observable._subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\observable\innerFrom.ts:78:18)
+    at Observable.Object.&lt;anonymous&gt;.Observable._trySubscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:235:19)
+    at C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:225:18
+    at Object.errorContext (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\util\errorContext.ts:29:5)
+    at Observable.Object.&lt;anonymous&gt;.Observable.subscribe (C:\hogar360-front-end\hogar360\node_modules\rxjs\src\internal\Observable.ts:211:5)
+    at CategoryFormComponent.subscribe [as submit] (C:\hogar360-front-end\hogar360\src\app\components\organisms\category-form\category-form.component.ts:44:78)
+    at C:\hogar360-front-end\hogar360\src\app\components\organisms\category-form\category-form.component.spec.ts:116:17
+    at fakeAsyncFn (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:2083:34)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:411:30)
+    at ProxyZoneSpec.Object.&lt;anonymous&gt;.ProxyZoneSpec.onInvoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:300:43)
+    at _ZoneDelegate.Object.&lt;anonymous&gt;._ZoneDelegate.invoke (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:410:56)
+    at Zone.Object.&lt;anonymous&gt;.Zone.run (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone.umd.js:165:47)
+    at Object.wrappedFunc (C:\hogar360-front-end\hogar360\node_modules\zone.js\bundles\zone-testing.umd.js:789:34)
+    at Promise.then.completed (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:298:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\utils.js:231:10)
+    at _callCircusTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:316:40)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at _runTest (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:252:3)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:126:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at _runTestsForDescribeBlock (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:121:9)
+    at run (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\run.js:71:3)
+    at runAndTransformResultsToJestFormat (C:\hogar360-front-end\hogar360\node_modules\jest-circus\build\legacy-code-todo-rewrite\jestAdapterInit.js:122:21)</pre><pre class="suite-consolelog-item-message">Success</pre></div></div></details><details id="suite-13" class="suite-container" open=""><summary class="suite-info"><div class="suite-path">C:\hogar360-front-end\hogar360\src\app\components\organisms\table\table.component.spec.ts</div><div class="suite-time">1.21s</div></summary><div class="suite-tests"><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent</div><div class="test-title">should create</div><div class="test-status">passed</div><div class="test-duration">0.141s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Basic functionality</div><div class="test-title">should render correct number of table headers</div><div class="test-status">passed</div><div class="test-duration">0.05s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Basic functionality</div><div class="test-title">should render correct number of rows</div><div class="test-status">passed</div><div class="test-duration">0.031s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Basic functionality</div><div class="test-title">should format ID correctly</div><div class="test-status">passed</div><div class="test-duration">0.029s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Basic functionality</div><div class="test-title">should format date correctly</div><div class="test-status">passed</div><div class="test-duration">0.025s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Pagination</div><div class="test-title">should calculate totalPages correctly</div><div class="test-status">passed</div><div class="test-duration">0.022s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Pagination</div><div class="test-title">should calculate startItem and endItem correctly</div><div class="test-status">passed</div><div class="test-duration">0.03s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Pagination</div><div class="test-title">should generate correct page range</div><div class="test-status">passed</div><div class="test-duration">0.037s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Pagination</div><div class="test-title">should disable previous button on first page</div><div class="test-status">passed</div><div class="test-duration">0.036s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Pagination</div><div class="test-title">should disable next button on last page</div><div class="test-status">passed</div><div class="test-duration">0.046s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Pagination</div><div class="test-title">should emit pageChange event when clicking page button</div><div class="test-status">passed</div><div class="test-duration">0.045s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Pagination</div><div class="test-title">should show correct pagination info</div><div class="test-status">passed</div><div class="test-duration">0.038s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Helper methods</div><div class="test-title">should format number with leading zeros</div><div class="test-status">passed</div><div class="test-duration">0.024s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Helper methods</div><div class="test-title">should get nested property correctly</div><div class="test-status">passed</div><div class="test-duration">0.025s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Helper methods</div><div class="test-title">should track by id or index</div><div class="test-status">passed</div><div class="test-duration">0.025s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Conditional rendering</div><div class="test-title">should render id type correctly</div><div class="test-status">passed</div><div class="test-duration">0.024s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Conditional rendering</div><div class="test-title">should render date type correctly</div><div class="test-status">passed</div><div class="test-duration">0.023s</div></div></div><div class="test-result passed"><div class="test-info"><div class="test-suitename">TableComponent &gt; Conditional rendering</div><div class="test-title">should render default type correctly</div><div class="test-status">passed</div><div class="test-duration">0.018s</div></div></div></div></details></main></body></html>
