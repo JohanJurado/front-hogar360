@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SIDEBAR_ITEMS } from '@app/shared/constants/sidebar-items';
 
 @Component({
   selector: 'app-admin-layout',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./admin-layout.component.scss']
 })
 export class AdminLayoutComponent {
-
+  links = SIDEBAR_ITEMS['ADMIN']
 }

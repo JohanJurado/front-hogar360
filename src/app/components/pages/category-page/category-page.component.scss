@@ -1,4 +1,4 @@
-
+@import '../../../../styles/variables.scss';
 
 .content {
     flex: 1;
@@ -14,7 +14,7 @@
     &__title {
         font-size: 24px;
         font-weight: 400;
-        color: #111827;
+        color: $fifthText;
         margin-top: 0px;
     }
 

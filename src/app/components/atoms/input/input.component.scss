@@ -1,11 +1,13 @@
+@import '../../../../styles/variables.scss';
 
 .label {
     font-size: 14px;
-    color: #374151;
+    color: $primaryText;
     display: flex;
     flex-direction: column;
     width: 100%;
     position: relative;
+    transition: all 0.3s ease;
 
     &__text {
         display: flex;
@@ -14,35 +16,41 @@
     }
 
     &__required-simbol {
-        color: red;
+        color: $warningText;
         margin-left: 4px;
     }
 
     .input {
         display: inline;
-        padding: 12px 15px;
-        border: 1px solid #D1D5DB;
+        padding: 12px 70px 12px 15px;
+        border: 1px solid $primaryBorder;
         border-radius: 8px;
         outline: none;
         font-family: 'Manrope', sans-serif;
         font-size: 14px;
         resize: none;
+        overflow-y: hidden;
 
         &:focus {
-            border: 1px solid #888b8f;
+            border: 1px solid $secondaryBorder;
+        }
+
+        &-count {
+            position: absolute;
+            bottom: 17px;
+            right: 15px;
+            font-size: 14px;
+            color: $secondaryText;
+        }
+
+        &-error {
+            color: $warningText;
+            padding-top: 5px;
+            height: 1px;
         }
     }
 
-    
-    .textarea-count {
-        position: absolute;
-        bottom: 12px;
-        right: 15px;
-        font-size: 14px;
-        color: #6B7280;
-    }
-
     .red {
-        color: red;
+        color: $warningText;
     }
 }

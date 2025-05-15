@@ -2,5 +2,14 @@
     <section class="content__create-category">
         <h2 class="content__title">Crear Categoría</h2>
         <app-category-form class="content__form"></app-category-form>
+        <h2 class="content__title">Categorias existentes</h2>
+        <app-table
+            [data]="categories$ | async"
+            [columns]="columns"
+            [currentPage]="page"
+            [itemsPerPage]="size"
+            [totalItems]="totalItems"
+            (pageChange)="onPageChange($event)">
+        </app-table>
     </section>
 </main>

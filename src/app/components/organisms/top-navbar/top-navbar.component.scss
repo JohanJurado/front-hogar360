@@ -1,13 +1,14 @@
+@import '../../../../styles/variables.scss';
 
 .navbar {
     border-bottom: 1px solid;
-    border-bottom-color: #E5E7EB;
-    background-color: white;
+    border-bottom-color: $thirdBorder;
+    background-color: $whiteBackground;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 14px 18px;
-    box-shadow: 0 0px 12px #d3d3d370;
+    box-shadow: 0 0px 12px $shadowColor;
 
     &__logo {
         display: flex;
@@ -22,6 +23,6 @@
         gap: 10px;
         align-items: center;
         font-size: 16px;
-        color: #6B7280;
+        color: $thirdText;
     }
 }

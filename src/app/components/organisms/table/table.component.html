@@ -1,0 +1,65 @@
+  <table class="table-container">
+    <thead>
+      <tr>
+        <th *ngFor="let col of columns" [style.width]="col.width">
+          {{ col.title }}
+        </th>
+        <th class="actions">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data; trackBy: trackByFn">
+        <td *ngFor="let col of columns">
+          <ng-container [ngSwitch]="col.type">
+            <span *ngSwitchCase="'id'" class="id">
+              {{ col.prefix + formatNumber(getProperty(item, col.key), 3) }}
+            </span>
+
+            <span *ngSwitchCase="'date'">
+              {{ getProperty(item, col.key) | date:'dd/MM/yyyy' }}
+            </span>
+            
+            <span *ngSwitchDefault>
+              {{ getProperty(item, col.key) }} 
+            </span>
+          </ng-container>
+        </td>
+        
+        <td class="actions-cell">
+          <button><img src="../../../../assets/img/delete-icon.svg" alt=""></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+          <!-- Indicador de Rango -->
+    <span class="pagination-info">
+      Mostrando {{ startItem + 1 }}-{{ endItem }} de {{ totalItems }}
+    </span>
+    <div class="nav-pagination">
+      <!-- Botón Anterior -->
+      <button 
+        class="pagination-button arrow rotate"
+        [disabled]="currentPage === 0"
+        (click)="onPageChange(currentPage - 1)">
+        <img src="../../../../assets/img/arrow-pagination-icon.svg" alt="">
+      </button>
+
+      <!-- Números de Página -->
+      <button 
+        *ngFor="let page of getPageRange()"
+        class="pagination-button"
+        [class.active]="page === currentPage"
+        (click)="onPageChange(page)">
+        {{ page + 1 }}
+      </button>
+
+      <!-- Botón Siguiente -->
+      <button 
+        class="pagination-button arrow"
+        [disabled]="currentPage >= totalPages - 1"
+        (click)="onPageChange(currentPage + 1)">
+        <img src="../../../../assets/img/arrow-pagination-icon.svg" alt="">
+      </button>
+    </div>
+    </div>

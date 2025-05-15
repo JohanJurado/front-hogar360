@@ -1,0 +1,16 @@
+@import '../../../../styles/variables.scss';
+
+.sidebar {
+    border-right: 1px solid;
+    border-right-color: $thirdBorder;
+    width: 256px;
+    min-height: 84vh;
+    height: 100%;
+    padding: 25px 16px;
+    background-color: $whiteBackground;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    z-index: 90;
+}
