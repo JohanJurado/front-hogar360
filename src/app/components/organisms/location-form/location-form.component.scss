@@ -1,0 +1,19 @@
+@import '../../../../styles/variables.scss';
+
+.form {
+    padding: 10px 24px 35px 24px;
+    background-color: $whiteBackground;
+    border-radius: 8px;
+    border: 1px solid $thirdBorder;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0px 2px 5px $shadowColor;
+    margin-bottom: 40px;
+
+    &__actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

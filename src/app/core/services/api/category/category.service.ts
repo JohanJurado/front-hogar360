@@ -10,7 +10,7 @@ import { Pagination } from '@app/core/models/pagination';
   providedIn: 'root'
 })
 export class CategoryService {
-  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDcxNzU1MzQsImV4cCI6MTc0NzE4MjczNCwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.Mk14jDx2ixqW4kaXSqxOvZhBLrN1gE9m8Wlrf_bJnFg';
+  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDcyNjAwMzksImV4cCI6MTc0NzI2NzIzOSwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0._7ijRin3573PfzoonMkOwlWe7B6rDPPsCrsLJJy1Z5A';
   private apiHomeCategory = `${environment.apiHomeUrl}/category/`;
 
   constructor(private http: HttpClient) { }

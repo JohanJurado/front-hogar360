@@ -2,19 +2,25 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarLinkComponent } from './sidebar-link/sidebar-link.component';
 import { RouterModule } from '@angular/router';
+import { SelectComponent } from './select/select.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
-    SidebarLinkComponent
+    SidebarLinkComponent,
+    SelectComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
-    SidebarLinkComponent
+    SidebarLinkComponent,
+    SelectComponent
   ]
 })
 export class MoleculesModule { }

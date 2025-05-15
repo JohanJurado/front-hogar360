@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AtomsModule } from '../atoms/atoms.module';
 import { FooterComponent } from './footer/footer.component';
 import { TableComponent } from './table/table.component';
+import { LocationFormComponent } from './location-form/location-form.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TableComponent } from './table/table.component';
     TopNavbarComponent,
     CategoryFormComponent,
     FooterComponent,
-    TableComponent
+    TableComponent,
+    LocationFormComponent
   ],
   imports: [
     CommonModule,

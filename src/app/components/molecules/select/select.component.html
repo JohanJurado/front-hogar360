@@ -1,0 +1,37 @@
+<div class="autocomplete-container" [class.disabled]="isDisabled">
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="onInputChange($event)"
+    (focus)="onInputChange(searchTerm)"
+    (blur)="onBlur()"
+    [placeholder]="placeholder"
+    class="autocomplete-input"
+    [disabled]="isDisabled"
+    [required]="required"
+  >
+
+  <div *ngIf="isLoading" class="loading-indicator">
+    <span class="spinner"></span> Buscando...
+  </div>
+
+  <ul *ngIf="isOpen && filteredOptions.length > 0" class="dropdown-menu">
+    <li
+      *ngFor="let option of filteredOptions"
+      (mousedown)="selectOption(option)"
+      class="dropdown-item"
+      [class.selected]="value?.id === option.id"
+    >
+      {{ option[displayField] }}
+    </li>
+  </ul>
+
+  <div *ngIf="isOpen && filteredOptions.length === 0 && !isLoading" class="no-results">
+    No se encontraron resultados
+  </div>
+
+  <div *ngIf="formControl?.invalid && (formControl?.dirty || formControl?.touched)" class="error-message">
+    <span *ngIf="errors">Este campo es requerido</span>
+    <!-- Agrega más validaciones según necesites -->
+  </div>
+</div>

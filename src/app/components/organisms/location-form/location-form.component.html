@@ -1,0 +1,15 @@
+<form class="form" [formGroup]="locationForm" (ngSubmit)="submit()">
+
+    <app-select
+    [service]="listaDePrueba"
+    [formControl]="departmentNameControl"
+    [displayField]="'name'"
+    [placeholder]="'Seleccione un país'"
+    [required]="true">
+    </app-select>
+
+
+    <div class="form__actions">
+        <button type="submit" class="btn btn--primary" [disabled]="locationForm.invalid">Crear</button>
+    </div>
+</form>
