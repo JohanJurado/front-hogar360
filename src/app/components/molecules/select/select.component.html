@@ -1,37 +1,37 @@
-<div class="autocomplete-container" [class.disabled]="isDisabled">
+<label class="label" (clickOutside)="closeDropdown()">
+    <div class="label__text">
+        {{ label }} 
+        <p class="label__required-simbol" *ngIf="required">*</p>
+    </div>
+
   <input
     type="text"
-    [(ngModel)]="searchTerm"
-    (ngModelChange)="onInputChange($event)"
-    (focus)="onInputChange(searchTerm)"
-    (blur)="onBlur()"
     [placeholder]="placeholder"
-    class="autocomplete-input"
-    [disabled]="isDisabled"
-    [required]="required"
-  >
+    [disabled]="disabled"
+    [value]="value"
+    (input)="handleInputEvent($event)"
+    (focus)="onFocus()"
+    (blur)="onTouched()"
+    class="input"
+  />
 
-  <div *ngIf="isLoading" class="loading-indicator">
-    <span class="spinner"></span> Buscando...
-  </div>
-
-  <ul *ngIf="isOpen && filteredOptions.length > 0" class="dropdown-menu">
-    <li
+  <div *ngIf="isOpen" class="options-dropdown" [class.visible]="isOpen && !disabled" [class.display-none]="disabled">
+    <div
       *ngFor="let option of filteredOptions"
       (mousedown)="selectOption(option)"
-      class="dropdown-item"
-      [class.selected]="value?.id === option.id"
+      class="option-item"
+      [class.selected]="option.id === _selectedOption?.id"
     >
       {{ option[displayField] }}
-    </li>
-  </ul>
-
-  <div *ngIf="isOpen && filteredOptions.length === 0 && !isLoading" class="no-results">
-    No se encontraron resultados
+    </div>
+    <div *ngIf="filteredOptions.length == 0" class="no-results">
+      No se encontraron resultados
+    </div>
   </div>
-
-  <div *ngIf="formControl?.invalid && (formControl?.dirty || formControl?.touched)" class="error-message">
-    <span *ngIf="errors">Este campo es requerido</span>
-    <!-- Agrega más validaciones según necesites -->
+  
+  <div class="input-error">
+    <small *ngIf="!isOpen && errors && (formControl?.touched || formControl?.dirty)">
+      {{ getErrorMessage() }}
+    </small>
   </div>
-</div>
+</label>

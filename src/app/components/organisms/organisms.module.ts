@@ -32,7 +32,8 @@ import { LocationFormComponent } from './location-form/location-form.component';
     TopNavbarComponent,
     CategoryFormComponent,
     FooterComponent,
-    TableComponent
+    TableComponent,
+    LocationFormComponent
   ]
 })
 export class OrganismsModule { }

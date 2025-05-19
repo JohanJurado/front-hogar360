@@ -4,6 +4,8 @@ import { SidebarLinkComponent } from './sidebar-link/sidebar-link.component';
 import { RouterModule } from '@angular/router';
 import { SelectComponent } from './select/select.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClickOutsideDirective } from '@app/shared/directives/click-outside.directive';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 
@@ -16,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SharedModule
   ],
   exports: [
     SidebarLinkComponent,

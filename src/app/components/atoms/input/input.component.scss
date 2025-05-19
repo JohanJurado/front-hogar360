@@ -8,16 +8,18 @@
     width: 100%;
     position: relative;
     transition: all 0.3s ease;
+    margin-bottom: 10px;
+
 
     &__text {
         display: flex;
         align-items: center;
-        margin-bottom: 6px;
+        margin: 0px 0px 12px 0px;
     }
 
     &__required-simbol {
         color: $warningText;
-        margin-left: 4px;
+        margin: 0px 0px 0px 4px;
     }
 
     .input {
@@ -37,7 +39,7 @@
 
         &-count {
             position: absolute;
-            bottom: 17px;
+            bottom: 13px;
             right: 15px;
             font-size: 14px;
             color: $secondaryText;
@@ -45,7 +47,6 @@
 
         &-error {
             color: $warningText;
-            padding-top: 5px;
             height: 1px;
         }
     }

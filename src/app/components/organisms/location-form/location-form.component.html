@@ -1,13 +1,31 @@
 <form class="form" [formGroup]="locationForm" (ngSubmit)="submit()">
-
     <app-select
-    [service]="listaDePrueba"
-    [formControl]="departmentNameControl"
-    [displayField]="'name'"
-    [placeholder]="'Seleccione un país'"
-    [required]="true">
+        [label]="'Departamento'"
+        [placeholder]="'Seleccione el departamento...'"
+        [service]="getDepartments"
+        [formControl]="departmentNameControl"
+        [required]="true"
+        [disabled]="false"
+        (getId)="setDepartmentId($event)">
     </app-select>
-
+    <app-select
+        [label]="'Ciudad'"
+        [placeholder]="'Seleccione la ciudad...'"
+        [service]="getCities"
+        [formControl]="cityNameControl"
+        [required]="true"
+        [idObject]="idDepartment"
+        [disabled]="departmentExist()"
+        (getId)="setCityId($event)">
+    </app-select>
+    <app-input 
+        label="Barrio/Sector"
+        type="text"
+        placeholder="Ingresa el barrio o sector de la ubicacion"
+        [formControl]="neighborhoodControl"
+        [maxwidth]="120"
+        [disabled]="cityExist()"
+    ></app-input>
 
     <div class="form__actions">
         <button type="submit" class="btn btn--primary" [disabled]="locationForm.invalid">Crear</button>

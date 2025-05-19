@@ -14,10 +14,18 @@ export class CategoryPageComponent {
   orderAsc: boolean = true;
   totalItems: number = 0;
 
+  constructor(
+    private categoryService: CategoryService
+  ){
+  }
+
+  reloadCategoryList(){
+    this.onPageChange(this.page);
+  }
+
   categories$ = this.categoryService.getCategories(this.page, this.size, this.orderAsc).pipe(
     map(response => {
       this.totalItems = response.totalElements;
-      console.log(response);
       return response.content;
     })
   );
@@ -27,11 +35,6 @@ export class CategoryPageComponent {
     { key: 'name', title: 'Nombre' },
     { key: 'description', title: 'Descripción' },
   ]
-
-  constructor(
-    private categoryService: CategoryService
-  ){
-  }
 
   onPageChange(newPage: number): void {
     this.page = newPage;

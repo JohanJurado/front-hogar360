@@ -32,20 +32,17 @@
     </tbody>
   </table>
   <div class="pagination">
-          <!-- Indicador de Rango -->
     <span class="pagination-info">
       Mostrando {{ startItem + 1 }}-{{ endItem }} de {{ totalItems }}
     </span>
     <div class="nav-pagination">
-      <!-- Botón Anterior -->
       <button 
         class="pagination-button arrow rotate"
         [disabled]="currentPage === 0"
         (click)="onPageChange(currentPage - 1)">
-        <img src="../../../../assets/img/arrow-pagination-icon.svg" alt="">
+        <img src="./assets/img/arrow-pagination-icon.svg" alt="">
       </button>
 
-      <!-- Números de Página -->
       <button 
         *ngFor="let page of getPageRange()"
         class="pagination-button"
@@ -54,12 +51,11 @@
         {{ page + 1 }}
       </button>
 
-      <!-- Botón Siguiente -->
       <button 
         class="pagination-button arrow"
         [disabled]="currentPage >= totalPages - 1"
         (click)="onPageChange(currentPage + 1)">
-        <img src="../../../../assets/img/arrow-pagination-icon.svg" alt="">
+        <img src="./assets/img/arrow-pagination-icon.svg" alt="">
       </button>
     </div>
     </div>

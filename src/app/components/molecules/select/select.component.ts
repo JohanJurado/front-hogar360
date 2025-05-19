@@ -1,6 +1,7 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-select',
@@ -15,89 +16,27 @@ import { Observable, of } from 'rxjs';
   ]
 })
 export class SelectComponent {
-  @Input() placeholder: string = '';
-  @Input() displayField: string = 'name';
-  @Input() service: (term: string) => Observable<any[]> = () => of([]);
-  @Input() debounceTime: number = 300;
-  @Input() minLength: number = 2;
-  @Input() formControl!: FormControl;
+  @Input() label: string = '';
+  @Input() placeholder: string = 'Seleccione una opción';
+  @Input() service!: (name: string, id: number) => Observable<any[]>;
+  @Input() formControl?: FormControl;
+  @Input() idObject: number = 0;
   @Input() required: boolean = false;
+  @Input() disabled: boolean = false; // Cambiado a false por defecto
   
-  @Output() selected = new EventEmitter<any>();
-  
-  options: any[] = [];
+  displayField: string = 'name';
+
+  @Output() getId = new EventEmitter<number>(); // Mejor tipado
   filteredOptions: any[] = [];
-  searchTerm: string = '';
   isOpen: boolean = false;
   isLoading: boolean = false;
-  isDisabled: boolean = false;
-  
-  // ControlValueAccessor
-  onChange: any = () => {};
-  onTouched: any = () => {};
-  private _value: any;
 
-  ngOnInit() {
-    if (this.formControl) {
-      this.formControl.valueChanges.subscribe(value => {
-        this.writeValue(value);
-      });
-    }
-  }
+  private _value: string = '';
+  public _selectedOption: any = null;
 
-  get value(): any {
-    return this._value;
-  }
-
-  set value(val: any) {
-    this._value = val;
-    this.onChange(val);
-    this.onTouched();
-  }
-
-  get errors() {
-    return this.formControl?.errors;
-  }
-
-  onInputChange(term: string): void {
-    this.searchTerm = term;
-    
-    if (term.length >= this.minLength) {
-      this.isLoading = true;
-      this.service(term).subscribe({
-        next: (data) => {
-          this.options = data;
-          this.filteredOptions = data;
-          this.isOpen = true;
-          this.isLoading = false;
-        },
-        error: () => {
-          this.isLoading = false;
-          this.isOpen = false;
-        }
-      });
-    } else {
-      this.filteredOptions = [];
-      this.isOpen = false;
-    }
-  }
-
-  selectOption(option: any): void {
-    this.value = option;
-    this.searchTerm = option[this.displayField];
-    this.selected.emit(option);
-    this.isOpen = false;
-  }
-
-  // ControlValueAccessor methods
-  writeValue(obj: any): void {
-    if (obj) {
-      this._value = obj;
-      this.searchTerm = typeof obj === 'object' ? obj[this.displayField] : obj;
-    } else {
-      this._value = null;
-      this.searchTerm = '';
-    }
+  // ControlValueAccessor implementation
+  writeValue(name: string): void {
+    this._value = name || '';
   }
 
   registerOnChange(fn: any): void {
@@ -108,13 +47,84 @@ export class SelectComponent {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
+  onChange: any = () => {};
+  onTouched: any = () => {};
+
+  handleInputEvent(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this._value = value;
+    this.onSearchChange(value);
   }
 
-  onBlur(): void {
-    this.onTouched();
+  closeDropdown(): void {
     this.isOpen = false;
   }
 
+  // Modifica onFocus para manejar mejor la apertura
+  onFocus(): void {
+    if (!this.isOpen) {
+      this.isOpen = true;
+      this.onSearchChange(this._value);
+    }
+    this.onTouched();
+  }
+
+  onSearchChange(name: string): void {
+    this.service(name, this.idObject).subscribe({
+      next: (options) => {
+        this.filteredOptions = options;
+        this.isOpen = options.length >= 0;
+          
+        // Emite ID si hay exactamente una opción que coincida exactamente
+        const exactMatch = options.find(opt => 
+          opt[this.displayField] === name.toUpperCase()
+        );
+        if (exactMatch) {
+          this.getId.emit(exactMatch.id);
+        } else {
+          this.getId.emit(0);
+        }
+
+        this._value = name;
+        this.onChange(this._value);
+        this.onTouched();
+      },
+      error: () => {
+        this.isOpen = false;
+        this.filteredOptions = [];
+      }
+    });
+  }
+
+  selectOption(option: any): void {
+    this._selectedOption = option;
+    this._value = option.name;
+    this.onChange(option.name); // Envía el objeto completo al formulario
+    this.onTouched();
+    this.getId.emit(option.id); // Emite solo el ID
+    this.isOpen = false;
+    this.filteredOptions = [];
+  }
+
+  get value(): any {
+    if (this.disabled && this._value != '') {
+      this._value = '';
+      this.onChange(this._value);
+      this.onTouched();
+      this.getId.emit(0);
+    }
+    return this._value;
+  }
+
+  get errors() {
+    return this.formControl?.errors;
+  }
+
+  getErrorMessage(): string {
+    if (!this.errors) return '';
+     
+    if (this.errors['required']) return FORM_MESSAGES.REQUIRED;
+    if (this.errors['maxlength']) return FORM_MESSAGES.MAX_LENGTH;
+    return FORM_MESSAGES.INVALID;
+  }
 }

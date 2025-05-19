@@ -18,13 +18,22 @@ export class InputComponent implements ControlValueAccessor {
   @Input() placeholder: string = '';
   @Input() maxwidth: number = 90;
   @Input() showRequiredSymbol: boolean = true;
-  @Input() formControl?: FormControl;  // Recibimos el control desde el padre
+  @Input() formControl?: FormControl;
+  @Input() disabled: boolean = false; // Cambiado a false por defecto
 
-  value: string = '';
+  private _value: string = '';
+  
+  get value(): any {
+    if (this.disabled && this._value != '') {
+      this._value = '';
+      this.onChange(this._value);
+      this.onTouched();
+    }
+    return this._value;
+  }
 
-  // ControlValueAccessor implementation
-  writeValue(value: any): void {
-    this.value = value || '';
+  writeValue(name: string): void {
+    this._value = name || '';
   }
 
   registerOnChange(fn: any): void {
@@ -37,7 +46,7 @@ export class InputComponent implements ControlValueAccessor {
 
   onInputChange(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
-    this.value = value;
+    this._value = value;
     this.onChange(value);
     this.onTouched();
   }
@@ -46,7 +55,7 @@ export class InputComponent implements ControlValueAccessor {
   onTouched: any = () => {};
 
   get count(): number {
-    return this.value?.length || 0;
+    return this._value?.length || 0;
   }
 
   get errors() {

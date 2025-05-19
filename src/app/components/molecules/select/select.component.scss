@@ -1,0 +1,113 @@
+@import '../../../../styles/variables.scss';
+
+.label {
+    font-size: 14px;
+    color: $primaryText;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+
+    &__text {
+      display: flex;
+      align-items: center;
+      margin: 0px 0px 12px 0px;
+    }
+
+    &__required-simbol {
+      color: $warningText;
+      margin: 0px 0px 0px 4px;
+    }
+
+    .input {
+        display: inline;
+        padding: 12px 15px; // Ajuste de padding
+        border: 1px solid $primaryBorder;
+        border-radius: 8px;
+        outline: none;
+        font-family: 'Manrope', sans-serif;
+        font-size: 14px;
+        width: 100%; // Asegura ancho completo
+        box-sizing: border-box; // Incluye padding en el ancho
+        position: relative; // Para el z-index
+
+        &:focus {
+            border: 1px solid $secondaryBorder;
+            border-bottom-left-radius: 0; // Elimina borde redondeado inferior cuando está abierto
+            border-bottom-right-radius: 0;
+        }
+
+        &-error {
+            position: relative; // Para el z-index
+            color: $warningText;
+            margin-top: 2px;
+            height: 1px;
+        }
+    }
+
+    // Eliminamos .red si no se usa
+}
+
+.options-dropdown {
+  position: absolute;
+  top: 90%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  background: $whiteBackground;
+  border: 1px solid $secondaryBorder;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1050; // Mayor que otros elementos
+  margin-top: -1px; // Solapa el borde con el input
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+
+  &.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  &.display-none {
+    display: none;
+  }
+}
+
+.option-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: $primaryText;
+  transition: background-color 0.2s ease;
+
+  &:hover, &.selected {
+    background-color: $primaryBackground;
+  }
+}
+
+.loading-indicator,
+.no-results {
+  padding: 10px 15px;
+  background: $whiteBackground;
+  border-bottom: 1px solid $primaryBorder;
+  color: $secondaryText;
+  font-size: 13px;
+}
+
+.no-results {
+  font-style: italic;
+}
+
+// Animación del spinner
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -6,6 +6,7 @@ module.exports = {
   moduleNameMapper: {
     '^@env/(.*)$': '<rootDir>/src/environments/$1',
     '^@app/(.*)$': '<rootDir>/src/app/$1',
+    
   },
   reporters: [
     "default",

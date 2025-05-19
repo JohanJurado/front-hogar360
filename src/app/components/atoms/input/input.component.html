@@ -9,6 +9,7 @@
            [type]="type"
            [placeholder]="placeholder"
            [value]="value"
+           [disabled]="disabled"
            (input)="onInputChange($event)"
            (blur)="onTouched()" />
 
@@ -17,6 +18,7 @@
               class="input"
               [placeholder]="placeholder"
               [value]="value"
+              [disabled]="disabled"
               (input)="onInputChange($event)"
               (blur)="onTouched()">
     </textarea>

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { outputAst } from '@angular/compiler';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Category } from '@app/core/models/category';
 import { CategoryService } from '@app/core/services/api/category/category.service';
@@ -14,6 +15,7 @@ import { TranslatorService } from '@app/core/services/translator/translator.serv
 export class CategoryFormComponent {
 
   public categoryForm: FormGroup;
+  @Output() newCategory = new EventEmitter<boolean>();
 
   constructor(
     private fb: FormBuilder, 
@@ -43,9 +45,9 @@ export class CategoryFormComponent {
 
     this.categoryService.createCategory(this.categoryForm.value as Category).subscribe({
       next: (response) => {
-        this.notificationService.success(this.translatorService.translate(response.message) || 'Guardado Exitoso');
-        console.log(response.message);
+        this.notificationService.success(this.translatorService.translate(response.message));
         this.categoryForm.reset();
+        this.newCategory.emit(true);
       },
       error: (error) => {
         const message = error?.error?.message || 'Ocurrió un error inesperado';
