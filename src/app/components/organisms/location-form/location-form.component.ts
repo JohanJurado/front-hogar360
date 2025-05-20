@@ -81,13 +81,14 @@ export class LocationFormComponent {
       this.locationForm.markAllAsTouched();
       return;
     }
-    console.log(this.locationForm.value);
 
     this.locationService.createLocation(this.locationForm.value as Location).subscribe({
       next: (response) => {
         this.notificationService.success(this.translatorService.translate(response.message));
         this.locationForm.reset();
         this.newLocation.emit(true);
+        this.idDepartment = 0;
+        this.idCity = 0;
       },
       error: (error) => {
         const message = error?.error?.message || 'Ocurrió un error inesperado';

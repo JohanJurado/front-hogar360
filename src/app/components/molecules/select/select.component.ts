@@ -22,14 +22,13 @@ export class SelectComponent {
   @Input() formControl?: FormControl;
   @Input() idObject: number = 0;
   @Input() required: boolean = false;
-  @Input() disabled: boolean = false; // Cambiado a false por defecto
+  @Input() disabled: boolean = this.idObject == 0; // Cambiado a false por defecto
   
   displayField: string = 'name';
 
   @Output() getId = new EventEmitter<number>(); // Mejor tipado
   filteredOptions: any[] = [];
   isOpen: boolean = false;
-  isLoading: boolean = false;
 
   private _value: string = '';
   public _selectedOption: any = null;

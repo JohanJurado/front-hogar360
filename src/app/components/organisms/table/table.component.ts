@@ -7,7 +7,7 @@ import { TableColumn } from '@app/core/models/dtos/tableColumn';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent<T = any> {
-  @Input() data: T[] | null= [];
+  @Input() data: T[] | null = [];
   @Input() columns!: TableColumn[];
   @Input() currentPage: number = 0;
   @Input() itemsPerPage: number = 10;

@@ -1,7 +1,46 @@
 <main class="content">
     <section class="content__create-location">
         <h2 class="content__title">Crear Ubicación</h2>
-        <app-location-form class="content__form"></app-location-form>
-        <h2 class="content__title">Categorias existentes</h2>
+        <app-location-form 
+            class="content__form"
+            (newLocation)="reloadLocationList()"
+        ></app-location-form>
+        <h2 class="content__title">Ubicaciones existentes</h2>
+        <section class="filter" [formGroup]="filterForm">
+            <app-input 
+                class="input-text"
+                label="Filtro por Ciudad/Departamento:"
+                type="text"
+                placeholder="Ingresa el nombre de la ciudad o del departamento"
+                [formControl]="nameFilter"
+                [maxwidth]="90"
+            ></app-input>
+            <app-select
+                [label]="'Orden por:'"
+                [placeholder]="'Seleccione...'"
+                [service]="orderByOptions"
+                [formControl]="orderBy"
+                [required]="true"
+                [disabled]="false">
+            </app-select>
+            <app-select
+                class="input-select"
+                [label]="'Ordernar Ascendentemente:'"
+                [placeholder]="'Seleccione...'"
+                [service]="orderOptions"
+                [formControl]="orderAsc"
+                [required]="true"
+                [disabled]="false">
+            </app-select>
+            <button class="btn btn--secondary" (click)="reloadLocationList()">Filtrar</button>
+        </section>
+        <app-table
+            [data]="locations$ | async"
+            [columns]="columns"
+            [currentPage]="page"
+            [itemsPerPage]="size"
+            [totalItems]="totalItems"
+            (pageChange)="onPageChange($event)">
+        </app-table>
     </section>
 </main>

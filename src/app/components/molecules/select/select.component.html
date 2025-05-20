@@ -15,7 +15,7 @@
     class="input"
   />
 
-  <div *ngIf="isOpen" class="options-dropdown" [class.visible]="isOpen && !disabled" [class.display-none]="disabled">
+  <div *ngIf="isOpen" class="options-dropdown" [class.visible]="isOpen && !disabled">
     <div
       *ngFor="let option of filteredOptions"
       (mousedown)="selectOption(option)"

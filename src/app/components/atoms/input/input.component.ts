@@ -12,7 +12,7 @@ import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
     multi: true
   }]
 })
-export class InputComponent implements ControlValueAccessor {
+export class InputComponent {
   @Input() label: string = '';
   @Input() type: 'text' | 'number' | 'textarea' | 'email' = 'text';
   @Input() placeholder: string = '';
@@ -49,6 +49,7 @@ export class InputComponent implements ControlValueAccessor {
     this._value = value;
     this.onChange(value);
     this.onTouched();
+    console.log(value)
   }
 
   onChange: any = () => {};
