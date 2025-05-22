@@ -7,6 +7,7 @@ import { CategoryPageComponent } from './category-page/category-page.component';
 import { LocationPageComponent } from './location-page/location-page.component';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UserPageComponent } from './user-page/user-page.component';
 
 
 
@@ -14,7 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   declarations: [
     CategoryPageComponent,
     LocationPageComponent,
-    DashboardPageComponent
+    DashboardPageComponent,
+    UserPageComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   exports: [
     CategoryPageComponent,
     DashboardPageComponent,
-    LocationPageComponent
+    LocationPageComponent,
+    UserPageComponent,
   ]
 })
 export class PagesModule { }

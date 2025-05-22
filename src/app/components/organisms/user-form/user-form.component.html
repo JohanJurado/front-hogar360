@@ -1,0 +1,79 @@
+<form class="form" [formGroup]="userForm" (ngSubmit)="submit()">
+    <div class="form__row">
+        <app-input 
+            class="input"
+            label="Nombre"
+            type="text"
+            placeholder="Ingresa el nombre del vendedor"
+            [showRequiredSymbol]="true"
+            [formControl]="nameControl"
+        ></app-input>
+        <app-input
+            class="input"
+            label="Apellido"
+            type="text"
+            placeholder="Ingresa el apellido del vendedor"
+            [showRequiredSymbol]="true"
+            [formControl]="lastNameControl"
+        ></app-input>
+    </div>
+    <div class="form__row">
+        <app-input 
+            class="input"
+            label="Documento"
+            type="number"
+            placeholder="Ingresa el numero de documento del vendedor"
+            [showRequiredSymbol]="true"
+            [formControl]="documentControl"
+        ></app-input>
+        <app-input 
+            class="input"
+            label="Numero de telefono"
+            type="text"
+            placeholder="Ingresa el numero de telefono (Maximo 13 caracteres)"
+            [showRequiredSymbol]="true"
+            [formControl]="phoneNumberControl"
+            [maxwidth]="maxLengthPhoneNumber"
+        ></app-input>
+    </div>
+    <div class="form__row">
+        <app-input 
+            class="input"
+            label="Fecha de nacimiento"
+            type="date"
+            placeholder="Ingresa la fecha de nacimiento (debe ser mayor de edad)"
+            [showRequiredSymbol]="true"
+            [formControl]="birthdateControl"
+        ></app-input>
+        <app-input 
+            class="input"
+            label="Correo electronico"
+            type="email"
+            placeholder="Ingresa el correo del vendedor"
+            [showRequiredSymbol]="true"
+            [formControl]="emailControl"
+        ></app-input>
+    </div>
+    <div class="form__row">
+        <app-input 
+            class="input"
+            label="Contraseña"
+            type="password"
+            placeholder="Ingresa la contraseña del vendedor"
+            [showRequiredSymbol]="true"
+            [formControl]="passwordControl"
+        ></app-input>
+        <app-input 
+            class="input"
+            label="Confirmar contraseña"
+            type="password"
+            placeholder="Escribe nuevamente la contraseña"
+            [showRequiredSymbol]="true"
+            [formControl]="confirmPasswordControl"
+        ></app-input>
+    </div>
+
+    <div class="form__actions">
+        <button type="submit" class="btn btn--primary" [disabled]="userForm.invalid">Crear</button>
+    </div>
+</form>

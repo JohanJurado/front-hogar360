@@ -33,6 +33,10 @@
         resize: none;
         overflow-y: hidden;
 
+        &[type="date"], &[type="number"] {
+            padding-right: 15px;
+        }
+
         &:focus {
             border: 1px solid $secondaryBorder;
         }

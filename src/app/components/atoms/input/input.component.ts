@@ -14,9 +14,9 @@ import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() label: string = '';
-  @Input() type: 'text' | 'number' | 'textarea' | 'email' = 'text';
+  @Input() type: 'text' | 'number' | 'textarea' | 'email' | 'password' | 'date' = 'text';
   @Input() placeholder: string = '';
-  @Input() maxwidth: number = 90;
+  @Input() maxwidth?: number;
   @Input() showRequiredSymbol: boolean = true;
   @Input() formControl?: FormControl;
   @Input() disabled: boolean = false; // Cambiado a false por defecto
@@ -68,6 +68,10 @@ export class InputComponent implements ControlValueAccessor {
     
     if (this.errors['required']) return FORM_MESSAGES.REQUIRED;
     if (this.errors['maxlength']) return FORM_MESSAGES.MAX_LENGTH;
+    if (this.errors['email']) return FORM_MESSAGES.EMAIL;
+    if (this.errors['invalidPhoneNumber']) return FORM_MESSAGES.PHONE_NUMBER;
+    if (this.errors['underAge']) return FORM_MESSAGES.BIRTHDATE;
+    if (this.errors['invalidPassword']) return FORM_MESSAGES.PASSWORD;
     return FORM_MESSAGES.INVALID;
   }
 }
