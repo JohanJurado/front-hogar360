@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class LocationService {
 
-  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDc2MDI1MDcsImV4cCI6MTc0NzYwOTcwNywiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.QR3leBbqJTmqgJ99Z_WnhZe1qvvvwK8jpPIHY3wy5Zw';
+  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDc4NjMxNzgsImV4cCI6MTc0Nzg3MDM3OCwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.XiW9V5e4RfLQAYrB4UFz5My3svZRvT73ND_iJ38CMjY';
   private apiHomeLocation = `${environment.apiHomeUrl}/location/`;
 
   constructor(private http: HttpClient) { }

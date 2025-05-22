@@ -3,7 +3,7 @@
         label="Nombre de la Categoria"
         placeholder="Ingresa el nombre de la categoria"
         [formControl]="nameControl"
-        [maxwidth]="50"
+        [maxwidth]="maxLengthName"
     ></app-input>
 
     <app-input 
@@ -11,7 +11,7 @@
         type="textarea"
         placeholder="Ingresa la descripcion de la categoria"
         [formControl]="descriptionControl"
-        [maxwidth]="90"
+        [maxwidth]="maxLengthDescription"
     ></app-input>
 
     <div class="form__actions">

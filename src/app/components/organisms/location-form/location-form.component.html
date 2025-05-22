@@ -3,9 +3,8 @@
         [label]="'Departamento'"
         [placeholder]="'Seleccione el departamento...'"
         [service]="getDepartments"
-        [formControl]="departmentNameControl"
-        [required]="true"
         [disabled]="false"
+        [formControl]="departmentNameControl"
         (getId)="setDepartmentId($event)">
     </app-select>
     <app-select
@@ -13,7 +12,6 @@
         [placeholder]="'Seleccione la ciudad...'"
         [service]="getCities"
         [formControl]="cityNameControl"
-        [required]="true"
         [idObject]="idDepartment"
         [disabled]="departmentExist()"
         (getId)="setCityId($event)">
@@ -23,7 +21,7 @@
         type="text"
         placeholder="Ingresa el barrio o sector de la ubicacion"
         [formControl]="neighborhoodControl"
-        [maxwidth]="120"
+        [maxwidth]="maxLengthNeighborhood"
         [disabled]="cityExist()"
     ></app-input>
 

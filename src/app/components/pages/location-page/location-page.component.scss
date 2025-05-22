@@ -21,5 +21,22 @@
     &__form {
         width: 100%;
     }
+
+    .filter {
+        width: 100%;
+        display: flex;
+        gap: 1.5rem;
+        align-items: center;
+        justify-content:space-between;
+        margin-bottom: 2rem;
+
+        .input-text {
+            flex: 2;
+        }
+
+        .input-select {
+            flex: 1;
+        }
+    }
 }
 

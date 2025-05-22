@@ -5,22 +5,28 @@ import { MoleculesModule } from '../molecules/molecules.module';
 import { OrganismsModule } from '../organisms/organisms.module';
 import { CategoryPageComponent } from './category-page/category-page.component';
 import { LocationPageComponent } from './location-page/location-page.component';
+import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
     CategoryPageComponent,
-    LocationPageComponent
+    LocationPageComponent,
+    DashboardPageComponent
   ],
   imports: [
     CommonModule,
     AtomsModule,
     MoleculesModule,
-    OrganismsModule
+    OrganismsModule,
+    ReactiveFormsModule
   ],
   exports: [
-    CategoryPageComponent
+    CategoryPageComponent,
+    DashboardPageComponent,
+    LocationPageComponent
   ]
 })
 export class PagesModule { }

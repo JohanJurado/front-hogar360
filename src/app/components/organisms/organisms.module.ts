@@ -18,7 +18,7 @@ import { LocationFormComponent } from './location-form/location-form.component';
     CategoryFormComponent,
     FooterComponent,
     TableComponent,
-    LocationFormComponent
+    LocationFormComponent,
   ],
   imports: [
     CommonModule,

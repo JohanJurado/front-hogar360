@@ -3,5 +3,7 @@ export interface TableColumn {
   title: string;
   type?: 'text' | 'date' | 'id';
   prefix?: string;
-  width?: string;
+  isActive?: boolean| null;
+  orderAsc?: boolean | null;
+  orderBy?: string;
 }

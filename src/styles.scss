@@ -23,6 +23,17 @@
         }
     }
 
+    &--secondary {
+        background-color: $primaryColor;
+
+        &:hover {
+            border: 1px solid $secondaryColor;
+            background-color: $thirdColor;
+            color: $primaryText;
+        }
+    }
+
+
     &:disabled {
         background-color: $primaryBackground;
         color: $fourthText;

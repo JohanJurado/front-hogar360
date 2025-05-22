@@ -1,8 +1,11 @@
   <table class="table-container">
     <thead>
       <tr>
-        <th *ngFor="let col of columns" [style.width]="col.width">
+        <th *ngFor="let col of columns">
           {{ col.title }}
+          <img *ngIf="col.isActive != null && col.isActive && col.orderAsc" src="./assets/img/filter-icons/sort-asc-icon.svg" alt="filter-active-asc" (click)="newOrder(col.key)">
+          <img *ngIf="col.isActive != null && col.isActive && !col.orderAsc" src="./assets/img/filter-icons/sort-desc-icon.svg" alt="filter-active-des" (click)="newOrder(col.key)">
+          <img *ngIf="col.isActive != null && !col.isActive" src="./assets/img/filter-icons/sort-icon.svg" alt="filter-inactive" (click)="newOrder(col.key)">
         </th>
         <th class="actions">Acciones</th>
       </tr>
@@ -26,8 +29,11 @@
         </td>
         
         <td class="actions-cell">
-          <button><img src="../../../../assets/img/delete-icon.svg" alt=""></button>
+          <button><img src="./assets/img/delete-icon.svg" alt=""></button>
         </td>
+      </tr>
+      <tr *ngIf="data?.length == 0">
+        <td class="not-found" colspan="100%">No se encontraron resultados</td>
       </tr>
     </tbody>
   </table>

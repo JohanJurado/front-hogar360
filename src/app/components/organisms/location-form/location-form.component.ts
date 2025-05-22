@@ -4,6 +4,8 @@ import { Location } from '@app/core/models/location';
 import { LocationService } from '@app/core/services/api/location/location.service';
 import { NotificationService } from '@app/core/services/notification/notification.service';
 import { TranslatorService } from '@app/core/services/translator/translator.service';
+import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
+import { MAX_LENGTH_FILEDS } from '@app/shared/constants/max-length-fileds';
 import { delay, map, Observable, of } from 'rxjs';
 
 @Component({
@@ -16,6 +18,8 @@ export class LocationFormComponent {
   public locationForm: FormGroup;
   @Output() newLocation = new EventEmitter<boolean>();
   
+  maxLengthNeighborhood = MAX_LENGTH_FILEDS.LOCATION.NEIGHBORHOOD;
+
   idDepartment: number = 0;
   idCity: number = 0;
 
@@ -26,9 +30,9 @@ export class LocationFormComponent {
     private translatorService: TranslatorService
   ){ 
     this.locationForm = this.fb.group ({
-      nameDepartment: ['', [Validators.required, Validators.maxLength(50)]],
-      nameCity: ['', [Validators.required, Validators.maxLength(50)]],
-      neighborhood: ['', [Validators.required, Validators.maxLength(120)]],
+      nameDepartment: ['', [Validators.required, Validators.maxLength(MAX_LENGTH_FILEDS.LOCATION.NAME_DEPARTMENT)]],
+      nameCity: ['', [Validators.required, Validators.maxLength(MAX_LENGTH_FILEDS.LOCATION.NAME_CITY)]],
+      neighborhood: ['', [Validators.required, Validators.maxLength(this.maxLengthNeighborhood)]],
     });
   }
 
@@ -81,16 +85,17 @@ export class LocationFormComponent {
       this.locationForm.markAllAsTouched();
       return;
     }
-    console.log(this.locationForm.value);
 
     this.locationService.createLocation(this.locationForm.value as Location).subscribe({
       next: (response) => {
         this.notificationService.success(this.translatorService.translate(response.message));
         this.locationForm.reset();
         this.newLocation.emit(true);
+        this.idDepartment = 0;
+        this.idCity = 0;
       },
       error: (error) => {
-        const message = error?.error?.message || 'Ocurrió un error inesperado';
+        const message = error?.error?.message || FORM_MESSAGES.ERROR;
         this.notificationService.error(this.translatorService.translate(message));
       }
     });

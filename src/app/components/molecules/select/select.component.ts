@@ -1,5 +1,5 @@
 import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
 import { Observable } from 'rxjs';
 
@@ -15,26 +15,24 @@ import { Observable } from 'rxjs';
     }
   ]
 })
-export class SelectComponent {
+export class SelectComponent  implements ControlValueAccessor{
   @Input() label: string = '';
   @Input() placeholder: string = 'Seleccione una opción';
   @Input() service!: (name: string, id: number) => Observable<any[]>;
   @Input() formControl?: FormControl;
   @Input() idObject: number = 0;
-  @Input() required: boolean = false;
-  @Input() disabled: boolean = false; // Cambiado a false por defecto
+  @Input() required: boolean = true;
+  @Input() disabled: boolean = this.idObject == 0;
   
   displayField: string = 'name';
 
-  @Output() getId = new EventEmitter<number>(); // Mejor tipado
+  @Output() getId = new EventEmitter<number>();
   filteredOptions: any[] = [];
   isOpen: boolean = false;
-  isLoading: boolean = false;
 
   private _value: string = '';
   public _selectedOption: any = null;
 
-  // ControlValueAccessor implementation
   writeValue(name: string): void {
     this._value = name || '';
   }
@@ -60,7 +58,6 @@ export class SelectComponent {
     this.isOpen = false;
   }
 
-  // Modifica onFocus para manejar mejor la apertura
   onFocus(): void {
     if (!this.isOpen) {
       this.isOpen = true;
@@ -73,9 +70,8 @@ export class SelectComponent {
     this.service(name, this.idObject).subscribe({
       next: (options) => {
         this.filteredOptions = options;
-        this.isOpen = options.length >= 0;
+        this.isOpen = true;
           
-        // Emite ID si hay exactamente una opción que coincida exactamente
         const exactMatch = options.find(opt => 
           opt[this.displayField] === name.toUpperCase()
         );
@@ -99,9 +95,9 @@ export class SelectComponent {
   selectOption(option: any): void {
     this._selectedOption = option;
     this._value = option.name;
-    this.onChange(option.name); // Envía el objeto completo al formulario
+    this.onChange(option.name);
     this.onTouched();
-    this.getId.emit(option.id); // Emite solo el ID
+    this.getId.emit(option.id);
     this.isOpen = false;
     this.filteredOptions = [];
   }

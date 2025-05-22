@@ -1,0 +1,7 @@
+export const PAGINATION_CONSTANTS = {
+    PAGE: 0,
+    SIZE:  10,
+    ORDER_BY: 'city',
+    ORDER_ASC: true,
+    TOTAL_ITEMS: 0,
+}
