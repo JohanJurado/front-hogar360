@@ -82,7 +82,7 @@ describe('LocationFormComponent', () => {
     });
 
     it('should have max length validators', () => {
-      const longName = 'a'.repeat(51);
+      const longName = 'a'.repeat(91);
       const longNeighborhood = 'a'.repeat(121);
 
       component.departmentNameControl.setValue(longName);

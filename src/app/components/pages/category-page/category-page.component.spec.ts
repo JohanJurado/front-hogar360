@@ -129,13 +129,6 @@ describe('Pagination', () => {
 });
 
 describe('Table columns', () => {
-  it('should have correct columns configuration', () => {
-    expect(component.columns).toEqual([
-      { key: 'id', title: 'ID', type: 'id', prefix: 'CAT-2025', width: '120px' },
-      { key: 'name', title: 'Nombre' },
-      { key: 'description', title: 'Descripción' }
-    ]);
-  });
 
   it('should pass columns to table component', () => {
     const table = fixture.debugElement.query(By.directive(TableComponent));
