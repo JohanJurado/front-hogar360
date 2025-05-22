@@ -3,7 +3,7 @@
         <h2 class="content__title">Crear Ubicación</h2>
         <app-location-form 
             class="content__form"
-            (newLocation)="reloadLocationList()"
+            (newLocation)="onListChange()"
         ></app-location-form>
         <h2 class="content__title">Ubicaciones existentes</h2>
         <section class="filter" [formGroup]="filterForm">
@@ -15,24 +15,7 @@
                 [formControl]="nameFilter"
                 [maxwidth]="90"
             ></app-input>
-            <app-select
-                [label]="'Orden por:'"
-                [placeholder]="'Seleccione...'"
-                [service]="orderByOptions"
-                [formControl]="orderBy"
-                [required]="true"
-                [disabled]="false">
-            </app-select>
-            <app-select
-                class="input-select"
-                [label]="'Ordernar Ascendentemente:'"
-                [placeholder]="'Seleccione...'"
-                [service]="orderOptions"
-                [formControl]="orderAsc"
-                [required]="true"
-                [disabled]="false">
-            </app-select>
-            <button class="btn btn--secondary" (click)="reloadLocationList()">Filtrar</button>
+            <button class="btn btn--secondary" (click)="onListChange()" [disabled]="filterForm.invalid">Filtrar</button>
         </section>
         <app-table
             [data]="locations$ | async"
@@ -40,7 +23,8 @@
             [currentPage]="page"
             [itemsPerPage]="size"
             [totalItems]="totalItems"
-            (pageChange)="onPageChange($event)">
+            (pageChange)="onPageChange($event)"
+            (order)="onOrderChange($event)">
         </app-table>
     </section>
 </main>

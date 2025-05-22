@@ -1,10 +1,11 @@
-import { outputAst } from '@angular/compiler';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Category } from '@app/core/models/category';
 import { CategoryService } from '@app/core/services/api/category/category.service';
 import { NotificationService } from '@app/core/services/notification/notification.service';
 import { TranslatorService } from '@app/core/services/translator/translator.service';
+import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
+import { MAX_LENGTH_FILEDS } from '@app/shared/constants/max-length-fileds';
 
 
 @Component({
@@ -15,6 +16,9 @@ import { TranslatorService } from '@app/core/services/translator/translator.serv
 export class CategoryFormComponent {
 
   public categoryForm: FormGroup;
+  maxLengthName = MAX_LENGTH_FILEDS.CATEGORY.NAME;
+  maxLengthDescription = MAX_LENGTH_FILEDS.CATEGORY.DESCRIPTION;
+
   @Output() newCategory = new EventEmitter<boolean>();
 
   constructor(
@@ -24,8 +28,8 @@ export class CategoryFormComponent {
     private translatorService: TranslatorService
   ){ 
     this.categoryForm = this.fb.group ({
-      name: ['', [Validators.required, Validators.maxLength(50)]],
-      description: ['', [Validators.required, Validators.maxLength(90)]],
+      name: ['', [Validators.required, Validators.maxLength(this.maxLengthName)]],
+      description: ['', [Validators.required, Validators.maxLength(this.maxLengthDescription)]],
     });
   }
 
@@ -50,7 +54,7 @@ export class CategoryFormComponent {
         this.newCategory.emit(true);
       },
       error: (error) => {
-        const message = error?.error?.message || 'Ocurrió un error inesperado';
+        const message = error?.error?.message || FORM_MESSAGES.ERROR;
         this.notificationService.error(this.translatorService.translate(message));
       }
     });

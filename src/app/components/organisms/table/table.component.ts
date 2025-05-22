@@ -13,6 +13,7 @@ export class TableComponent<T = any> {
   @Input() itemsPerPage: number = 10;
   @Input() totalItems: number = 0;
   @Output() pageChange = new EventEmitter<number>();
+  @Output() order = new EventEmitter<{ orderBy: string, orderAsc: boolean }>();
 
   trackByFn(index: number, item: any): any {
     return item.id || index;
@@ -39,7 +40,7 @@ export class TableComponent<T = any> {
   }
 
   getPageRange(): number[] {
-    const rangeSize = 3; // Máximo de números visibles
+    const rangeSize = 4;
     const start = Math.max(0, this.currentPage - Math.floor(rangeSize / 2));
     const end = Math.min(this.totalPages - 1, start + rangeSize - 1);
     return Array.from({ length: end - start + 1 }, (_, i) => start + i);
@@ -47,5 +48,24 @@ export class TableComponent<T = any> {
 
   onPageChange(newPage: number): void {
     this.pageChange.emit(newPage);
+  }
+
+  newOrder(key: string){
+
+    for (let index = 0; index < this.columns.length; index++) {
+      const element = this.columns[index];
+      
+      if (element.key != key && element.isActive == true){
+        element.isActive = !element.isActive;
+      
+      } else if (element.key == key){
+        if (element.isActive == false){
+          element.isActive = !element.isActive; 
+        }
+        element.orderAsc = element.orderAsc != null ? !element.orderAsc : true;
+
+        this.order.emit({ orderBy: element.orderBy!, orderAsc: element.orderAsc })
+      }
+    }
   }
 }

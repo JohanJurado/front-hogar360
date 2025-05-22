@@ -1,7 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TableColumn } from '@app/core/models/dtos/tableColumn';
 import { LocationService } from '@app/core/services/api/location/location.service';
+import { MAX_LENGTH_FILEDS } from '@app/shared/constants/max-length-fileds';
+import { PAGINATION_CONSTANTS } from '@app/shared/constants/pagination';
+import { TABLE_COLUMNS } from '@app/shared/constants/table-columns';
 import { delay, map, Observable, of, startWith } from 'rxjs';
 
 @Component({
@@ -10,78 +13,44 @@ import { delay, map, Observable, of, startWith } from 'rxjs';
   styleUrls: ['./location-page.component.scss']
 })
 export class LocationPageComponent {
-  page: number = 0;
-  size: number = 10;
-  totalItems: number = 0;
+  page: number = PAGINATION_CONSTANTS.PAGE;
+  size: number = PAGINATION_CONSTANTS.SIZE;
+  orderBy: string = PAGINATION_CONSTANTS.ORDER_BY;
+  orderAsc: boolean = PAGINATION_CONSTANTS.ORDER_ASC;
+  totalItems: number = PAGINATION_CONSTANTS.TOTAL_ITEMS;
 
-  private fb = inject(FormBuilder);
-  public filterForm = this.fb.group({
-    nameFilter: ['', [Validators.required]],
-    orderAsc: ['true', [Validators.required]],
-    orderBy: ['city', [Validators.required]],
-  });
-
-  get nameFilter(): FormControl {
-    return this.filterForm.get('nameFilter') as FormControl;
-  }
-  
-  get orderAsc(): FormControl {
-    return this.filterForm.get('orderAsc') as FormControl;
-  }
-
-  get orderBy(): FormControl {
-    return this.filterForm.get('orderBy') as FormControl;
-  }
-
-  orderOptions(term: string): Observable<any[]> {
-    const mockProducts = [
-      { name: 'true' },
-      { name: 'false' },
-    ];
-    
-    return of(
-      mockProducts.filter(option => 
-        option.name.toLowerCase().includes(term.toLowerCase())
-      )
-    );
-  }
-
-  orderByOptions(term: string): Observable<any[]> {
-    const mockProducts = [
-      { name: 'city' },
-      { name: 'department' },
-    ];
-    
-    return of(
-      mockProducts.filter(option => 
-        option.name.toLowerCase().includes(term.toLowerCase())
-      )
-    );
-  }
+  columns: TableColumn[] = TABLE_COLUMNS.LOCATIONS as TableColumn[];
 
   private LocationService = inject(LocationService);
-
-  reloadLocationList(){
-    this.onPageChange(this.page);
-  }
-
-  locations$ = this.LocationService.getLocations(this.page, this.size, this.orderBy.value, Boolean(this.orderAsc.value)).pipe(
+  locations$ = this.LocationService.getLocations(this.page, this.size, this.orderBy, this.orderAsc).pipe(
     map(response => {
       this.totalItems = response.totalElements;
       return response.content;
     })
   );
 
-  columns: TableColumn[] = [
-    { key: 'id', title: 'ID', type: 'id', prefix: 'LOC-2025', width: '120px' },
-    { key: 'nameDepartment', title: 'Nombre Departamento' },
-    { key: 'nameCity', title: 'Nombre Ciudad' },
-    { key: 'neighborhood', title: 'Barrio/Sector' },
-  ]
+  private fb = inject(FormBuilder);
+  public filterForm = this.fb.group({
+    nameFilter: ['', [Validators.maxLength(MAX_LENGTH_FILEDS.LOCATION.NAME_CITY)]],
+  });
+
+  get nameFilter(): FormControl {
+    return this.filterForm.get('nameFilter') as FormControl;
+  }
+
+  onOrderChange(order: { orderBy: string, orderAsc: boolean }){
+    this.orderBy = order.orderBy;
+    this.orderAsc = order.orderAsc;
+    this.onListChange();
+  }
 
   onPageChange(newPage: number): void {
     this.page = newPage;
-    this.locations$ = this.LocationService.getLocations(this.page, this.size, this.orderBy.value, Boolean(this.orderAsc.value), this.nameFilter.value).pipe(
+    this.onListChange();
+  }
+
+  onListChange(): void {
+    this.locations$ = this.LocationService.getLocations(this.page, this.size, this.orderBy, this.orderAsc, this.nameFilter.value).pipe(
       map(response => {
         this.totalItems = response.totalElements;
         return response.content;

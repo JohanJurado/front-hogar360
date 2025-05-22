@@ -12,7 +12,7 @@ import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
     multi: true
   }]
 })
-export class InputComponent {
+export class InputComponent implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() type: 'text' | 'number' | 'textarea' | 'email' = 'text';
   @Input() placeholder: string = '';
