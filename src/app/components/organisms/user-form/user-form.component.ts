@@ -33,16 +33,18 @@ export class UserFormComponent {
       birthdate: [null, [Validators.required, this.adultValidator]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required, this.validatorPassword]],
-    });
-  }
-
-  validatorPassword(control: AbstractControl) {
-    if (!control.value) {
-      return null;
+      confirmPassword: ['', [Validators.required, this.passwordMatchValidator.bind(this)]]
+      });
     }
-    return this.passwordControl.value == control.value ? null : { invalidPassword: true };
-  }
+
+    passwordMatchValidator(control: AbstractControl) {
+      if (!control.value) {
+        return null;
+      }
+      return this.userForm?.get('password')?.value === control.value 
+        ? null 
+        : { invalidPassword: true };
+    }
 
   phoneNumberValidator(control: AbstractControl) {
     if (!control.value) {

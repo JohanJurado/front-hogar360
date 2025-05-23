@@ -56,7 +56,7 @@ describe('SelectComponent', () => {
   describe('ControlValueAccessor', () => {
     it('should write value', () => {
       component.writeValue('');
-      expect(component.value).toBe('');
+      expect(component.value).toBe(''); 
     });
 
     it('should register onChange and onTouched', () => {

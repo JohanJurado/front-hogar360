@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDc5NDc3NTksImV4cCI6MTc0Nzk1NDk1OSwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.yEeHlgo_FPUqXhYSAQ2uwGKuYtT5zKISO3bKumLm9Vo';
+  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDgwMzAwODksImV4cCI6MTc0ODAzNzI4OSwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.SUdzlA4Wsdszpus4Xnah8ev5a45UzuR75SOREUIJlsc';
   private apiUser = `${environment.apiUserUrl}/user/`;
 
   constructor(private http: HttpClient) { }

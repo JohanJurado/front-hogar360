@@ -88,7 +88,7 @@ describe('LocationFormComponent', () => {
       component.departmentNameControl.setValue(longName);
       component.neighborhoodControl.setValue(longNeighborhood);
 
-      expect(component.departmentNameControl.errors?.['maxlength']).toBeTruthy();
+      expect(component.departmentNameControl.errors?.['maxlength']).toBeTruthy(); 
       expect(component.neighborhoodControl.errors?.['maxlength']).toBeTruthy();
     });
   });

@@ -200,4 +200,44 @@ describe('InputComponent', () => {
       expect(component.getErrorMessage()).toBe(FORM_MESSAGES.INVALID);
       });
   });
+
+  describe('Error Messages', () => {
+  it('should return email error message', () => {
+    const control = new FormControl('invalid-email', Validators.email);
+    control.markAsTouched();
+    component.formControl = control;
+    
+    expect(component.getErrorMessage()).toBe(FORM_MESSAGES.EMAIL);
+  });
+
+  it('should return phone number error message', () => {
+    const control = new FormControl('', { 
+      validators: [() => ({ invalidPhoneNumber: true })] 
+    });
+    control.markAsTouched();
+    component.formControl = control;
+    
+    expect(component.getErrorMessage()).toBe(FORM_MESSAGES.PHONE_NUMBER);
+  });
+
+  it('should return birthdate error message', () => {
+    const control = new FormControl('', { 
+      validators: [() => ({ underAge: true })] 
+    });
+    control.markAsTouched();
+    component.formControl = control;
+    
+    expect(component.getErrorMessage()).toBe(FORM_MESSAGES.BIRTHDATE);
+  });
+
+  it('should return password error message', () => {
+    const control = new FormControl('', { 
+      validators: [() => ({ invalidPassword: true })] 
+    });
+    control.markAsTouched();
+    component.formControl = control;
+    
+    expect(component.getErrorMessage()).toBe(FORM_MESSAGES.PASSWORD);
+  });
+});
 });
