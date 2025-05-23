@@ -239,4 +239,31 @@ describe('TableComponent', () => {
       expect(actionCells.length).toBe(mockData.length);
     });
   });
+    
+  describe('newOrder method', () => {
+    it('should set orderAsc to true when it is initially null', () => {
+      const testColumns: TableColumn[] = [
+        { 
+          key: 'test', 
+          title: 'Test Column',
+          isActive: false,
+          orderAsc: null,
+          orderBy: 'test'
+        }
+      ];
+      component.columns = testColumns;
+      
+      component.newOrder('test');
+      
+      const testColumn = component.columns.find(c => c.key === 'test');
+      expect(testColumn?.orderAsc).toBe(true);
+      
+      jest.spyOn(component.order, 'emit');
+      component.newOrder('test');
+      expect(component.order.emit).toHaveBeenCalledWith({ 
+        orderAsc: false,
+        orderBy: 'test', 
+      });
+    });
+  });
 });

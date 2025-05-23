@@ -9,6 +9,7 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { FooterComponent } from './footer/footer.component';
 import { TableComponent } from './table/table.component';
 import { LocationFormComponent } from './location-form/location-form.component';
+import { UserFormComponent } from './user-form/user-form.component';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { LocationFormComponent } from './location-form/location-form.component';
     FooterComponent,
     TableComponent,
     LocationFormComponent,
+    UserFormComponent,
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { LocationFormComponent } from './location-form/location-form.component';
     CategoryFormComponent,
     FooterComponent,
     TableComponent,
-    LocationFormComponent
+    LocationFormComponent,
+    UserFormComponent,
   ]
 })
 export class OrganismsModule { }

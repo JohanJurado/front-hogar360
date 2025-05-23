@@ -24,11 +24,13 @@
     </textarea>
 
     <span
-           class="input-count" 
+           *ngIf="maxwidth"
+           class="input-count"
+           [class.disabled]="disabled" 
            [class.red]="count > maxwidth">
         {{ count + '/' + maxwidth }}
     </span>
-    <div class="input-error" >
+    <div class="input-error">
         <small
             *ngIf="errors && (formControl?.touched || formControl?.dirty)">
             {{ getErrorMessage() }}

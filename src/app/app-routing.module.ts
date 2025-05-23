@@ -4,6 +4,7 @@ import { CategoryPageComponent } from './components/pages/category-page/category
 import { AdminLayoutComponent } from './components/templates/admin-layout/admin-layout.component';
 import { LocationPageComponent } from './components/pages/location-page/location-page.component';
 import { DashboardPageComponent } from './components/pages/dashboard-page/dashboard-page.component';
+import { UserPageComponent } from './components/pages/user-page/user-page.component';
 
 const routes: Routes = [
   { path: '', component: AdminLayoutComponent,
@@ -11,6 +12,7 @@ const routes: Routes = [
     { path: 'dashboard', component: DashboardPageComponent },
     { path: 'categories', component: CategoryPageComponent },
     { path: 'locations', component: LocationPageComponent },
+    { path: 'users', component: UserPageComponent },
     { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
     ]
   }
