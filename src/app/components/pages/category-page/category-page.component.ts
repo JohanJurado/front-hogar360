@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TableColumn } from '@app/core/models/dtos/tableColumn';
 import { CategoryService } from '@app/core/services/api/category/category.service';
 import { PAGINATION_CONSTANTS } from '@app/shared/constants/pagination';
@@ -18,10 +18,7 @@ export class CategoryPageComponent {
 
   columns: TableColumn[] = TABLE_COLUMNS.CATEGORY as TableColumn[];
 
-  constructor(
-    private categoryService: CategoryService
-  ){
-  }
+  categoryService = inject(CategoryService);
 
   reloadCategoryList(){
     this.onPageChange(this.page);

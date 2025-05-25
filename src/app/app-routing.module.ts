@@ -5,17 +5,28 @@ import { AdminLayoutComponent } from './components/templates/admin-layout/admin-
 import { LocationPageComponent } from './components/pages/location-page/location-page.component';
 import { DashboardPageComponent } from './components/pages/dashboard-page/dashboard-page.component';
 import { UserPageComponent } from './components/pages/user-page/user-page.component';
+import { SellerLayoutComponent } from './components/templates/seller-layout/seller-layout.component';
+import { HousePageComponent } from './components/pages/house-page/house-page.component';
 
 const routes: Routes = [
-  { path: '', component: AdminLayoutComponent,
+  { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  { path: 'admin', component: AdminLayoutComponent,
     children: [
-    { path: 'dashboard', component: DashboardPageComponent },
-    { path: 'categories', component: CategoryPageComponent },
-    { path: 'locations', component: LocationPageComponent },
-    { path: 'users', component: UserPageComponent },
-    { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardPageComponent },
+      { path: 'categories', component: CategoryPageComponent },
+      { path: 'locations', component: LocationPageComponent },
+      { path: 'users', component: UserPageComponent },
     ]
-  }
+  },
+  { path: 'seller', component: SellerLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardPageComponent },
+      { path: 'houses', component: HousePageComponent },
+      { path: 'schedulers', component: LocationPageComponent }, 
+    ]
+  },
 ];
 
 @NgModule({

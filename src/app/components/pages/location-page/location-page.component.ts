@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { TableColumn } from '@app/core/models/dtos/tableColumn';
 import { LocationService } from '@app/core/services/api/location/location.service';
 import { MAX_LENGTH_FILEDS } from '@app/shared/constants/max-length-fileds';
 import { PAGINATION_CONSTANTS } from '@app/shared/constants/pagination';
 import { TABLE_COLUMNS } from '@app/shared/constants/table-columns';
-import { delay, map, Observable, of, startWith } from 'rxjs';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-location-page',
@@ -21,7 +21,7 @@ export class LocationPageComponent {
 
   columns: TableColumn[] = TABLE_COLUMNS.LOCATIONS as TableColumn[];
 
-  private LocationService = inject(LocationService);
+  private readonly LocationService = inject(LocationService);
   locations$ = this.LocationService.getLocations(this.page, this.size, this.orderBy, this.orderAsc).pipe(
     map(response => {
       this.totalItems = response.totalElements;
@@ -29,7 +29,7 @@ export class LocationPageComponent {
     })
   );
 
-  private fb = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
   public filterForm = this.fb.group({
     nameFilter: ['', [Validators.maxLength(MAX_LENGTH_FILEDS.LOCATION.NAME_CITY)]],
   });

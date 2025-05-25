@@ -8,4 +8,5 @@ import { SIDEBAR_ITEMS } from '@app/shared/constants/sidebar-items';
 })
 export class AdminLayoutComponent {
   links = SIDEBAR_ITEMS['ADMIN']
+  profile = 'Admin';
 }

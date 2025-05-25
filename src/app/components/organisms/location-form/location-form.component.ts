@@ -6,7 +6,7 @@ import { NotificationService } from '@app/core/services/notification/notificatio
 import { TranslatorService } from '@app/core/services/translator/translator.service';
 import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
 import { MAX_LENGTH_FILEDS } from '@app/shared/constants/max-length-fileds';
-import { delay, map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-location-form',
@@ -24,10 +24,10 @@ export class LocationFormComponent {
   idCity: number = 0;
 
   constructor(
-    private fb: FormBuilder, 
-    private locationService: LocationService,
-    private notificationService: NotificationService,
-    private translatorService: TranslatorService
+    private readonly fb: FormBuilder, 
+    private readonly locationService: LocationService,
+    private readonly notificationService: NotificationService,
+    private readonly translatorService: TranslatorService
   ){ 
     this.locationForm = this.fb.group ({
       nameDepartment: ['', [Validators.required, Validators.maxLength(MAX_LENGTH_FILEDS.LOCATION.NAME_DEPARTMENT)]],
@@ -95,7 +95,7 @@ export class LocationFormComponent {
         this.idCity = 0;
       },
       error: (error) => {
-        const message = error?.error?.message || FORM_MESSAGES.ERROR;
+        const message = error?.error?.message ?? FORM_MESSAGES.ERROR;
         this.notificationService.error(this.translatorService.translate(message));
       }
     });

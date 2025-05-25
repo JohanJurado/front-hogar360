@@ -22,10 +22,10 @@ export class CategoryFormComponent {
   @Output() newCategory = new EventEmitter<boolean>();
 
   constructor(
-    private fb: FormBuilder, 
-    private categoryService: CategoryService,
-    private notificationService: NotificationService,
-    private translatorService: TranslatorService
+    private readonly fb: FormBuilder, 
+    private readonly categoryService: CategoryService,
+    private readonly notificationService: NotificationService,
+    private readonly translatorService: TranslatorService
   ){ 
     this.categoryForm = this.fb.group ({
       name: ['', [Validators.required, Validators.maxLength(this.maxLengthName)]],
@@ -54,7 +54,7 @@ export class CategoryFormComponent {
         this.newCategory.emit(true);
       },
       error: (error) => {
-        const message = error?.error?.message || FORM_MESSAGES.ERROR;
+        const message = error?.error?.message ?? FORM_MESSAGES.ERROR;
         this.notificationService.error(this.translatorService.translate(message));
       }
     });

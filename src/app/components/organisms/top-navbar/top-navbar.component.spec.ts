@@ -28,13 +28,13 @@ describe('TopNavbarComponent', () => {
   describe('Input Properties', () => {
     it('should display default text when no input provided', () => {
       const userElement = fixture.debugElement.query(By.css('.navbar__user'));
-      expect(userElement.nativeElement.textContent).toContain('Bienvenido, Admin');
+      expect(userElement.nativeElement.textContent).toContain('Bienvenido');
     });
 
     it('should display custom text when input provided', () => {
-      component.text = 'John Doe';
+      component.profile = 'John Doe';
       fixture.detectChanges();
-      
+       
       const userElement = fixture.debugElement.query(By.css('.navbar__user'));
       expect(userElement.nativeElement.textContent).toContain('Bienvenido, John Doe');
     });

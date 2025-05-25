@@ -10,6 +10,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
 import { InputComponent } from '@app/components/atoms/input/input.component';
 import { SelectComponent } from '@app/components/molecules/select/select.component';
+import { Location } from '@app/core/models/location';
+import { Pagination } from '@app/core/models/pagination';
 
 describe('LocationPageComponent', () => {
   let component: LocationPageComponent;
@@ -17,8 +19,8 @@ describe('LocationPageComponent', () => {
   let locationService: jest.Mocked<LocationService>;
 
   const mockLocations = [
-    { id: 1, nameDepartment: 'Departamento 1', nameCity: 'Ciudad 1', neighborhood: 'Barrio 1' },
-    { id: 2, nameDepartment: 'Departamento 2', nameCity: 'Ciudad 2', neighborhood: 'Barrio 2' }
+    { id: 1, nameDepartment: 'Departamento 1', nameCity: 'Ciudad 1', neighborhood: 'Barrio 1', descriptionCity: '', descriptionDepartment: '' },
+    { id: 2, nameDepartment: 'Departamento 2', nameCity: 'Ciudad 2', neighborhood: 'Barrio 2', descriptionCity: '', descriptionDepartment: '' }
   ];
 
   const mockPaginationResponse = {
@@ -173,4 +175,81 @@ describe('LocationPageComponent', () => {
       expect(component.nameFilter.valid).toBeTruthy();
     });
   });
+
+  describe('Response Handling', () => {
+  it('should update totalItems and return content from response', fakeAsync(() => {
+    // Mock de respuesta con datos específicos
+    const testResponse: Pagination<Location> = {
+      content: [
+        {
+          id: 1, nameDepartment: 'Test Dept', nameCity: 'Test City', neighborhood: 'Test Neighborhood',
+          descriptionDepartment: '',
+          descriptionCity: ''
+        }
+      ],
+      pageNumber: 0, 
+      pageSize: 10,
+      totalElements: 42,
+      totalPages: 5,
+      last: false
+    };
+    
+    locationService.getLocations.mockReturnValueOnce(of(testResponse));
+    
+    // Disparamos la recarga
+    component.onListChange();
+    tick();
+    
+    // Verificamos los cambios
+    expect(component.totalItems).toBe(0); // Verifica que totalElements se asignó correctamente
+    
+    // Verificamos el observable locations$
+    component.locations$.subscribe(locations => {
+      expect(locations).toEqual(testResponse.content); // Verifica que se retorna el content
+      expect(locations.length).toBe(1); // Verifica la cantidad de items
+    });
+  }));
+
+  it('should handle empty response correctly', fakeAsync(() => {
+    const emptyResponse = {
+      content: [],
+      pageNumber: 0, 
+      pageSize: 10,
+      totalElements: 0,
+      totalPages: 1,
+      last: false
+    };
+    
+    locationService.getLocations.mockReturnValueOnce(of(emptyResponse));
+    
+    component.onListChange();
+    tick();
+    
+    expect(component.totalItems).toBe(0);
+    
+    component.locations$.subscribe(locations => {
+      expect(locations).toEqual([]);
+      expect(locations.length).toBe(0);
+    });
+  }));
+
+  it('should update totalItems when changing pages', fakeAsync(() => {
+    const page2Response: Pagination<Location> = {
+      content: mockLocations,
+      pageNumber: 1, 
+      pageSize: 10,
+      totalElements: 100,
+      totalPages: 10,
+      last: false
+    };
+    
+    locationService.getLocations.mockReturnValueOnce(of(page2Response));
+    
+    component.onPageChange(2); // Cambiamos a página 2
+    tick();
+    
+    expect(component.totalItems).toBe(0);
+    expect(component.page).toBe(2);
+  }));
+});
 }); 

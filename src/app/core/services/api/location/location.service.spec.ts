@@ -202,4 +202,83 @@ describe('LocationService', () => {
       req.flush(mockDepartments);
     });
   });
+
+  describe('getNeighborhoods()', () => {
+  const mockNeighborhoods: Location[] = [
+    { 
+      id: 1, 
+      nameDepartment: 'Department 1', 
+      nameCity: 'City 1', 
+      neighborhood: 'Neighborhood 1',
+      descriptionDepartment: '',
+      descriptionCity: ''
+    },
+    { 
+      id: 2, 
+      nameDepartment: 'Department 1', 
+      nameCity: 'City 1', 
+      neighborhood: 'Neighborhood 2',
+      descriptionDepartment: '',
+      descriptionCity: ''
+    }
+  ];
+
+  it('should send GET request with neighborhood, city and department parameters', () => {
+    const testParams = {
+      nameNeighborhood: 'test',
+      idCity: 1,
+      idDepartment: 2
+    };
+
+    service.getNeighborhoods(testParams.nameNeighborhood, testParams.idCity, testParams.idDepartment)
+      .subscribe(response => {
+        expect(response).toEqual(mockNeighborhoods);
+      });
+
+    const req = httpMock.expectOne(
+      `${mockApiUrl}get-neighborhoods?nameNeighborhood=test&idCity=1&idDepartment=2`
+    );
+    
+    expect(req.request.method).toBe('GET');
+    expect(req.request.params.get('nameNeighborhood')).toBe('test');
+    expect(req.request.params.get('idCity')).toBe('1');
+    expect(req.request.params.get('idDepartment')).toBe('2');
+    
+    req.flush(mockNeighborhoods);
+  });
+
+  it('should handle empty neighborhood name parameter', () => {
+    service.getNeighborhoods('', 1, 2).subscribe();
+
+    const req = httpMock.expectOne(
+      `${mockApiUrl}get-neighborhoods?nameNeighborhood=&idCity=1&idDepartment=2`
+    );
+    
+    req.flush(mockNeighborhoods);
+  });
+
+  it('should handle error response', () => {
+    service.getNeighborhoods('test', 1, 2).subscribe({
+      next: () => fail('should have failed with 404 error'),
+      error: (error) => {
+        expect(error.status).toBe(404);
+      }
+    });
+
+    const req = httpMock.expectOne(req => req.url === `${mockApiUrl}get-neighborhoods`);
+    req.flush('Not Found', { 
+      status: 404, 
+      statusText: 'Not Found' 
+    });
+  });
+
+  it('should return empty array when no neighborhoods found', () => {
+    service.getNeighborhoods('test', 1, 2).subscribe(response => {
+      expect(response).toEqual([]);
+    });
+
+    const req = httpMock.expectOne(req => req.url === `${mockApiUrl}get-neighborhoods`);
+    req.flush([]);
+  });
+});
 });

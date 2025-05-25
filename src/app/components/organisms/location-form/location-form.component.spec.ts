@@ -50,7 +50,6 @@ describe('LocationFormComponent', () => {
     // Obtener instancias de los servicios mockeados
     locationService = TestBed.inject(LocationService) as jest.Mocked<LocationService>;
     notificationService = TestBed.inject(NotificationService) as jest.Mocked<NotificationService>;
-    translatorService = TestBed.inject(TranslatorService) as jest.Mocked<TranslatorService>;
 
     // Configurar mocks por defecto
     locationService.getDepartments.mockReturnValue(of([{id: 1, name: 'Test Department', description: ''}]));
@@ -238,7 +237,7 @@ describe('LocationFormComponent', () => {
       const button = fixture.debugElement.query(By.css('button'));
       expect(button.nativeElement.disabled).toBeTruthy();
     });
-
+ 
     it('should enable submit button when form is valid', () => {
       component.departmentNameControl.setValue('Test Department');
       component.cityNameControl.setValue('Test City');

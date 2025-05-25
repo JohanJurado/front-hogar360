@@ -8,6 +8,7 @@ import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { MAX_LENGTH_FILEDS } from '@app/shared/constants/max-length-fileds';
 import { InputComponent } from '@app/components/atoms/input/input.component';
+import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
 
 // Mocks para servicios
 class MockUserService {
@@ -198,6 +199,64 @@ describe('UserFormComponent', () => {
     
     const errorElement = fixture.debugElement.query(By.css('.form__row:first-child small'));
     expect(errorElement).toBeTruthy();
-    //expect(translatorService.translate).toHaveBeenCalled();
   });
+
+
+ describe('Error Handling', () => {
+  // Función helper para rellenar el formulario con datos válidos
+  const fillValidForm = () => {
+    component.nameControl.setValue('John');
+    component.lastNameControl.setValue('Doe');
+    component.documentControl.setValue('123456789');
+    component.phoneNumberControl.setValue('+573001234567');
+    component.birthdateControl.setValue('1990-01-01');
+    component.emailControl.setValue('john@example.com');
+    component.passwordControl.setValue('password123');
+    component.confirmPasswordControl.setValue('password123');
+    fixture.detectChanges();
+  };
+
+  it('should show default error message when error structure is incomplete', fakeAsync(() => {
+    // Simulamos un error sin estructura completa
+    userService.createSeller.mockReturnValue(throwError(() => ({})));
+    
+    // Rellenamos el formulario
+    fillValidForm();
+    
+    // Obtenemos el botón de submit
+    const submitButton = fixture.debugElement.query(By.css('button[type="submit"]'));
+    
+    // Disparamos el submit
+    submitButton.nativeElement.click();
+    tick();
+    
+    // Verificaciones
+    expect(notificationService.error).toHaveBeenCalledWith(FORM_MESSAGES.ERROR);
+    expect(translatorService.translate).toHaveBeenCalledWith(FORM_MESSAGES.ERROR);
+  }));
+
+  it('should show default error message when error is null', fakeAsync(() => {
+    // Simulamos un error null
+    userService.createSeller.mockReturnValue(throwError(() => null));
+    
+    fillValidForm();
+    const submitButton = fixture.debugElement.query(By.css('button[type="submit"]'));
+    submitButton.nativeElement.click();
+    tick();
+    
+    expect(notificationService.error).toHaveBeenCalledWith(FORM_MESSAGES.ERROR);
+  }));
+
+  it('should show default error message when error is undefined', fakeAsync(() => {
+    // Simulamos un error undefined
+    userService.createSeller.mockReturnValue(throwError(() => undefined));
+    
+    fillValidForm();
+    const submitButton = fixture.debugElement.query(By.css('button[type="submit"]'));
+    submitButton.nativeElement.click();
+    tick();
+    
+    expect(notificationService.error).toHaveBeenCalledWith(FORM_MESSAGES.ERROR);
+  }));
+});
 });

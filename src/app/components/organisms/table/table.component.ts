@@ -16,7 +16,7 @@ export class TableComponent<T = any> {
   @Output() order = new EventEmitter<{ orderBy: string, orderAsc: boolean }>();
 
   trackByFn(index: number, item: any): any {
-    return item.id || index;
+    return item.id ?? index;
   }
 
   getProperty(item: any, key: string): any {
@@ -52,14 +52,13 @@ export class TableComponent<T = any> {
 
   newOrder(key: string){
 
-    for (let index = 0; index < this.columns.length; index++) {
-      const element = this.columns[index];
+    for (let element of this.columns) {
       
-      if (element.key != key && element.isActive == true){
+      if (element.key != key && element.isActive === true){
         element.isActive = !element.isActive;
       
       } else if (element.key == key){
-        if (element.isActive == false){
+        if (element.isActive === false){
           element.isActive = !element.isActive; 
         }
         element.orderAsc = element.orderAsc != null ? !element.orderAsc : true;

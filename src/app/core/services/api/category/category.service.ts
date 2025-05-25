@@ -10,10 +10,10 @@ import { Pagination } from '@app/core/models/pagination';
   providedIn: 'root'
 })
 export class CategoryService {
-  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDc4NjMxNzgsImV4cCI6MTc0Nzg3MDM3OCwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.XiW9V5e4RfLQAYrB4UFz5My3svZRvT73ND_iJ38CMjY';
-  private apiHomeCategory = `${environment.apiHomeUrl}/category/`;
+  private readonly token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDc4NjMxNzgsImV4cCI6MTc0Nzg3MDM3OCwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.XiW9V5e4RfLQAYrB4UFz5My3svZRvT73ND_iJ38CMjY';
+  private readonly apiHomeCategory = `${environment.apiHomeUrl}/category/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   createCategory(categoryData: Category): Observable<SaveDtoResponse> {
     const headers = new HttpHeaders({

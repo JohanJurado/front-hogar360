@@ -1,0 +1,95 @@
+<form class="form" [formGroup]="houseForm" (ngSubmit)="submit()">
+    <div class="form__row">
+        <app-select
+            class="input"
+            label="Departamento"
+            placeholder="Seleccione el departamento..."
+            [service]="getDepartments"
+            [disabled]="false"
+            [formControl]="nameDepartmentControl"
+            (getId)="setDepartmentId($event)">
+        </app-select>
+
+        <app-select
+            class="input"
+            label="Ciudad"
+            placeholder="Seleccione la ciudad..."
+            [service]="getCities"
+            [formControl]="nameCityControl"
+            [idObject]="idDepartment"
+            [disabled]="departmentExist()"
+            (getId)="setCityId($event)">
+        </app-select>
+
+        <app-select
+            class="input"
+            label="Barrio/Sector"
+            placeholder="Seleccione el barrio/sector..."
+            displayField="neighborhood"
+            [service]="getNeighborhoods"
+            [formControl]="neighborhoodControl"
+            [idObject]="idCity"
+            [disabled]="cityExist()">
+        </app-select>
+    </div>
+
+    <app-input 
+        label="Direccion"
+        placeholder="Ingresa la direccion de la casa"
+        [formControl]="nameControl"
+    ></app-input>
+
+    <app-input 
+        label="Descripcion"
+        placeholder="Ingresa una descripcion para la casa"
+        type="textarea"
+        [formControl]="descriptionControl"
+    ></app-input>
+
+    <div class="form__row">
+        <app-input 
+            class="input"
+            label="Numero de habitaciones"
+            placeholder="Cantidad de cuartos de la casa"
+            type="number"
+            [formControl]="bedroomCountControl"
+        ></app-input>
+
+        <app-input 
+            class="input"
+            label="Numero de baños"
+            placeholder="Cantidad de baños de la casa"
+            type="number"
+            [formControl]="bathroomCountControl"
+        ></app-input>
+
+        <app-input 
+            class="input"
+            label="Precio"
+            placeholder="Valor de la casa"
+            type="number"
+            [formControl]="priceControl"
+        ></app-input>
+    </div>
+    <div class="form__row">
+        <app-input 
+            class="input"
+            label="Fecha de publicación"
+            type="date"
+            [formControl]="activePublicationDateControl"
+        ></app-input>
+
+        <app-select
+            class="input"
+            label="Nombre de la Categoria"
+            placeholder="Seleccione la categoria a la que pertenece la casa..."
+            [disabled]="false"
+            [service]="getCategories"
+            [formControl]="categoryNameControl">
+        </app-select>
+    </div>
+
+    <div class="form__actions">
+        <button type="submit" class="btn btn--primary" [disabled]="houseForm.invalid">Crear</button>
+    </div>
+</form>

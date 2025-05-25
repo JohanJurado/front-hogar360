@@ -8,6 +8,7 @@ import { LocationPageComponent } from './location-page/location-page.component';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserPageComponent } from './user-page/user-page.component';
+import { HousePageComponent } from './house-page/house-page.component';
 
 
 
@@ -16,7 +17,8 @@ import { UserPageComponent } from './user-page/user-page.component';
     CategoryPageComponent,
     LocationPageComponent,
     DashboardPageComponent,
-    UserPageComponent
+    UserPageComponent,
+    HousePageComponent
   ],
   imports: [
     CommonModule,

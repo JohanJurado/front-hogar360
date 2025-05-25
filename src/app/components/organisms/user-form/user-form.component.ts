@@ -20,10 +20,10 @@ export class UserFormComponent {
   maxLengthPhoneNumber = MAX_LENGTH_FILEDS.USER.PHONE_NUMBER;
 
   constructor(
-    private fb: FormBuilder, 
-    private userService: UserService,
-    private notificationService: NotificationService,
-    private translatorService: TranslatorService
+    private readonly fb: FormBuilder, 
+    private readonly userService: UserService,
+    private readonly notificationService: NotificationService,
+    private readonly translatorService: TranslatorService
   ){ 
     this.userForm = this.fb.group ({
       name: ['', [Validators.required]],
@@ -114,7 +114,7 @@ export class UserFormComponent {
         this.userForm.reset();
       },
       error: (error) => {
-        const message = error?.error?.message || FORM_MESSAGES.ERROR;
+        const message = error?.error?.message ?? FORM_MESSAGES.ERROR;
         this.notificationService.error(this.translatorService.translate(message));
       }
     });

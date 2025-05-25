@@ -24,7 +24,7 @@ export class SelectComponent  implements ControlValueAccessor{
   @Input() required: boolean = true;
   @Input() disabled: boolean = this.idObject == 0;
   
-  displayField: string = 'name';
+  @Input() displayField: string = 'name';
 
   @Output() getId = new EventEmitter<number>();
   filteredOptions: any[] = [];
@@ -94,8 +94,8 @@ export class SelectComponent  implements ControlValueAccessor{
 
   selectOption(option: any): void {
     this._selectedOption = option;
-    this._value = option.name;
-    this.onChange(option.name);
+    this._value = option[this.displayField];
+    this.onChange(option[this.displayField]);
     this.onTouched();
     this.getId.emit(option.id);
     this.isOpen = false;

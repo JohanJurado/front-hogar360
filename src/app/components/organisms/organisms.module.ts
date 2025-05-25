@@ -10,6 +10,7 @@ import { FooterComponent } from './footer/footer.component';
 import { TableComponent } from './table/table.component';
 import { LocationFormComponent } from './location-form/location-form.component';
 import { UserFormComponent } from './user-form/user-form.component';
+import { HouseFormComponent } from './house-form/house-form.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { UserFormComponent } from './user-form/user-form.component';
     TableComponent,
     LocationFormComponent,
     UserFormComponent,
+    HouseFormComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +39,7 @@ import { UserFormComponent } from './user-form/user-form.component';
     TableComponent,
     LocationFormComponent,
     UserFormComponent,
+    HouseFormComponent,
   ]
 })
 export class OrganismsModule { }

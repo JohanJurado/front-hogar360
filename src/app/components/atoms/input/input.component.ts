@@ -49,7 +49,6 @@ export class InputComponent implements ControlValueAccessor {
     this._value = value;
     this.onChange(value);
     this.onTouched();
-    console.log(value)
   }
 
   onChange: any = () => {};
@@ -72,6 +71,7 @@ export class InputComponent implements ControlValueAccessor {
     if (this.errors['invalidPhoneNumber']) return FORM_MESSAGES.PHONE_NUMBER;
     if (this.errors['underAge']) return FORM_MESSAGES.BIRTHDATE;
     if (this.errors['invalidPassword']) return FORM_MESSAGES.PASSWORD;
+    if (this.errors['invalidActivePublicationDate']) return FORM_MESSAGES.ACTIVE_PUBLICATION_DATE;
     return FORM_MESSAGES.INVALID;
   }
 }

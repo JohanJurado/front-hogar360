@@ -13,10 +13,10 @@ import { Observable } from 'rxjs';
 })
 export class LocationService {
 
-  private token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDc4NjMxNzgsImV4cCI6MTc0Nzg3MDM3OCwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.XiW9V5e4RfLQAYrB4UFz5My3svZRvT73ND_iJ38CMjY';
-  private apiHomeLocation = `${environment.apiHomeUrl}/location/`;
+  private readonly token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDgxMzMzMzAsImV4cCI6MTc0ODE0MDUzMCwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.NOM8ZeOXx8OjgIFdmIWpYLdiJucn0PCKNyJivmBftks';
+  private readonly apiHomeLocation = `${environment.apiHomeUrl}/location/`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   createLocation(locationData: Location): Observable<SaveDtoResponse> {
     locationData.descriptionDepartment = 'none';
@@ -46,6 +46,16 @@ export class LocationService {
     );
       
     return this.http.get<Pagination<Location>>(this.apiHomeLocation, { params });
+  }
+
+  getNeighborhoods(nameNeighborhood: string, idCity: number, idDepartment: number): Observable<Location[]>{
+    const params = new HttpParams()
+      .set('nameNeighborhood', nameNeighborhood)
+      .set('idCity', idCity)
+      .set('idDepartment', idDepartment
+    );
+
+    return this.http.get<Location[]>(this.apiHomeLocation + 'get-neighborhoods', { params })
   }
 
   getCities(nameCity: string, idDepartment: number): Observable<City[]>{

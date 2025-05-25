@@ -239,5 +239,15 @@ describe('InputComponent', () => {
     
     expect(component.getErrorMessage()).toBe(FORM_MESSAGES.PASSWORD);
   });
+
+  it('should return active publication date error message', () => {
+    const control = new FormControl('', { 
+      validators: [() => ({ invalidActivePublicationDate: true })] 
+    });
+    control.markAsTouched();
+    component.formControl = control;
+    
+    expect(component.getErrorMessage()).toBe(FORM_MESSAGES.ACTIVE_PUBLICATION_DATE);
+  });
 });
 });

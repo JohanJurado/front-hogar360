@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./top-navbar.component.scss']
 })
 export class TopNavbarComponent {
-  @Input() text: string = 'Admin';
+  @Input() profile!: string;
 
   constructor(public router: Router) {}
 }

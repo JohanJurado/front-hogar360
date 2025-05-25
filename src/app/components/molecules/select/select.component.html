@@ -22,7 +22,7 @@
       class="option-item"
       [class.selected]="option.id === _selectedOption?.id"
     >
-      {{ option[displayField] }}
+    {{ option[displayField] }}
     </div>
     <div *ngIf="filteredOptions.length == 0" class="no-results">
       No se encontraron resultados

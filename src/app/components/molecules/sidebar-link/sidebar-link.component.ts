@@ -11,7 +11,7 @@ export class SidebarLinkComponent {
   @Input() icon: string = '';       
   @Input() label: string = '';      
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   isActive(): boolean {
     return this.router.isActive(this.path, {
