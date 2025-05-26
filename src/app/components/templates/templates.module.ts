@@ -6,20 +6,22 @@ import { MoleculesModule } from '../molecules/molecules.module';
 import { OrganismsModule } from '../organisms/organisms.module';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { SellerLayoutComponent } from './seller-layout/seller-layout.component';
+import { HomeComponent } from './home/home.component';
 
 
 
 @NgModule({
   declarations: [
     AdminLayoutComponent,
-    SellerLayoutComponent
+    SellerLayoutComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,
     AppRoutingModule,
     AtomsModule,
     MoleculesModule,
-    OrganismsModule
+    OrganismsModule,
   ]
 })
 export class TemplatesModule { }

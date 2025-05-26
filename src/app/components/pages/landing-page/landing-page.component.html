@@ -1,0 +1,212 @@
+<section class="content">
+    <h1 class="content__title">Encuentra tu casa perfecta</h1>
+    <form class="content__filter" [formGroup]="filterForm" (ngSubmit)="newFilterValues()">
+        <button type="button" class="btn btn--primary btn-filter" (click)="changeViewFilterOptions()">
+            <img src="./assets/img/filter-icon.svg" alt="Filter-icon">
+            Mas Filtros
+        </button>
+        <app-select
+            class="input-location"
+            placeholder="Filtro por departamento..."
+            [service]="getDepartments"
+            [disabled]="false"
+            [required]="false"
+            [formControl]="nameDepartmentControl"
+            (getId)="setDepartmentId($event)">
+        </app-select>
+        <button type="submit" class="btn btn--primary">Buscar</button>
+        <div *ngIf="modalFilterOptions" class="filter-options">
+            <img class="close-icon" src="./assets/img/filter-icons/close-icon.svg" alt="close-icon" (click)="changeViewFilterOptions()">
+            <div class="order">
+                <div class="column">
+                    <p>Ordenar por:</p>
+                    <div class="orderBy">
+                        <label>
+                            <input type="radio" name="orderBy" value="city" [formControl]="orderByControl">
+                            <span class="radio-button__label">Ciudad</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="orderBy" value="department" [formControl]="orderByControl">
+                            <span class="radio-button__label">Departamento</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="orderBy" value="bathroomCount" [formControl]="orderByControl">
+                            <span class="radio-button__label">Baños</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="orderBy" value="bedroomCount" [formControl]="orderByControl">
+                            <span class="radio-button__label">Habitaciones</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="orderBy" value="category" [formControl]="orderByControl">
+                            <span class="radio-button__label">Categoria</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="orderBy" value="price" [formControl]="orderByControl">
+                            <span class="radio-button__label">Precio</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="column">
+                    <p>Tipo:</p>
+                    <div class="orderAsc">
+                        <label>
+                            <input type="radio" name="orderAsc" value="true" [formControl]="orderAscControl">
+                            <span class="radio-button__label">Asc</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="orderAsc" value="" [formControl]="orderAscControl">
+                            <span class="radio-button__label">Desc</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-inputs">
+                <p>Filtrar por:</p>
+                <div class="row">
+                    <app-select
+                        class="input"
+                        label="Departamento"
+                        placeholder="Filtro por departamento..."
+                        [service]="getDepartments"
+                        [disabled]="false"
+                        [required]="false"
+                        [formControl]="nameDepartmentControl"
+                        (getId)="setDepartmentId($event)">
+                    </app-select>
+
+                    <app-select
+                        class="input"
+                        label="Ciudad"
+                        placeholder="Filtro por ciudad..."
+                        [service]="getCities"
+                        [required]="false"
+                        [formControl]="nameCityControl"
+                        [idObject]="idDepartment"
+                        [disabled]="departmentExist()"
+                        (getId)="setCityId($event)">
+                    </app-select>
+
+                    <app-select
+                        class="input"
+                        label="Barrio/Sector"
+                        placeholder="Filtro por barrio/sector..."
+                        displayField="neighborhood"
+                        [service]="getNeighborhoods"
+                        [required]="false"
+                        [formControl]="neighborhoodControl"
+                        [idObject]="idCity"
+                        [disabled]="cityExist()">
+                    </app-select>
+                </div>
+                <div class="row">
+                    <app-select
+                        class="input"
+                        label="Nombre de la Categoria"
+                        placeholder="Filtro por categoria..."
+                        [disabled]="false"
+                        [required]="false"
+                        [service]="getCategories"
+                        [formControl]="nameCategoryControl">
+                    </app-select>
+                    <app-input 
+                        class="input"
+                        placeholder="Filtro por precio maximo"
+                        label="Precio máximo"
+                        type="number"
+                        [showRequiredSymbol]="false"
+                        [formControl]="maxPriceControl"
+                    ></app-input>
+                    <app-input 
+                        class="input"
+                        placeholder="Filtro por precio minimo"
+                        label="Precio mínimo"
+                        type="number"
+                        [showRequiredSymbol]="false"
+                        [formControl]="maxPriceControl"
+                    ></app-input>
+                </div>
+                <div class="row">
+                    <app-input 
+                        class="input"
+                        placeholder="Filtro por número de habitaciones"
+                        label="Numero de habitaciones"
+                        type="number"
+                        [showRequiredSymbol]="false"
+                        [formControl]="bedroomCountControl"
+                    ></app-input>
+                    <app-input 
+                        class="input"
+                        placeholder="Filtro por número de baños"
+                        label="Numero de baños"
+                        type="number"
+                        [showRequiredSymbol]="false"
+                        [formControl]="bathroomCountControl"
+                    ></app-input>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="button" class="btn btn--third" (click)="resetFilterForm()">Limpiar Filtros</button>
+            </div>
+        </div>
+    </form>
+    <div class="content__list-houses">
+        <div class="house-card" *ngFor="let house of houses$ | async; let i = index">
+            <img class ="house-img" [src]="getHouseImage(i)" alt="house-img">
+            <small class="type">Venta</small>
+            <div class="card-info">
+                <p class="card-info__name">{{ house.name }}</p>
+                <small class="card-info__location">{{ house.neighborhood }} BARRIO {{ house.neighborhood }} {{ house.cityName }} - {{ house.departmentName }}</small>
+                <div class="card-info__price">
+                    <p> {{ house.price | currency: 'USD' }}</p>
+                    <img src="./assets/img/card-house-icons/heart-icon.svg" alt="">
+                </div>
+                <div class="card-info__details">
+                    <div>
+                        <img src="./assets/img/card-house-icons/bedroom-icon.svg" alt="">
+                        <p>{{ house.bedroomCount }}</p>
+                    </div>
+                    <div>
+                        <img src="./assets/img/card-house-icons/bathroom-icon.svg" alt="">
+                        <p>{{ house.bathroomCount }}</p>
+                    </div>
+                    <div>
+                        <img src="./assets/img/card-house-icons/house-size-icon.svg" alt="">
+                        <p>sq ft</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="totalItems == 0" class="no-results">
+            No se encontraron resultados
+        </div>
+    </div>
+    <div *ngIf="totalItems != 0" class="pagination">
+        <span class="pagination-info">
+        Mostrando {{ startItem + 1 }}-{{ endItem }} de {{ totalItems }}
+        </span>
+        <div class="nav-pagination">
+        <button 
+            class="pagination-button arrow rotate"
+            [disabled]="page === 0"
+            (click)="onPageChange(page - 1)">
+            <img src="./assets/img/arrow-pagination-icon.svg" alt="">
+        </button>
+
+        <button 
+            *ngFor="let pageFor of getPageRange()"
+            class="pagination-button"
+            [class.active]="pageFor === page"
+            (click)="onPageChange(pageFor)">
+            {{ pageFor + 1 }}
+        </button>
+
+        <button 
+            class="pagination-button arrow"
+            [disabled]="page >= totalPages - 1"
+            (click)="onPageChange(page + 1)">
+            <img src="./assets/img/arrow-pagination-icon.svg" alt="">
+        </button>
+        </div>
+    </div>
+</section>

@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { HouseService } from './house.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { SaveDtoResponse } from '@app/core/models/dtos/saveDtoResponse';
 import { House } from '@app/core/models/house';
+import { SaveDtoResponse } from '@app/core/models/dtos/saveDtoResponse';
+import { Pagination } from '@app/core/models/pagination';
+import { HomeFilterFields } from '@app/core/models/dtos/homeFilterFields';
 
 describe('HouseService', () => {
   let service: HouseService;
@@ -83,23 +85,107 @@ describe('HouseService', () => {
         statusText: 'Internal Server Error' 
       });
     });
+  });
 
-    it('should use correct API endpoint', () => {
-      service.publishHouse(mockHouseData).subscribe();
+  describe('getHouses()', () => {
+    const mockHouses: House[] = [
+      {
+        id: 1,
+        name: 'House 1',
+        description: 'Description 1',
+        bedroomCount: 2,
+        bathroomCount: 1,
+        price: 50000,
+        activePublicationDate: new Date(),
+        categoryName: 'Category 1',
+        neighborhood: 'Neighborhood 1',
+        cityName: 'City 1',
+        departmentName: 'Department 1'
+      }
+    ];
+
+    const mockPaginationResponse: Pagination<House> = {
+      content: mockHouses,
+      pageNumber: 0,
+      pageSize: 10,
+      totalElements: 1,
+      totalPages: 1,
+      last: true
+    };
+
+    it('should send GET request with default parameters', () => {
+      service.getHouses().subscribe(response => {
+        expect(response).toEqual(mockPaginationResponse);
+      });
+
+      const req = httpMock.expectOne(
+        `${mockApiUrl}?neighborhood=&nameCity=&nameDepartment=&nameCategory=&bedroomCount=&bathroomCount=&minPrice=&maxPrice=&page=0&size=10&orderBy=city&orderAsc=true`
+      );
+      expect(req.request.method).toBe('GET');
+      expect(req.request.params.toString()).toContain('orderBy=city');
       
-      const req = httpMock.expectOne(mockApiUrl);
-      expect(req.request.url).toBe(mockApiUrl);
-      
-      req.flush(mockSuccessResponse);
+      req.flush(mockPaginationResponse);
     });
 
-    it('should send request with correct content type', () => {
-      service.publishHouse(mockHouseData).subscribe();
+    it('should send GET request with custom filters and pagination', () => {
+      const filters: HomeFilterFields = {
+        neighborhood: 'Test',
+        nameCity: 'City',
+        minPrice: 100000,
+        maxPrice: 200000
+      };
+
+      service.getHouses(filters, 2, 5, 'price', false).subscribe();
+
+      const req = httpMock.expectOne(
+        req => req.url === mockApiUrl &&
+          req.params.get('neighborhood') === 'Test' &&
+          req.params.get('nameCity') === 'City' &&
+          req.params.get('minPrice') === '100000' &&
+          req.params.get('maxPrice') === '200000' &&
+          req.params.get('page') === '2' &&
+          req.params.get('size') === '5' &&
+          req.params.get('orderBy') === 'price' &&
+          req.params.get('orderAsc') === 'false'
+      );
       
-      const req = httpMock.expectOne(mockApiUrl);
-      expect(req.request.headers.get('Content-Type')).toBeNull(); // Angular añade automáticamente 'application/json'
+      expect(req.request.method).toBe('GET');
+      req.flush(mockPaginationResponse);
+    });
+
+    it('should handle empty response', () => {
+      const emptyResponse: Pagination<House> = {
+        content: [],
+        pageNumber: 0,
+        pageSize: 10,
+        totalElements: 0,
+        totalPages: 0,
+        last: true
+      };
+
+      service.getHouses().subscribe(response => {
+        expect(response).toEqual(emptyResponse);
+      });
+
+      const req = httpMock.expectOne(req => req.url === mockApiUrl);
+      req.flush(emptyResponse);
+    });
+
+    it('should handle null filter values', () => {
+      const filters: HomeFilterFields = {
+        neighborhood: null as any,
+        nameCity: undefined as any
+      };
+
+      service.getHouses(filters).subscribe();
+
+      const req = httpMock.expectOne(
+        `${mockApiUrl}?neighborhood=&nameCity=&nameDepartment=&nameCategory=&bedroomCount=&bathroomCount=&minPrice=&maxPrice=&page=0&size=10&orderBy=city&orderAsc=true`
+      );
       
-      req.flush(mockSuccessResponse);
+      expect(req.request.params.get('neighborhood')).toBe('');
+      expect(req.request.params.get('nameCity')).toBe('');
+      req.flush(mockPaginationResponse);
     });
   });
 });

@@ -33,6 +33,18 @@
         }
     }
 
+    &--third {
+        background-color: $whiteBackground;
+        color: $primaryColor;
+        border-color: $primaryColor;
+
+        &:hover {
+            border: 1px solid $primaryColor;
+            background-color: $primaryColor;
+            color: $whiteText;
+        }
+    }
+
 
     &:disabled {
         background-color: $primaryBackground;

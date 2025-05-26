@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 })
 export class TopNavbarComponent {
   @Input() profile!: string;
+  @Input() layout: boolean = true;
 
   constructor(public router: Router) {}
 }

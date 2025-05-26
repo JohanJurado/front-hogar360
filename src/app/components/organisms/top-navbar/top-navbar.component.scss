@@ -7,7 +7,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 14px 18px;
+    padding: 14px 3.5rem;
     box-shadow: 0 0px 12px $shadowColor;
 
     &__logo {
@@ -24,5 +24,32 @@
         align-items: center;
         font-size: 16px;
         color: $thirdText;
+    }
+
+    &__options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+
+        .nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            
+            li {
+                list-style-type: none;
+                a {
+                    text-decoration: none;
+                    color: $thirdText;
+                }
+            }
+        }
+
+        button {
+            margin-top: 0px;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
     }
 }
