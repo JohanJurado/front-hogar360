@@ -7,9 +7,18 @@ import { DashboardPageComponent } from './components/pages/dashboard-page/dashbo
 import { UserPageComponent } from './components/pages/user-page/user-page.component';
 import { SellerLayoutComponent } from './components/templates/seller-layout/seller-layout.component';
 import { HousePageComponent } from './components/pages/house-page/house-page.component';
+import { HomeComponent } from './components/templates/home/home.component';
+import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'admin', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent,
+    children: [
+      { path: '', redirectTo: 'landing-page', pathMatch: 'full' },
+      { path: 'landing-page', component: LandingPageComponent },
+      { path: 'categories', component: CategoryPageComponent },
+    ]
+  },
   { path: 'admin', component: AdminLayoutComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },

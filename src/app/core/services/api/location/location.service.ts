@@ -5,6 +5,7 @@ import { Department } from '@app/core/models/department';
 import { SaveDtoResponse } from '@app/core/models/dtos/saveDtoResponse';
 import { Location } from '@app/core/models/location';
 import { Pagination } from '@app/core/models/pagination';
+import { PAGINATION_CONSTANTS } from '@app/shared/constants/pagination';
 import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 
@@ -30,10 +31,10 @@ export class LocationService {
   }
 
   getLocations(
-    page: number = 0, 
-    size: number = 10, 
-    orderBy: string = 'city', 
-    orderAsc: boolean = true, 
+    page: number = PAGINATION_CONSTANTS.PAGE, 
+    size: number = PAGINATION_CONSTANTS.SIZE, 
+    orderBy: string = PAGINATION_CONSTANTS.ORDER_BY, 
+    orderAsc: boolean = PAGINATION_CONSTANTS.ORDER_ASC, 
     nameLocation: string = ''
   ): Observable<Pagination<Location>> {
 

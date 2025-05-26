@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { House } from '@app/core/models/house';
 import { CategoryService } from '@app/core/services/api/category/category.service';
@@ -22,13 +22,15 @@ export class HouseFormComponent {
   idDepartment: number = 0;
   idCity: number = 0;
 
+    private readonly fb = inject(FormBuilder) ;
+    private readonly houseService = inject(HouseService);
+    private readonly locationService = inject(LocationService);
+    private readonly categoryService = inject(CategoryService);
+    private readonly notificationService = inject(NotificationService);
+    private readonly translatorService = inject(TranslatorService);
+
   constructor(
-    private readonly fb: FormBuilder, 
-    private readonly houseService: HouseService,
-    private readonly locationService: LocationService,
-    private readonly categoryService: CategoryService,
-    private readonly notificationService: NotificationService,
-    private readonly translatorService: TranslatorService
+
   ){ 
     this.houseForm = this.fb.group ({
       name: ['', [Validators.required]],

@@ -31,7 +31,7 @@ import { SharedModule } from './shared/shared.module';
     MoleculesModule,
     OrganismsModule,
     PagesModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

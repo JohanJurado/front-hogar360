@@ -2,8 +2,17 @@
     <div class="navbar__logo" (click)="router.navigate(['/'])">
         <img src="/assets/img/top-navbar-icons/img-logo.png" alt="Logo">
     </div>
-    <div class="navbar__user">
+    <div *ngIf="layout" class="navbar__user">
         {{ 'Bienvenido, ' + profile }}
         <img src="/assets/img/top-navbar-icons/img-admin.png" alt="Logo">
+    </div>
+
+    <div *ngIf="!layout" class="navbar__options">
+        <ul class="nav">
+            <li><a href="/">Compra</a></li>
+            <li><a href="/">Renta</a></li>
+            <li><a href="/">Vende</a></li>
+        </ul>
+        <button class="btn btn--primary" (click)="router.navigate(['/'])">Ingresar</button>
     </div>
 </header>
