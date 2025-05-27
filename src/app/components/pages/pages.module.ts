@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserPageComponent } from './user-page/user-page.component';
 import { HousePageComponent } from './house-page/house-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LoginPageComponent } from './login-page/login-page.component';
 
 
 
@@ -20,7 +21,8 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
     DashboardPageComponent,
     UserPageComponent,
     HousePageComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    LoginPageComponent
   ],
   imports: [
     CommonModule,

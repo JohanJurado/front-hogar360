@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { City } from '@app/core/models/city';
 import { Department } from '@app/core/models/department';
@@ -14,7 +14,6 @@ import { Observable } from 'rxjs';
 })
 export class LocationService {
 
-  private readonly token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJFTUFJTEFETUlOQEVNQUlMLkNPTSIsImlzcyI6IkJhY2tlbmRBcGlVc2VySG9nYXIzNjAiLCJpYXQiOjE3NDgxMzMzMzAsImV4cCI6MTc0ODE0MDUzMCwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOIn0.NOM8ZeOXx8OjgIFdmIWpYLdiJucn0PCKNyJivmBftks';
   private readonly apiHomeLocation = `${environment.apiHomeUrl}/location/`;
 
   constructor(private readonly http: HttpClient) { }
@@ -23,11 +22,7 @@ export class LocationService {
     locationData.descriptionDepartment = 'none';
     locationData.descriptionCity = 'none';
 
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
-    });
-
-    return this.http.post<SaveDtoResponse>(this.apiHomeLocation, locationData, { headers });
+    return this.http.post<SaveDtoResponse>(this.apiHomeLocation, locationData);
   }
 
   getLocations(
