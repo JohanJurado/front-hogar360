@@ -19,8 +19,8 @@ export class TranslatorService {
     // Successfully Messages
     'Category saved successfully.': 'Categoría guardada exitosamente.',
     'Location saved successfully.': 'Ubicacion guardada exitosamente.',
-    'Seller saved successfully': 'Vendedor guardado exitosamente.',
-    'House saved successfully': 'Casa guardada exitosamente.',
+    'Seller saved successfully.': 'Vendedor guardado exitosamente.',
+    'House saved successfully.': 'Casa guardada exitosamente.',
   }
 
   translate(key: string): string {
