@@ -4,7 +4,10 @@
     </div>
     <div *ngIf="layout" class="navbar__user">
         {{ 'Bienvenido, ' + profile }}
-        <img src="/assets/img/top-navbar-icons/img-admin.png" alt="Logo">
+        <img src="/assets/img/top-navbar-icons/img-admin.png" alt="Logo" (click)="changeModalProfileOptions()">
+        <div class="options-profile" *ngIf="modalOptionsProfile">
+            <p class="option" (click)="logout()">Cerrar Sesión</p>
+        </div>
     </div>
 
     <div *ngIf="!layout" class="navbar__options">

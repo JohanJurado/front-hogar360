@@ -20,10 +20,49 @@
 
     &__user {
         display: flex;
+        position: relative;
         gap: 10px;
         align-items: center;
         font-size: 16px;
         color: $thirdText;
+
+        img {
+            cursor: pointer;
+            border-radius: 100%;
+
+            &:hover {
+                box-shadow: 0px 0px 3px $primaryColor;
+            }
+        }
+
+        .options-profile {
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            width: 80%;
+            padding: 7px 7px;
+            top: 110%;
+            left: 30%;
+            border: 1px solid $thirdBorder;
+            border-radius: 8px;
+            background-color: $whiteBackground;
+            box-shadow: 0px 0px 1rem $shadowColor;
+
+            .option {
+                flex: 1;
+                padding: 7px 10px;
+                margin: 0px;
+                border-radius: 4px;
+                transition: .2s ease-in;
+                font-size: 14px;
+                text-align: center;
+
+                &:hover {
+                    background-color: $thirdColor;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 
     &__options {

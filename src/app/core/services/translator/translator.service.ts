@@ -12,6 +12,11 @@ export class TranslatorService {
     'The email of user already exist': 'El correo electrónico ya existe',
     'The document of user already exist': 'El documento ya existe',
 
+    // login exceptions
+    'User not found': 'Usuario no encontrado',
+    'Incorrect Password': 'La contraseña es incorrecta',
+    "You don't have permissions to perform this action": 'No tienes permisos para realizar esta acción',
+
     // Exceptions - not found
     'Location not found': 'Ubicacion no encontrada',
     'Category not found': 'Categoría no encontrada',
@@ -19,8 +24,9 @@ export class TranslatorService {
     // Successfully Messages
     'Category saved successfully.': 'Categoría guardada exitosamente.',
     'Location saved successfully.': 'Ubicacion guardada exitosamente.',
-    'Seller saved successfully.': 'Vendedor guardado exitosamente.',
+    'Seller saved successfully': 'Vendedor guardado exitosamente.',
     'House saved successfully.': 'Casa guardada exitosamente.',
+    'The user has successfully logged in': 'El usuario ha iniciado sesión con éxito',
   }
 
   translate(key: string): string {

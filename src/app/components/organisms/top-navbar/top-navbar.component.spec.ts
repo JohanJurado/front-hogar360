@@ -3,6 +3,8 @@ import { TopNavbarComponent } from './top-navbar.component';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { TokenService } from '@app/core/services/api/auth/token.service';
+import { NotificationService } from '@app/core/services/notification/notification.service';
 
 describe('TopNavbarComponent', () => {
   let component: TopNavbarComponent;
@@ -11,8 +13,12 @@ describe('TopNavbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule], // Necesario para pruebas de navegación
-      declarations: [TopNavbarComponent]
+      imports: [RouterTestingModule],
+      declarations: [TopNavbarComponent],
+      providers: [
+        { provide: TokenService, useValue: { removeToken: jest.fn() } },
+        { provide: NotificationService, useValue: { success: jest.fn() } }
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TopNavbarComponent);
@@ -62,4 +68,69 @@ describe('TopNavbarComponent', () => {
       expect(userImg.nativeElement.alt).toBe('Logo');
     });
   });
+
+  describe('Logout', () => {
+  it('should remove token, show success notification and navigate to home', () => {
+    const removeTokenSpy = jest.spyOn(component.tokenService, 'removeToken');
+    const notificationSpy = jest.spyOn(component.notificationService, 'success');
+    const navigateSpy = jest.spyOn(component.router, 'navigate');
+    
+    component.logout(); 
+    
+    expect(removeTokenSpy).toHaveBeenCalled();
+    expect(notificationSpy).toHaveBeenCalledWith('Sesión finalizada exitosamente');
+    expect(navigateSpy).toHaveBeenCalledWith(['']);
+    });
+  }); 
+
+  describe('Login Button', () => {
+  it('should navigate to login when button is clicked', () => {
+    component.layout = false;
+    fixture.detectChanges();
+    
+    const navigateSpy = jest.spyOn(component.router, 'navigate');
+    const loginButton = fixture.debugElement.query(By.css('.btn--primary'));
+    
+    loginButton.triggerEventHandler('click', null);
+    
+    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
+  });
+});
+
+describe('Profile Options Modal Display', () => {
+  it('should show profile options when user image is clicked', () => {
+    component.layout = true;
+    component.profile = 'Test User';
+    fixture.detectChanges();
+    
+    const userImage = fixture.debugElement.query(By.css('.navbar__user img'));
+    userImage.triggerEventHandler('click', null);
+    
+    fixture.detectChanges();
+    
+    const optionsProfile = fixture.debugElement.query(By.css('.options-profile'));
+    expect(optionsProfile).toBeTruthy();
+    expect(component.modalOptionsProfile).toBe(true);
+  });
+});
+
+describe('Layout Variations', () => {
+  it('should show user section when layout is true', () => {
+    component.layout = true;
+    component.profile = 'Test User';
+    fixture.detectChanges();
+    
+    const userSection = fixture.debugElement.query(By.css('.navbar__user'));
+    expect(userSection).toBeTruthy();
+    expect(userSection.nativeElement.textContent).toContain('Test User');
+  });
+
+  it('should show options section when layout is false', () => {
+    component.layout = false;
+    fixture.detectChanges();
+    
+    const optionsSection = fixture.debugElement.query(By.css('.navbar__options'));
+    expect(optionsSection).toBeTruthy();
+  });
+});
 });
