@@ -9,17 +9,20 @@ import { SellerLayoutComponent } from './components/templates/seller-layout/sell
 import { HousePageComponent } from './components/pages/house-page/house-page.component';
 import { HomeComponent } from './components/templates/home/home.component';
 import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
+import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+import { authGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent,
+  { path: '', component: HomeComponent,
     children: [
-      { path: '', redirectTo: 'landing-page', pathMatch: 'full' },
-      { path: 'landing-page', component: LandingPageComponent },
-      { path: 'categories', component: CategoryPageComponent },
+      { path: '', redirectTo: '', pathMatch: 'full' },
+      { path: '', component: LandingPageComponent },
+      { path: 'login', component: LoginPageComponent },
     ]
   },
   { path: 'admin', component: AdminLayoutComponent,
+    canActivate: [authGuard],
+    data: { roles: ['ADMIN'] },
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardPageComponent },
@@ -29,6 +32,8 @@ const routes: Routes = [
     ]
   },
   { path: 'seller', component: SellerLayoutComponent,
+    canActivate: [authGuard],
+    data: { roles: ['SELLER'] },
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardPageComponent },

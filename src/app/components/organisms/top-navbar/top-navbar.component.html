@@ -2,17 +2,27 @@
     <div class="navbar__logo" (click)="router.navigate(['/'])">
         <img src="/assets/img/top-navbar-icons/img-logo.png" alt="Logo">
     </div>
-    <div *ngIf="layout" class="navbar__user">
-        {{ 'Bienvenido, ' + profile }}
-        <img src="/assets/img/top-navbar-icons/img-admin.png" alt="Logo">
-    </div>
 
-    <div *ngIf="!layout" class="navbar__options">
-        <ul class="nav">
-            <li><a href="/">Compra</a></li>
-            <li><a href="/">Renta</a></li>
-            <li><a href="/">Vende</a></li>
-        </ul>
-        <button class="btn btn--primary" (click)="router.navigate(['/'])">Ingresar</button>
-    </div>
+    <section>
+        <div *ngIf="home_template" class="navbar__options">
+            <ul class="nav">
+                <li><a href="/">Compra</a></li>
+                <li><a href="/">Renta</a></li>
+                <li><a href="/">Vende</a></li>
+            </ul>
+            <button *ngIf="!activeSession" class="btn btn--primary" (click)="router.navigate(['/login'])">Ingresar</button>
+        </div>
+
+        <p *ngIf="!home_template">{{ 'Bienvenido, ' + profile }}</p>
+        
+        <div *ngIf="activeSession" class="navbar__user">
+            <button class="no-btn btn-img" (click)="changeModalProfileOptions()">
+                <img src="/assets/img/top-navbar-icons/img-admin.png" alt="Logo" >
+            </button>
+            <div class="options-profile" *ngIf="modalOptionsProfile">
+                <p *ngIf="home_template" class="option" (click)="redirectDashboard()">Volver al panel</p>
+                <p class="option log-out" (click)="logout()">Cerrar Sesión</p>
+            </div>
+        </div>
+    </section>
 </header>

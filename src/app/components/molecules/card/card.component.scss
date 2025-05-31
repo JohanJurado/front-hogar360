@@ -1,0 +1,84 @@
+@import '../../../../styles/variables.scss';
+
+.card {
+    position: relative;
+    border-radius: 12px;
+    border: 1px solid $thirdBorder;
+    box-shadow: 0rem 5px 0.7rem $shadowColor;
+    width: 370px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2.5rem;
+    transition: all 0.3s ease;
+
+    p {
+        margin: 0px;
+    }
+
+    &:hover {
+        box-shadow: 0rem 0px 0.3rem $shadowColor;
+        opacity: 0.8;
+        cursor: pointer;
+    }
+
+    &__img {
+        border-radius: 12px 12px 0px 0px;
+        width: 100%;
+        bottom: 0;
+    }
+
+    &__type {
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        padding: 5px 18px;
+        border-radius: 12px;
+        background-color: $primaryColor;
+        margin: 0;
+        color: $whiteText;
+    }
+
+    &__info {
+        background-color: $whiteBackground;
+        padding: 1rem 1.5rem;
+        border-radius: 0px 0px 12px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        &__name {
+            margin: 0px;
+            font-size: 20px;
+        }
+
+        &__location {
+            font-size: 13px;
+            color: $thirdText;
+            margin-top: -7px;
+        }
+
+        &__price {
+            font-size: 24px;
+            color: $primaryColor;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &__details {
+            display: flex;
+            gap: 0.7rem;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 0.5rem;
+
+            div {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 16px;
+                color: $thirdText;
+            }
+        }
+    }
+}

@@ -93,7 +93,7 @@ describe('CategoryPageComponent', () => {
 
   it('should display the correct titles', () => {
     const titles = fixture.debugElement.queryAll(By.css('.content__title'));
-    expect(titles[0].nativeElement.textContent).toContain('Crear Categoría');
+    expect(titles[0].nativeElement.textContent).toContain('Crear categoría');
     expect(titles[1].nativeElement.textContent).toContain('Categorias existentes');
   });
 });

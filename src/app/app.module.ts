@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { JwtModule } from '@auth0/angular-jwt';
 
 
 @NgModule({
@@ -32,6 +33,13 @@ import { SharedModule } from './shared/shared.module';
     OrganismsModule,
     PagesModule,
     SharedModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('authToken'),
+        allowedDomains: ['localhost:8081', 'localhost:8085'],
+        disallowedRoutes: ['http://localhost:8085/api/auth/login']
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

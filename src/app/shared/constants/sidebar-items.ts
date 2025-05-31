@@ -14,8 +14,8 @@ export const SIDEBAR_ITEMS: { [key: string]: SidebarItem[] } = {
     ],
     SELLER: [
         { path: '/seller/dashboard', icon: 'dashboard-icon', label: 'Dashboard' },
-        { path: '/seller/houses', icon: 'house-icon', label: 'Mis Propiedades' },
-        { path: '/seller/schedulers', icon: 'scheduler-icon', label: 'Visitas' },
+        { path: '/seller/houses', icon: 'house-icon', label: 'Publicar Propiedad' },
+        { path: '/seller/schedulers', icon: 'scheduler-icon', label: 'Agendar Visitas' },
         { path: '/seller/configuration', icon: 'configuration-icon', label: 'Configuracion' }
     ]
 }

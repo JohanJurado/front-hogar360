@@ -1,0 +1,26 @@
+<div class="card">
+  <img class="card__img" [src]="getHouseImage(index)" alt="house-img">
+  <small class="card__type">Venta</small>
+  <div class="card__info">
+    <p class="card__info__name">{{ house.name }}</p>
+    <small class="card__info__location">BARRIO {{ house.neighborhood }}, {{ house.cityName }} - {{ house.departmentName }}</small>
+    <div class="card__info__price">
+      <p> {{ house.price | currency: 'USD' }}</p>
+      <img src="./assets/img/card-house-icons/heart-icon.svg" alt="icon-heart-icon">
+    </div>
+    <div class="card__info__details">
+      <div>
+        <img src="./assets/img/card-house-icons/bedroom-icon.svg" alt="bedroom-icon">
+        <p>{{ house.bedroomCount }}</p>
+      </div>
+      <div>
+        <img src="./assets/img/card-house-icons/bathroom-icon.svg" alt="bathroom-icon">
+        <p>{{ house.bathroomCount }}</p>
+      </div>
+      <div>
+        <img src="./assets/img/card-house-icons/house-size-icon.svg" alt="size-house-icon">
+        <p>sq ft</p>
+      </div>
+    </div>
+  </div>
+</div>

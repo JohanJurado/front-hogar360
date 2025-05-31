@@ -47,19 +47,18 @@ export class HouseFormComponent {
   }
 
   activeDateValidator(control: AbstractControl) {
-    if (!control.value) {
-      return null;
-    }
-    const selectedDate = new Date(control.value);
-    const today = new Date();
-    const maxDate = new Date();
-    maxDate.setMonth(maxDate.getMonth() + 1);
+    if (!control.value) return null;
 
-    today.setHours(0, 0, 0, 0);
-    selectedDate.setHours(0, 0, 0, 0);
-    maxDate.setHours(0, 0, 0, 0);
-    
-    return selectedDate >= today && selectedDate <= maxDate ? null : { invalidActivePublicationDate: true };
+    const selectedDate = new Date(control.value + 'T00:00:00Z');
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    const maxDate = new Date();
+    maxDate.setUTCMonth(maxDate.getUTCMonth() + 1);
+    maxDate.setUTCHours(0, 0, 0, 0);
+
+    return selectedDate >= today && selectedDate <= maxDate 
+      ? null 
+      : { invalidActivePublicationDate: true };
   }
 
   setDepartmentId(idDepartment:  number): void{

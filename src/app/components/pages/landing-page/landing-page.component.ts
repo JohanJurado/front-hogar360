@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
-import { HomeFilterFields } from '@app/core/models/dtos/homeFilterFields';
-import { CategoryService } from '@app/core/services/api/category/category.service';
+import { FormBuilder } from '@angular/forms';
+import { map } from 'rxjs/operators';
 import { HouseService } from '@app/core/services/api/house/house.service';
 import { LocationService } from '@app/core/services/api/location/location.service';
+import { CategoryService } from '@app/core/services/api/category/category.service';
 import { PAGINATION_CONSTANTS } from '@app/shared/constants/pagination';
-import { map, Observable } from 'rxjs';
-
+import { HomeFilterFields } from '@app/core/models/dtos/homeFilterFields';
 
 @Component({
   selector: 'app-landing-page',
@@ -14,192 +13,97 @@ import { map, Observable } from 'rxjs';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent {
-
-  page: number = PAGINATION_CONSTANTS.PAGE;
-  size: number = PAGINATION_CONSTANTS.SIZE;
-  orderBy: string = PAGINATION_CONSTANTS.ORDER_BY;
-  orderAsc: boolean = PAGINATION_CONSTANTS.ORDER_ASC;
-  totalItems: number = PAGINATION_CONSTANTS.TOTAL_ITEMS;
-
-  modalFilterOptions = false;
-
-  changeViewFilterOptions(){
-    this.modalFilterOptions = !this.modalFilterOptions;
-  }
-
-  idDepartment: number = 0;
-  idCity: number = 0;
-
-  getHouseImage(index: number): string {
-    return `./assets/img/card-house-icons/house-card-img-${(index % 3) + 1}.png`;
-  }
-
+  private readonly houseService = inject(HouseService);
   private readonly locationService = inject(LocationService);
   private readonly categoryService = inject(CategoryService);
-
   private readonly fb = inject(FormBuilder);
-  public filterForm = this.fb.group({
-    neighborhood: [''],
-    nameCity: [''],
+
+  page = PAGINATION_CONSTANTS.PAGE;
+  size = PAGINATION_CONSTANTS.SIZE;
+  totalItems = PAGINATION_CONSTANTS.TOTAL_ITEMS;
+  modalFilterOptions = false;
+  idDepartment = 0;
+  idCity = 0;
+
+  filterForm = this.fb.group({
     nameDepartment: [''],
+    nameCity: [''],
+    neighborhood: [''],
     nameCategory: [''],
     bedroomCount: [''],
     bathroomCount: [''],
     minPrice: [''],
     maxPrice: [''],
     orderBy: ['city'],
-    orderAsc: ['true'],
+    orderAsc: ['true']
   });
 
-    houseService = inject(HouseService);
-    houses$ = this.houseService.getHouses(this.filterForm.value as HomeFilterFields).pipe(
-      map(response => {
-        this.totalItems = response.totalElements;
-        return response.content;
-      })
-    );
+  houses$ = this.houseService.getHouses(this.filterForm.value as HomeFilterFields).pipe(
+    map(response => {
+      this.totalItems = response.totalElements;
+      return response.content;
+    })
+  );
 
-  get neighborhoodControl(): FormControl {
-    return this.filterForm.get('neighborhood') as FormControl;
+  getDepartments = (name: string) => this.locationService.getDepartments(name);
+  getCities = (name: string, id: number) => this.locationService.getCities(name, id);
+  getNeighborhoods = (name: string, id: number) => this.locationService.getNeighborhoods(name, id, this.idDepartment);
+  getCategories = (name: string) => this.categoryService.getCategories(
+    PAGINATION_CONSTANTS.PAGE,
+    PAGINATION_CONSTANTS.SIZE,
+    PAGINATION_CONSTANTS.ORDER_ASC,
+    name
+  ).pipe(map(response => response.content));
+
+  toggleFilterModal() {
+    this.modalFilterOptions = !this.modalFilterOptions;
   }
 
-  get nameCityControl(): FormControl {
-    return this.filterForm.get('nameCity') as FormControl;
+  applyFilters() {
+    this.page = 0;
+    this.modalFilterOptions = false
+    this.loadHouses();
   }
 
-  get nameDepartmentControl(): FormControl {
-    return this.filterForm.get('nameDepartment') as FormControl;
+  resetFilters() {
+    this.filterForm.reset({
+      orderBy: 'city',
+      orderAsc: 'true'
+    });
+    this.idDepartment = 0;
+    this.idCity = 0;
+    this.applyFilters();
   }
 
-  get nameCategoryControl(): FormControl {
-    return this.filterForm.get('nameCategory') as FormControl;
+  setDepartmentId(id: number) {
+    this.idDepartment = id;
+    this.filterForm.get('nameCity')?.reset();
+    this.filterForm.get('neighborhood')?.reset();
+    this.idCity = 0;
   }
 
-  get bedroomCountControl(): FormControl {
-    return this.filterForm.get('bedroomCount') as FormControl;
+  setCityId(id: number) {
+    this.idCity = id;
+    this.filterForm.get('neighborhood')?.reset();
   }
 
-  get bathroomCountControl(): FormControl {
-    return this.filterForm.get('bathroomCount') as FormControl;
-  }
-
-  get minPriceControl(): FormControl {
-    return this.filterForm.get('minPrice') as FormControl;
-  }
-
-  get maxPriceControl(): FormControl {
-    return this.filterForm.get('maxPrice') as FormControl;
-  }
-
-  get orderByControl(): FormControl {
-    return this.filterForm.get('orderBy') as FormControl;
-  }
-
-  get orderAscControl(): FormControl {
-    return this.filterForm.get('orderAsc') as FormControl;
-  }
-
-
-  setDepartmentId(idDepartment: number): void{
-    this.idDepartment = idDepartment;
-  }
-
-  setCityId(idCity:  number): void{
-    this.idCity = idCity;
-  }
-
-  departmentExist(): boolean{
-    if (this.idDepartment != 0){
-      return false;
-    } else {
-      return true
-    }
-  }
-
-  cityExist(): boolean{
-    if (this.idCity != 0){
-      return false;
-    } else {
-      return true
-    }
-  }
-
-  getDepartments = (name: string): Observable<any[]> => {
-    return this.locationService.getDepartments(name);
-  }
-
-  getCities = (name: string, idDepartment: number): Observable<any[]> => {
-    return this.locationService.getCities(name, idDepartment);
-  }
-
-  getNeighborhoods = (name: string, idCity: number): Observable<any[]> => {
-    return this.locationService.getNeighborhoods(name, idCity, this.idDepartment);
-  }
-
-  getCategories = (nameCategory: string): Observable<any[]> => {
-      return this.categoryService.getCategories(
-      PAGINATION_CONSTANTS.PAGE,
-      PAGINATION_CONSTANTS.SIZE,
-      PAGINATION_CONSTANTS.ORDER_ASC,
-      nameCategory).pipe(
-        map(response => {
-          return response.content;
-        })
-      );
-  }
-
-  get totalPages(): number {
-    return Math.ceil(this.totalItems / this.size);
-  }
-
-  get startItem(): number {
-    return this.page * this.size;
-  }
-
-  get endItem(): number {
-    return Math.min((this.page + 1) * this.size, this.totalItems);
-  }
-
-  getPageRange(): number[] {
-    const rangeSize = 4;
-    const start = Math.max(0, this.page - Math.floor(rangeSize / 2));
-    const end = Math.min(this.totalPages - 1, start + rangeSize - 1);
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  }
-
-  onPageChange(newPage: number): void {
+  onPageChange(newPage: number) {
     this.page = newPage;
-    this.changeList();
+    this.loadHouses();
   }
 
-  newFilterValues(){
-    if (this.filterForm.value.orderBy! != null){
-      this.orderBy = this.filterForm.value.orderBy!;
-    } else {
-      this.orderBy = PAGINATION_CONSTANTS.ORDER_BY;
-    }
-
-    if (this.filterForm.value.orderAsc! != null){
-      this.orderAsc = Boolean(this.filterForm.value.orderAsc);
-    } else {
-      this.orderAsc = PAGINATION_CONSTANTS.ORDER_ASC;
-    }
-    console.log(this.orderAsc);
-    this.changeList();
-    this.modalFilterOptions = false;
-  }
-
-  resetFilterForm(){
-    this.filterForm.reset();
-  }
-
-  changeList(){
-    this.houses$ = this.houseService.getHouses(this.filterForm.value as HomeFilterFields, this.page, this.size, this.orderBy, this.orderAsc).pipe(
+  loadHouses() {
+    this.houses$ = this.houseService.getHouses(
+      this.filterForm.value as HomeFilterFields,
+      this.page,
+      this.size,
+      this.filterForm.value.orderBy ?? 'city',
+      this.filterForm.value.orderAsc === 'true'
+    ).pipe(
       map(response => {
         this.totalItems = response.totalElements;
         return response.content;
       })
     );
   }
-
 }

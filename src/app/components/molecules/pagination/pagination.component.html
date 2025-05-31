@@ -1,0 +1,28 @@
+<div class="pagination" *ngIf="totalItems > 0">
+  <span class="pagination-info">
+    Mostrando {{ startItem + 1 }}-{{ endItem }} de {{ totalItems }}
+  </span>
+  <div class="nav-pagination">
+    <button 
+      class="pagination-button arrow rotate"
+      [disabled]="page === 0"
+      (click)="onPageChange(page - 1)">
+      <img src="./assets/img/arrow-pagination-icon.svg" alt="">
+    </button>
+
+    <button 
+      *ngFor="let pageFor of getPageRange()"
+      class="pagination-button"
+      [class.active]="pageFor === page"
+      (click)="onPageChange(pageFor)">
+      {{ pageFor + 1 }}
+    </button>
+
+    <button 
+      class="pagination-button arrow"
+      [disabled]="page >= totalPages - 1"
+      (click)="onPageChange(page + 1)">
+      <img src="./assets/img/arrow-pagination-icon.svg" alt="">
+    </button>
+  </div>
+</div>

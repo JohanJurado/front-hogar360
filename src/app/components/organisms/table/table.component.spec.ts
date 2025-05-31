@@ -145,68 +145,7 @@ describe('TableComponent', () => {
       expect(idColumn.isActive).toBe(true);
       expect(idColumn.orderAsc).toBe(false);
     });
-  });
-
-  describe('Pagination', () => {
-    it('should calculate totalPages correctly', () => {
-      expect(component.totalPages).toBe(5); // 10 items / 2 por página
-    });
-
-    it('should calculate startItem and endItem correctly', () => {
-      expect(component.startItem).toBe(0);
-      expect(component.endItem).toBe(2);
-      
-      component.currentPage = 1;
-      fixture.detectChanges();
-      
-      expect(component.startItem).toBe(2);
-      expect(component.endItem).toBe(4);
-    });
-
-    it('should generate correct page range', () => {
-      // Con rangeSize = 4 (según tu código) y currentPage = 0
-      expect(component.getPageRange()).toEqual([0, 1, 2, 3]);
-      
-      component.currentPage = 2;
-      expect(component.getPageRange()).toEqual([0, 1, 2, 3]);
-      
-      component.totalItems = 5; // 2 items per page = 3 pages
-      component.currentPage = 2;
-      expect(component.getPageRange()).toEqual([0, 1, 2]);
-    });
-
-    it('should disable previous button on first page', () => {
-      component.currentPage = 0;
-      fixture.detectChanges();
-      const prevButton = debugElement.query(By.css('.rotate'));
-      expect(prevButton.nativeElement.disabled).toBeTruthy();
-    });
-
-    it('should disable next button on last page', () => {
-      component.currentPage = 4; // última página (0-based)
-      fixture.detectChanges();
-      const nextButton = debugElement.query(By.css('.arrow:not(.rotate)'));
-      expect(nextButton.nativeElement.disabled).toBeTruthy();
-    });
-
-    it('should emit pageChange event when clicking page button', () => {
-      jest.spyOn(component.pageChange, 'emit');
-      const pageButtons = debugElement.queryAll(By.css('.pagination-button:not(.arrow)'));
-      
-      pageButtons[1].nativeElement.click(); // Click en página 2 (índice 1)
-      
-      expect(component.pageChange.emit).toHaveBeenCalledWith(1);
-    });
-
-    it('should show correct pagination info', () => {
-      const info = debugElement.query(By.css('.pagination-info'));
-      expect(info.nativeElement.textContent).toContain('Mostrando 1-2 de 10');
-      
-      component.currentPage = 1;
-      fixture.detectChanges();
-      expect(info.nativeElement.textContent).toContain('Mostrando 3-4 de 10');
-    });
-  });
+  }); 
 
   describe('Helper methods', () => {
     it('should format number with leading zeros', () => {

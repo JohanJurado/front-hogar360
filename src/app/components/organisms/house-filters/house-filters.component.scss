@@ -1,0 +1,139 @@
+@import '../../../../styles/variables.scss';
+
+.content__filter {
+    display: flex;
+    position: relative;
+    width: 100%;
+    gap: 1rem;
+    align-items: center;
+    border: 1px solid $thirdBorder;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    background-color: $whiteBackground;
+    box-shadow: 0rem 5px 0.5rem $shadowColor;
+
+    button {
+        margin-top: 0px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .input-location {
+        flex: 3;
+    }
+
+    .btn-filter {
+        display: flex;
+        gap: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .filter-options {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: center;
+        position: absolute;
+        padding: 2.5rem 2rem 2rem 2rem;
+        border-radius: 12px;
+        border-color: $thirdBorder;
+        top: 120%;
+        left: -2rem;
+        background-color: $whiteBackground;
+        z-index: 1000;
+        box-shadow: 0rem 0rem 1rem $shadowColor;
+
+        .close-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            cursor: pointer;
+        }
+
+        p {
+            color: $fifthText;
+            font-size: 14px;
+        }
+
+        .order {
+            display: flex;
+
+            .column {
+                margin-left: 1rem;
+            }
+
+            .orderBy, .orderAsc {
+                display: flex;
+                gap: 0.7rem;
+                flex-wrap: wrap;
+                margin: 1rem 0;
+                font-size: 14px;
+
+                label {
+                    position: relative;
+                    cursor: pointer;
+
+                    input[type="radio"] {
+                        position: absolute;
+                        opacity: 0;
+                        width: 0;
+                        height: 0;
+                        
+                        &:checked + .radio-button__label {
+                            background-color: $primaryColor; /* Color primario */
+                            color: $whiteText;
+                            border-color: $primaryColor;
+                        }
+                        
+                        &:focus + .radio-button__label {
+                            box-shadow: 0 0 0 2px $shadowColor;
+                        }
+                    }
+
+                    .radio-button__label {
+                        display: inline-block;
+                        padding: 8px 15px;
+                        border: 1px solid $primaryBorder;
+                        border-radius: 5px;
+                        background-color: $whiteBackground;
+                        color: $primaryText;
+                        transition: all 0.3s ease;
+                        text-align: center;
+                        min-width: 80px;
+                        
+                        &:hover {
+                            border-color: $primaryColor;
+                            color: $secondaryColor;
+                        }
+                    }
+                }
+            }
+        }
+
+        .filter-inputs {
+            display: flex;
+            width: 95%;
+            flex-direction: column;
+            gap: 20px;
+
+            .row {
+                width: 100%;
+                display: flex;
+                gap: 1rem;        
+
+                .input {
+                    flex: 1;
+                }
+            }
+        }
+
+        .actions {
+            display: flex;
+            width: 95%;
+            gap: 1rem;
+            justify-content: end;
+        }
+    }
+}

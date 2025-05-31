@@ -1,0 +1,61 @@
+@import '../../../../styles/variables.scss';
+    
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    margin-bottom: 3rem;
+    justify-content: center;
+    flex-direction: column;
+
+    &-button {
+        padding: 10px 15px;
+        margin: 0px 3px;
+        border: 1px solid $thirdBorder;
+        background: $whiteBackground;
+        font-size: 16px;
+        font-family: 'Poppins', sans-serif;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover:not(:disabled) {
+            background: $secondaryBackground;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        &.active {
+            background: $primaryColor;
+            color: $whiteText;
+
+            &:hover {
+                background: $secondaryColor;
+            }
+        }
+    }
+
+    .arrow {
+        padding: 7px 5px 5px 5px;
+
+        img {
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    .rotate {
+        transform: rotate(180deg);
+    }
+
+    &-info {
+        margin-left: 16px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: $thirdText;
+    }
+}

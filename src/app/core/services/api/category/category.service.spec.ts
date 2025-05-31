@@ -8,7 +8,6 @@ describe('CategoryService', () => {
   let service: CategoryService;
   let httpMock: HttpTestingController;
   const mockApiUrl = 'http://localhost:8081/api/category/';
-  const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
 
   beforeEach(() => {
     TestBed.configureTestingModule({

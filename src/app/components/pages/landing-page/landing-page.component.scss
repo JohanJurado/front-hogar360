@@ -22,16 +22,7 @@
     }
 
     &__filter {
-        display: flex;
-        position: relative;
         width: 60%;
-        gap: 1rem;
-        align-items: center;
-        border: 1px solid $thirdBorder;
-        border-radius: 12px;
-        padding: 0.5rem 1rem;
-        background-color: $whiteBackground;
-        box-shadow: 0rem 5px 0.5rem $shadowColor;
 
         button {
             margin-top: 0px;
@@ -164,8 +155,9 @@
         margin-top: 4.5rem;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: flex-start;
+        gap: 1.8rem;
 
         .no-results {
             display: flex;
@@ -173,7 +165,7 @@
             justify-content: center;
             color: $thirdText;
             font-size: 24px;
-            margin-bottom: 2rem;
+            margin-bottom: 500px;
         }
 
         .house-card {
@@ -253,67 +245,6 @@
                     }
                 }
             }
-        }
-    }
-
-    
-    .pagination {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-top: 16px;
-        margin-bottom: 3rem;
-        justify-content: center;
-        flex-direction: column;
-
-        &-button {
-            padding: 10px 15px;
-            margin: 0px 3px;
-            border: 1px solid $thirdBorder;
-            background: $whiteBackground;
-            font-size: 16px;
-            font-family: 'Poppins', sans-serif;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-
-            &:hover:not(:disabled) {
-                background: $secondaryBackground;
-            }
-
-            &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
-
-            &.active {
-                background: $primaryColor;
-                color: $whiteText;
-
-                &:hover {
-                    background: $secondaryColor;
-                }
-            }
-        }
-
-        .arrow {
-            padding: 7px 5px 5px 5px;
-
-            img {
-                padding: 0;
-                margin: 0;
-            }
-        }
-
-        .rotate {
-            transform: rotate(180deg);
-        }
-
-        &-info {
-            margin-left: 16px;
-            margin-bottom: 10px;
-            font-size: 14px;
-            color: $thirdText;
         }
     }
 }

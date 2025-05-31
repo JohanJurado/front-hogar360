@@ -34,14 +34,14 @@
     </div>
 
     <app-input 
-        label="Direccion"
-        placeholder="Ingresa la direccion de la casa"
+        label="Nombre y dirección"
+        placeholder="Ingresa el nombre y dirección de la propiedad"
         [formControl]="nameControl"
     ></app-input>
 
     <app-input 
         label="Descripcion"
-        placeholder="Ingresa una descripcion para la casa"
+        placeholder="Ingresa una descripcion para la propiedad"
         type="textarea"
         [formControl]="descriptionControl"
     ></app-input>
@@ -50,7 +50,7 @@
         <app-input 
             class="input"
             label="Numero de habitaciones"
-            placeholder="Cantidad de cuartos de la casa"
+            placeholder="Cantidad de cuartos de la propiedad"
             type="number"
             [formControl]="bedroomCountControl"
         ></app-input>
@@ -58,7 +58,7 @@
         <app-input 
             class="input"
             label="Numero de baños"
-            placeholder="Cantidad de baños de la casa"
+            placeholder="Cantidad de baños de la propiedad"
             type="number"
             [formControl]="bathroomCountControl"
         ></app-input>
@@ -66,7 +66,7 @@
         <app-input 
             class="input"
             label="Precio"
-            placeholder="Valor de la casa"
+            placeholder="Valor de la propiedad"
             type="number"
             [formControl]="priceControl"
         ></app-input>
@@ -82,7 +82,7 @@
         <app-select
             class="input"
             label="Nombre de la Categoria"
-            placeholder="Seleccione la categoria a la que pertenece la casa..."
+            placeholder="Seleccione la categoria a la que pertenece la propiedad..."
             [disabled]="false"
             [service]="getCategories"
             [formControl]="categoryNameControl">

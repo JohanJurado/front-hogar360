@@ -1,0 +1,23 @@
+<section class="content">
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+        <h1 class="content__title">Iniciar Sesión</h1>
+        <app-input 
+            class="input"
+            label="Correo electrónico"
+            type="email"
+            placeholder="Ingrese su correo"
+            [formControl]="emailControl"
+        ></app-input>
+        <app-input 
+            class="input"
+            label="Contraseña"
+            type="password"
+            placeholder="Ingrese su contraseña"
+            [formControl]="passwordControl"
+        ></app-input>
+        <div class="actions">
+            <button type="button" class="btn btn--third" (click)="router.navigate(['/'])">Regresar</button>
+            <button type="submit" class="btn btn--primary" [disabled]="loginForm.invalid">Iniciar Sesión</button>
+        </div>
+    </form>
+</section>
