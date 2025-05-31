@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { TokenService } from '@app/core/services/api/auth/token.service';
 
 
 @Component({
@@ -8,4 +9,6 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  tokenService = inject(TokenService);
+  isTokenActive = !this.tokenService.isTokenExpired();
 }

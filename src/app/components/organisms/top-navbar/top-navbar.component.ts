@@ -10,7 +10,8 @@ import { NotificationService } from '@app/core/services/notification/notificatio
 })
 export class TopNavbarComponent {
   @Input() profile!: string;
-  @Input() layout: boolean = true;
+  @Input() activeSession: boolean = true;
+  @Input() home_template: boolean = false;
 
   modalOptionsProfile: boolean = false;
 
@@ -20,8 +21,14 @@ export class TopNavbarComponent {
     public notificationService: NotificationService
   ) {}
 
+  redirectDashboard(){
+    let pathRole = this.tokenService.getRole()?.toLowerCase();
+    this.router.navigate(['/' + pathRole + '/dashboard'])
+  }
+
   logout(){
     this.tokenService.removeToken();
+    this.activeSession = false;
     this.notificationService.success('Sesión finalizada exitosamente');
     this.router.navigate([''])
   }

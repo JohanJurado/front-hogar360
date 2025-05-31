@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginRequest } from '@app/core/models/dtos/loginRequest';
 import { LoginResponse } from '@app/core/models/dtos/loginResponse';

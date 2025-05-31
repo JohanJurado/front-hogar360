@@ -8,34 +8,32 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const notificationService = inject(NotificationService);
 
-    // Dentro de authGuard
   if (!tokenService.getToken()) {
-    tokenService.setRedirectUrl(state.url); // Guarda la URL
+    tokenService.setRedirectUrl(state.url);
     notificationService.error('Por favor inicia sesión');
     return router. parseUrl('/login');
   }
 
   if (tokenService.isTokenExpired()) {
-    tokenService.removeToken(); // Limpia el token
+    tokenService.removeToken();
     tokenService.setRedirectUrl(state.url);
     notificationService.error('Tu sesión ha expirado');
     return router.parseUrl('/login');
   }
 
-  // 3. Verificación de roles (solo si la ruta los requiere)
   const requiredRoles = route.data?.['roles'] as Array<string>;
   
   if (requiredRoles && requiredRoles.length > 0) {
-    const userRole = tokenService.getRole(); // string | null
+    const userRole = tokenService.getRole();
     
-    // Verifica si el usuario tiene UNO de los roles requeridos
     const hasRequiredRole = userRole && requiredRoles.includes(userRole);
     
     if (!hasRequiredRole) {
-      notificationService.error('No tienes permisos para acceder');
-      return router.parseUrl('/login'); // Mejor: ruta específica
+      notificationService.error('No tienes permisos para acceder a esta ruta');      
+      
+      return router.parseUrl('/' + userRole?.toLowerCase() + '/dashboard');
     }
   }
 
-  return true; // Permite el acceso
+  return true;
 };

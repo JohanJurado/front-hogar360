@@ -27,25 +27,6 @@ export class TableComponent<T = any> {
     return num.toString().padStart(length, '0');
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.totalItems / this.itemsPerPage);
-  }
-
-  get startItem(): number {
-    return this.currentPage * this.itemsPerPage;
-  }
-
-  get endItem(): number {
-    return Math.min((this.currentPage + 1) * this.itemsPerPage, this.totalItems);
-  }
-
-  getPageRange(): number[] {
-    const rangeSize = 4;
-    const start = Math.max(0, this.currentPage - Math.floor(rangeSize / 2));
-    const end = Math.min(this.totalPages - 1, start + rangeSize - 1);
-    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-  }
-
   onPageChange(newPage: number): void {
     this.pageChange.emit(newPage);
   }

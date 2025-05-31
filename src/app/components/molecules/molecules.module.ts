@@ -4,15 +4,18 @@ import { SidebarLinkComponent } from './sidebar-link/sidebar-link.component';
 import { RouterModule } from '@angular/router';
 import { SelectComponent } from './select/select.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ClickOutsideDirective } from '@app/shared/directives/click-outside.directive';
 import { SharedModule } from '@app/shared/shared.module';
+import { PaginationComponent } from './pagination/pagination.component';
+import { CardComponent } from './card/card.component';
 
 
 
 @NgModule({
   declarations: [
     SidebarLinkComponent,
-    SelectComponent
+    SelectComponent,
+    PaginationComponent,
+    CardComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,9 @@ import { SharedModule } from '@app/shared/shared.module';
   ],
   exports: [
     SidebarLinkComponent,
-    SelectComponent
+    SelectComponent,
+    PaginationComponent,
+    CardComponent
   ]
 })
 export class MoleculesModule { }

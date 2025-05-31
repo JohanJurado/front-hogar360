@@ -4,32 +4,35 @@
         <p class="label__required-simbol" *ngIf="showRequiredSymbol">*</p>
     </div>
 
-    <input *ngIf="type !== 'textarea'"
-           class="input"
-           [type]="type"
-           [placeholder]="placeholder"
-           [value]="value"
-           [disabled]="disabled"
-           (input)="onInputChange($event)"
-           (blur)="onTouched()" />
+    <input 
+        *ngIf="type !== 'textarea'"
+        class="input"
+        [type]="type"
+        [placeholder]="placeholder"
+        [value]="value"
+        [disabled]="disabled"
+        (input)="onInputChange($event)"
+        (blur)="onTouched()" />
 
-    <textarea *ngIf="type === 'textarea'"
-              rows="4"
-              class="input"
-              [placeholder]="placeholder"
-              [value]="value"
-              [disabled]="disabled"
-              (input)="onInputChange($event)"
-              (blur)="onTouched()">
+    <textarea 
+        *ngIf="type === 'textarea'"
+        rows="4"
+        class="input"
+        [placeholder]="placeholder"
+        [value]="value"
+        [disabled]="disabled"
+        (input)="onInputChange($event)"
+        (blur)="onTouched()">
     </textarea>
 
     <span
-           *ngIf="maxwidth"
-           class="input-count"
-           [class.disabled]="disabled" 
-           [class.red]="count > maxwidth">
+        *ngIf="maxwidth"
+        class="input-count"
+        [class.disabled]="disabled" 
+        [class.red]="count > maxwidth">
         {{ count + '/' + maxwidth }}
     </span>
+
     <div class="input-error">
         <small
             *ngIf="errors && (formControl?.touched || formControl?.dirty)">

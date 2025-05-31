@@ -12,7 +12,7 @@ export class TokenService {
     return localStorage.getItem('authToken');
   }
 
-  decodeToken(): any | null {
+  decodeToken() {
     const token = this.getToken();
     
     if (token) {
@@ -30,9 +30,7 @@ export class TokenService {
     const decodedToken = this.decodeToken();
     if (decodedToken?.authorities) {
       let role: string | null = null;
-      if (Array.isArray(decodedToken.authorities) && decodedToken.authorities.length > 0) {
-        role = decodedToken.authorities[0];
-      } else if (typeof decodedToken.authorities === 'string') {
+      if (typeof decodedToken.authorities === 'string') {
         role = decodedToken.authorities;
       }
       

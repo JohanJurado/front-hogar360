@@ -10,21 +10,35 @@ describe('TopNavbarComponent', () => {
   let component: TopNavbarComponent;
   let fixture: ComponentFixture<TopNavbarComponent>;
   let router: Router;
+  let tokenService: jest.Mocked<TokenService>;
+  let notificationService: jest.Mocked<NotificationService>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [TopNavbarComponent],
       providers: [
-        { provide: TokenService, useValue: { removeToken: jest.fn() } },
-        { provide: NotificationService, useValue: { success: jest.fn() } }
+        {
+          provide: TokenService,
+          useValue: {
+            removeToken: jest.fn(),
+            getRole: jest.fn().mockReturnValue('ADMIN')
+          }
+        },
+        {
+          provide: NotificationService,
+          useValue: {
+            success: jest.fn()
+          }
+        }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TopNavbarComponent);
     component = fixture.componentInstance;
     router = TestBed.inject(Router);
-    fixture.detectChanges();
+    tokenService = TestBed.inject(TokenService) as jest.Mocked<TokenService>;
+    notificationService = TestBed.inject(NotificationService) as jest.Mocked<NotificationService>;
   });
 
   it('should create', () => {
@@ -32,17 +46,13 @@ describe('TopNavbarComponent', () => {
   });
 
   describe('Input Properties', () => {
-    it('should display default text when no input provided', () => {
-      const userElement = fixture.debugElement.query(By.css('.navbar__user'));
-      expect(userElement.nativeElement.textContent).toContain('Bienvenido');
-    });
-
-    it('should display custom text when input provided', () => {
+    it('should not display profile name when home_template is true', () => {
       component.profile = 'John Doe';
+      component.home_template = true;
       fixture.detectChanges();
-       
-      const userElement = fixture.debugElement.query(By.css('.navbar__user'));
-      expect(userElement.nativeElement.textContent).toContain('Bienvenido, John Doe');
+      
+      const welcomeText = fixture.debugElement.query(By.css('p'));
+      expect(welcomeText).toBeNull();
     });
   });
 
@@ -55,82 +65,107 @@ describe('TopNavbarComponent', () => {
       
       expect(navigateSpy).toHaveBeenCalledWith(['/']);
     });
+
+    it('should navigate to dashboard when "Volver al panel" is clicked', () => {
+      component.activeSession = true;
+      component.home_template = true;
+      fixture.detectChanges();
+      
+      const userButton = fixture.debugElement.query(By.css('.btn-img'));
+      userButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+      
+      const navigateSpy = jest.spyOn(router, 'navigate');
+      const dashboardOption = fixture.debugElement.queryAll(By.css('.option'))[0];
+      dashboardOption.triggerEventHandler('click', null);
+      
+      expect(navigateSpy).toHaveBeenCalledWith(['/admin/dashboard']);
+    });
   });
 
-  describe('Accessibility', () => {
-    it('should have alt text for logo image', () => {
-      const logoImg = fixture.debugElement.query(By.css('.navbar__logo img'));
-      expect(logoImg.nativeElement.alt).toBe('Logo');
+  describe('User Menu', () => {
+    beforeEach(() => {
+      component.activeSession = true;
+      component.profile = 'Test User';
+      fixture.detectChanges();
     });
 
-    it('should have alt text for user image', () => {
-      const userImg = fixture.debugElement.query(By.css('.navbar__user img'));
-      expect(userImg.nativeElement.alt).toBe('Logo');
+    it('should toggle profile options menu when clicked', () => {
+      const userButton = fixture.debugElement.query(By.css('.btn-img'));
+      
+      userButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+      expect(component.modalOptionsProfile).toBe(true);
+      
+      userButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+      expect(component.modalOptionsProfile).toBe(false);
+    });
+
+    it('should display logout option', () => {
+      const userButton = fixture.debugElement.query(By.css('.btn-img'));
+      userButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+      
+      const logoutOption = fixture.debugElement.query(By.css('.log-out'));
+      expect(logoutOption.nativeElement.textContent).toContain('Cerrar Sesión');
     });
   });
 
   describe('Logout', () => {
-  it('should remove token, show success notification and navigate to home', () => {
-    const removeTokenSpy = jest.spyOn(component.tokenService, 'removeToken');
-    const notificationSpy = jest.spyOn(component.notificationService, 'success');
-    const navigateSpy = jest.spyOn(component.router, 'navigate');
-    
-    component.logout(); 
-    
-    expect(removeTokenSpy).toHaveBeenCalled();
-    expect(notificationSpy).toHaveBeenCalledWith('Sesión finalizada exitosamente');
-    expect(navigateSpy).toHaveBeenCalledWith(['']);
+    it('should call tokenService.removeToken and show notification', () => {
+      component.activeSession = true;
+      fixture.detectChanges();
+      
+      const userButton = fixture.debugElement.query(By.css('.btn-img'));
+      userButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+      
+      const logoutOption = fixture.debugElement.query(By.css('.log-out'));
+      logoutOption.triggerEventHandler('click', null);
+      
+      expect(tokenService.removeToken).toHaveBeenCalled();
+      expect(notificationService.success).toHaveBeenCalledWith('Sesión finalizada exitosamente');
     });
-  }); 
 
-  describe('Login Button', () => {
-  it('should navigate to login when button is clicked', () => {
-    component.layout = false;
-    fixture.detectChanges();
-    
-    const navigateSpy = jest.spyOn(component.router, 'navigate');
-    const loginButton = fixture.debugElement.query(By.css('.btn--primary'));
-    
-    loginButton.triggerEventHandler('click', null);
-    
-    expect(navigateSpy).toHaveBeenCalledWith(['/login']);
-  });
-});
+    it('should navigate to home after logout', () => {
+      const navigateSpy = jest.spyOn(router, 'navigate');
+      
+      component.logout();
+      
+      expect(navigateSpy).toHaveBeenCalledWith(['']);
+    });
 
-describe('Profile Options Modal Display', () => {
-  it('should show profile options when user image is clicked', () => {
-    component.layout = true;
-    component.profile = 'Test User';
-    fixture.detectChanges();
-    
-    const userImage = fixture.debugElement.query(By.css('.navbar__user img'));
-    userImage.triggerEventHandler('click', null);
-    
-    fixture.detectChanges();
-    
-    const optionsProfile = fixture.debugElement.query(By.css('.options-profile'));
-    expect(optionsProfile).toBeTruthy();
-    expect(component.modalOptionsProfile).toBe(true);
-  });
-});
-
-describe('Layout Variations', () => {
-  it('should show user section when layout is true', () => {
-    component.layout = true;
-    component.profile = 'Test User';
-    fixture.detectChanges();
-    
-    const userSection = fixture.debugElement.query(By.css('.navbar__user'));
-    expect(userSection).toBeTruthy();
-    expect(userSection.nativeElement.textContent).toContain('Test User');
+    it('should set activeSession to false after logout', () => {
+      component.activeSession = true;
+      component.logout();
+      
+      expect(component.activeSession).toBe(false);
+    });
   });
 
-  it('should show options section when layout is false', () => {
-    component.layout = false;
-    fixture.detectChanges();
-    
-    const optionsSection = fixture.debugElement.query(By.css('.navbar__options'));
-    expect(optionsSection).toBeTruthy();
+  describe('Accessibility', () => {
+    it('should have proper alt text for all images', () => {
+      component.activeSession = true;
+      fixture.detectChanges();
+      
+      const images = fixture.debugElement.queryAll(By.css('img'));
+      images.forEach(img => {
+        expect(img.nativeElement.alt).toBeTruthy();
+      });
+    });
   });
-});
+
+  describe('Role-based Navigation', () => {
+    it('should navigate to correct dashboard based on user role', () => {
+      const roles = ['ADMIN', 'USER', 'EDITOR'];
+      const navigateSpy = jest.spyOn(router, 'navigate');
+      
+      roles.forEach(role => {
+        tokenService.getRole.mockReturnValue(role);
+        component.redirectDashboard();
+        expect(navigateSpy).toHaveBeenCalledWith([`/${role.toLowerCase()}/dashboard`]);
+      });
+    });
+  });
 });

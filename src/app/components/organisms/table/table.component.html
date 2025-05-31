@@ -3,9 +3,15 @@
       <tr>
         <th *ngFor="let col of columns">
           {{ col.title }}
-          <img *ngIf="col.isActive != null && col.isActive && col.orderAsc" src="./assets/img/filter-icons/sort-asc-icon.svg" alt="filter-active-asc" (click)="newOrder(col.key)">
-          <img *ngIf="col.isActive != null && col.isActive && !col.orderAsc" src="./assets/img/filter-icons/sort-desc-icon.svg" alt="filter-active-des" (click)="newOrder(col.key)">
-          <img *ngIf="col.isActive != null && !col.isActive" src="./assets/img/filter-icons/sort-icon.svg" alt="filter-inactive" (click)="newOrder(col.key)">
+          <button class="no-btn" *ngIf="col.isActive != null && col.isActive && col.orderAsc" (click)="newOrder(col.key)">
+            <img  src="./assets/img/filter-icons/sort-asc-icon.svg" alt="filter-active-asc" >
+          </button>
+          <button class="no-btn" *ngIf="col.isActive != null && col.isActive && !col.orderAsc" (click)="newOrder(col.key)">
+            <img  src="./assets/img/filter-icons/sort-desc-icon.svg" alt="filter-active-des" >
+          </button>
+          <button class="no-btn" *ngIf="col.isActive != null && !col.isActive" (click)="newOrder(col.key)">
+            <img  src="./assets/img/filter-icons/sort-icon.svg" alt="filter-inactive" >
+          </button>
         </th>
         <th class="actions">Acciones</th>
       </tr>
@@ -37,31 +43,10 @@
       </tr>
     </tbody>
   </table>
-  <div class="pagination">
-    <span class="pagination-info">
-      Mostrando {{ startItem + 1 }}-{{ endItem }} de {{ totalItems }}
-    </span>
-    <div class="nav-pagination">
-      <button 
-        class="pagination-button arrow rotate"
-        [disabled]="currentPage === 0"
-        (click)="onPageChange(currentPage - 1)">
-        <img src="./assets/img/arrow-pagination-icon.svg" alt="">
-      </button>
-
-      <button 
-        *ngFor="let page of getPageRange()"
-        class="pagination-button"
-        [class.active]="page === currentPage"
-        (click)="onPageChange(page)">
-        {{ page + 1 }}
-      </button>
-
-      <button 
-        class="pagination-button arrow"
-        [disabled]="currentPage >= totalPages - 1"
-        (click)="onPageChange(currentPage + 1)">
-        <img src="./assets/img/arrow-pagination-icon.svg" alt="">
-      </button>
-    </div>
-    </div>
+  <app-pagination
+    *ngIf="totalItems > 0"
+    [page]="currentPage"
+    [size]="itemsPerPage"
+    [totalItems]="totalItems"
+    (pageChange)="onPageChange($event)">
+  </app-pagination>

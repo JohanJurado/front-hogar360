@@ -21,7 +21,7 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     if (authToken && !isLoginRequest) {
 
       if (this.tokenService.isTokenExpired()) {
-        this.tokenService.setRedirectUrl(this.router.url); // Guarda la URL actual
+        this.tokenService.setRedirectUrl(this.router.url);
         this.tokenService.removeToken();
         this.router.navigate(['/login']);
         return throwError(() => new Error('Token expired'));
