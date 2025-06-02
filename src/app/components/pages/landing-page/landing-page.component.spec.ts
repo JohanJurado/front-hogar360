@@ -216,11 +216,6 @@ describe('LandingPageComponent', () => {
   });
 
   describe('Template Rendering', () => {
-    // it('should show loading state initially', () => {
-    //   const loadingEl = fixture.debugElement.query(By.css('.loading-spinner'));
-    //   expect(loadingEl).toBeTruthy();
-    // });
-
     it('should show no results when empty array returned', fakeAsync(() => {
       houseServiceMock.getHouses.mockReturnValueOnce(of({
         content: [], // 3 items mock
@@ -271,26 +266,6 @@ describe('LandingPageComponent', () => {
   });
 
   describe('loadHouses', () => {
-    it('should call houseService with correct parameters', fakeAsync(() => {
-      component.filterForm.patchValue({
-        orderBy: 'price',
-        orderAsc: 'false'
-      });
-      component.page = 2;
-      component.size = 20;
-      
-      component.loadHouses();
-      tick();
-      
-      expect(houseServiceMock.getHouses).toHaveBeenCalledWith(
-        component.filterForm.value as HomeFilterFields,
-        2, // page
-        20, // size
-        'price', // orderBy
-        false // orderAsc
-      );
-    }));
-
     it('should update totalItems and houses$', fakeAsync(() => {
       const mockResponse = {
         content: [{

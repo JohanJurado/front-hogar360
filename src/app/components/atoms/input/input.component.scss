@@ -33,7 +33,7 @@
         resize: none;
         overflow-y: hidden;
 
-        &[type="date"], &[type="number"] {
+        &[type="date"], &[type="number"], &[type="datetime-local"] {
             padding-right: 15px;
         }
 

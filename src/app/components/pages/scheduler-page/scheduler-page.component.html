@@ -1,0 +1,47 @@
+<main class="content">
+    <section class="content__create-scheduler">
+        <h1 class="content__title">Disponibilizar horario de visita</h1>
+        <form [formGroup]="schedulerForm" class="content__form" (ngSubmit)="onSubmit()">
+            <section *ngIf="houseNewScheduler != null; else initialInfo" class="content__form__house">
+                <small class="content__form__house__id">Id de la propiedad: HOU-2025{{ formatNumber(houseNewScheduler.id!, 3) }}</small>
+                <h2 class="content__form__house__name">Nombre de la propiedad: {{ houseNewScheduler.name }}</h2>
+            </section>
+            <ng-template #initialInfo>
+                <section class="content__form__house">
+                    <small class="content__form__house__id">No se ha seleccionado ninguna propiedad</small>
+                    <h2 class="content__form__house__name">Selecciona la propiedad a la que desees añadirle un horario de visita</h2>
+                </section>
+            </ng-template>
+            <div class="content__form__row">
+                <app-input 
+                    class="input"
+                    label="Fecha inicio"
+                    type="datetime-local"
+                    [showRequiredSymbol]="true"
+                    [formControl]="startDateControl"
+                ></app-input>
+                <app-input 
+                    class="input"
+                    label="Fecha final"
+                    type="datetime-local"
+                    [showRequiredSymbol]="true"
+                    [formControl]="endDateControl"
+                ></app-input>
+            </div>
+            <div class="content__form__actions">
+                <button type="submit" class="btn btn--primary" [disabled]="schedulerForm.invalid">Crear</button>
+            </div>
+        </form>
+        <h3 class="content__title">Lista de propiedades</h3>
+        <app-table
+            [data]="houses$ | async"
+            [columns]="columns"
+            [columnActions]="columnActions"
+            [currentPage]="page"
+            [itemsPerPage]="size"
+            [totalItems]="totalItems"
+            (pageChange)="onPageChange($event)"
+            (actionClick)="onActionClick($event)">
+        </app-table>
+    </section>
+</main>

@@ -11,6 +11,7 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { HousePageComponent } from './house-page/house-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { SchedulerPageComponent } from './scheduler-page/scheduler-page.component';
 
 
 
@@ -22,7 +23,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
     UserPageComponent,
     HousePageComponent,
     LandingPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    SchedulerPageComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     DashboardPageComponent,
     LocationPageComponent,
     UserPageComponent,
+    SchedulerPageComponent
   ]
 })
 export class PagesModule { }

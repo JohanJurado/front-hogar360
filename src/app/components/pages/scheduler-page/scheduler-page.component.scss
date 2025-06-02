@@ -1,0 +1,65 @@
+@import '../../../../styles/variables.scss';
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem 2.4rem;
+
+    &__create-scheduler {
+        width: 100%;
+    }
+
+    &__title {
+        font-size: 24px;
+        font-weight: 400;
+        color: $fifthText;
+        margin-top: 0px;
+    }
+
+    &__form {
+        padding: 25px 24px 35px 24px;
+        background-color: $whiteBackground;
+        border-radius: 8px;
+        border: 1px solid $thirdBorder;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        box-shadow: 0px 2px 5px $shadowColor;
+        margin-bottom: 40px;
+
+        &__house {
+            width: 100%;
+
+            &__id {
+                color: $fourthText;
+                font-size: 16px;
+            }
+
+            &__name {
+                margin: 0px 0px 1rem 0px;
+                font-weight: 600;
+                font-size: 20px;
+                color: $primaryText;
+            }
+        }
+
+        &__actions {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        &__row {
+            width: 100%;
+            display: flex;
+            gap: 1rem;        
+
+            .input {
+                flex: 1;
+            }
+        }
+    }
+}
+

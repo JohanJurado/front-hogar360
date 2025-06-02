@@ -36,7 +36,7 @@ import { JwtModule } from '@auth0/angular-jwt';
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('authToken'),
-        allowedDomains: ['localhost:8081', 'localhost:8085'],
+        allowedDomains: ['localhost:8081', 'localhost:8085', 'localhost:8088'],
         disallowedRoutes: ['http://localhost:8085/api/auth/login']
       }
     })

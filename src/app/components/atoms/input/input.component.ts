@@ -14,7 +14,7 @@ import { FORM_MESSAGES } from '@app/shared/constants/form-messages';
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() label: string = '';
-  @Input() type: 'text' | 'number' | 'textarea' | 'email' | 'password' | 'date' = 'text';
+  @Input() type: 'text' | 'number' | 'textarea' | 'email' | 'password' | 'date' | 'datetime-local' = 'text';
   @Input() placeholder: string = '';
   @Input() maxwidth?: number;
   @Input() showRequiredSymbol: boolean = true;
@@ -72,6 +72,7 @@ export class InputComponent implements ControlValueAccessor {
     if (this.errors['underAge']) return FORM_MESSAGES.BIRTHDATE;
     if (this.errors['invalidPassword']) return FORM_MESSAGES.PASSWORD;
     if (this.errors['invalidActivePublicationDate']) return FORM_MESSAGES.ACTIVE_PUBLICATION_DATE;
+    if (this.errors['invalidStartDate']) return FORM_MESSAGES.START_DATE;
     return FORM_MESSAGES.INVALID;
   }
 }

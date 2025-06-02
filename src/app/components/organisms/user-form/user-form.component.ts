@@ -37,14 +37,14 @@ export class UserFormComponent {
       });
     }
 
-    passwordMatchValidator(control: AbstractControl) {
-      if (!control.value) {
-        return null;
-      }
-      return this.userForm?.get('password')?.value === control.value 
-        ? null 
-        : { invalidPassword: true };
+  passwordMatchValidator(control: AbstractControl) {
+    if (!control.value) {
+      return null;
     }
+    return this.userForm?.get('password')?.value === control.value 
+      ? null 
+      : { invalidPassword: true };
+  }
 
   phoneNumberValidator(control: AbstractControl) {
     if (!control.value) {

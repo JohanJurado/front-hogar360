@@ -9,11 +9,13 @@ import { TableColumn } from '@app/core/models/dtos/tableColumn';
 export class TableComponent<T = any> {
   @Input() data: T[] | null = [];
   @Input() columns!: TableColumn[];
+  @Input() columnActions?: TableColumn[];
   @Input() currentPage: number = 0;
   @Input() itemsPerPage: number = 10;
   @Input() totalItems: number = 0;
   @Output() pageChange = new EventEmitter<number>();
   @Output() order = new EventEmitter<{ orderBy: string, orderAsc: boolean }>();
+  @Output() actionClick = new EventEmitter<{ obj: T, action: string }>();
 
   trackByFn(index: number, item: any): any {
     return item.id ?? index;
@@ -29,6 +31,10 @@ export class TableComponent<T = any> {
 
   onPageChange(newPage: number): void {
     this.pageChange.emit(newPage);
+  }
+
+  onClickAction(obj: T, action: string){
+    this.actionClick.emit({obj: obj, action: action})
   }
 
   newOrder(key: string){

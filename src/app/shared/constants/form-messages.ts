@@ -8,6 +8,7 @@ export const FORM_MESSAGES = {
     BIRTHDATE: 'La fecha de nacimiento del usuario es menor de 18 años',
     PASSWORD: 'La contraseña no coincide con la ingresada anteriormente',
     ACTIVE_PUBLICATION_DATE: 'La fecha no puede ser menor que la fecha actual ni mayor que un mes',
+    START_DATE: 'La fecha debe ser mayor de una hora, y menor a 3 semanas respecto a la actual',
 
     ERROR: 'Ocurrió un error inesperado'
 }

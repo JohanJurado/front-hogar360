@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenService } from '@app/core/services/api/auth/token.service';
 import { NotificationService } from '@app/core/services/notification/notification.service';
@@ -15,11 +15,9 @@ export class TopNavbarComponent {
 
   modalOptionsProfile: boolean = false;
 
-  constructor(
-    public router: Router,
-    public tokenService: TokenService,
-    public notificationService: NotificationService
-  ) {}
+  tokenService = inject(TokenService);
+  router = inject(Router);
+  notificationService = inject(NotificationService);
 
   redirectDashboard(){
     let pathRole = this.tokenService.getRole()?.toLowerCase();

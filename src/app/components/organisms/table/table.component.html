@@ -24,20 +24,38 @@
               {{ col.prefix + formatNumber(getProperty(item, col.key), 3) }}
             </span>
 
+            <span *ngSwitchCase="'number'" class="number">
+              {{ getProperty(item, col.key) }}
+            </span>
+
+            <span *ngSwitchCase="'price'">
+              {{ getProperty(item, col.key) | currency:'USD' }}
+            </span>
+
             <span *ngSwitchCase="'date'">
               {{ getProperty(item, col.key) | date:'dd/MM/yyyy' }}
             </span>
-            
+
             <span *ngSwitchDefault>
               {{ getProperty(item, col.key) }} 
             </span>
           </ng-container>
+
         </td>
         
         <td class="actions-cell">
-          <button><img src="./assets/img/delete-icon.svg" alt=""></button>
+          <div *ngFor="let col of columnActions">
+            <button 
+              *ngIf="col.type == 'action'" 
+              (click)="onClickAction(item, col.key)">
+              <img src="{{ col.icon }}" alt="{{ col.key }}-icon">
+            </button>
+          </div>
+
+          <button *ngIf="columnActions?.length == 0"><img src="./assets/img/delete-icon.svg" alt="delete-icon"></button>
         </td>
       </tr>
+
       <tr *ngIf="data?.length == 0">
         <td class="not-found" colspan="100%">No se encontraron resultados</td>
       </tr>

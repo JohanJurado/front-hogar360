@@ -119,7 +119,7 @@ describe('HouseService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${mockApiUrl}?neighborhood=&nameCity=&nameDepartment=&nameCategory=&bedroomCount=&bathroomCount=&minPrice=&maxPrice=&page=0&size=10&orderBy=city&orderAsc=true`
+        `${mockApiUrl}?filterBySeller=false&neighborhood=&nameCity=&nameDepartment=&nameCategory=&bedroomCount=&bathroomCount=&minPrice=&maxPrice=&page=0&size=10&orderBy=city&orderAsc=true`
       );
       expect(req.request.method).toBe('GET');
       expect(req.request.params.toString()).toContain('orderBy=city');
@@ -135,7 +135,7 @@ describe('HouseService', () => {
         maxPrice: 200000
       };
 
-      service.getHouses(filters, 2, 5, 'price', false).subscribe();
+      service.getHouses(filters, false, 2, 5, 'price', false).subscribe();
 
       const req = httpMock.expectOne(
         req => req.url === mockApiUrl &&
@@ -180,7 +180,7 @@ describe('HouseService', () => {
       service.getHouses(filters).subscribe();
 
       const req = httpMock.expectOne(
-        `${mockApiUrl}?neighborhood=&nameCity=&nameDepartment=&nameCategory=&bedroomCount=&bathroomCount=&minPrice=&maxPrice=&page=0&size=10&orderBy=city&orderAsc=true`
+        `${mockApiUrl}?filterBySeller=false&neighborhood=&nameCity=&nameDepartment=&nameCategory=&bedroomCount=&bathroomCount=&minPrice=&maxPrice=&page=0&size=10&orderBy=city&orderAsc=true`
       );
       
       expect(req.request.params.get('neighborhood')).toBe('');

@@ -95,6 +95,7 @@ export class LandingPageComponent {
   loadHouses() {
     this.houses$ = this.houseService.getHouses(
       this.filterForm.value as HomeFilterFields,
+      false,
       this.page,
       this.size,
       this.filterForm.value.orderBy ?? 'city',

@@ -23,6 +23,7 @@ export class HouseService {
 
     getHouses(
       homeFilterFields: HomeFilterFields = {},
+      filterBySeller: boolean = false,
       page: number = PAGINATION_CONSTANTS.PAGE, 
       size: number = PAGINATION_CONSTANTS.SIZE, 
       orderBy: string = PAGINATION_CONSTANTS.ORDER_BY, 
@@ -30,6 +31,7 @@ export class HouseService {
     ): Observable<Pagination<House>> {
   
       const params = new HttpParams()
+        .set('filterBySeller', filterBySeller.toString())
         .set('neighborhood', homeFilterFields.neighborhood ?? '')
         .set('nameCity', homeFilterFields.nameCity ?? '')
         .set('nameDepartment', homeFilterFields.nameDepartment ?? '')

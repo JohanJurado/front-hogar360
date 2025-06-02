@@ -11,6 +11,7 @@ import { HomeComponent } from './components/templates/home/home.component';
 import { LandingPageComponent } from './components/pages/landing-page/landing-page.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { authGuard } from './core/guards/auth.guard';
+import { SchedulerPageComponent } from './components/pages/scheduler-page/scheduler-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent,
@@ -38,7 +39,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardPageComponent },
       { path: 'houses', component: HousePageComponent },
-      { path: 'schedulers', component: LocationPageComponent }, 
+      { path: 'schedulers', component: SchedulerPageComponent }, 
     ]
   },
 ];
