@@ -129,7 +129,7 @@ describe('SchedulerPageComponent', () => {
       const event = { obj: mockHouse, action: 'list-schedulers' };
       component.onActionClick(event);
 
-      expect(component.houseListVisits).toEqual(mockHouse);
+      expect(component.idHouseListVisits).toEqual(mockHouse.id);
       expect(component.schedulerForm.value.idHouse).toBe(null);
     });
   });

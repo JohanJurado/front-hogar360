@@ -1,23 +1,22 @@
 import { TestBed } from '@angular/core/testing';
-import { SchedulerService } from './scheduler.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { SchedulerService } from './scheduler.service';
 import { SaveDtoResponse } from '@app/core/models/dtos/saveDtoResponse';
-import { Scheduler } from '@app/core/models/scheduler';
 import { Pagination } from '@app/core/models/pagination';
+import { Scheduler } from '@app/core/models/scheduler';
 import { PAGINATION_CONSTANTS } from '@app/shared/constants/pagination';
 
 describe('SchedulerService', () => {
   let service: SchedulerService;
   let httpMock: HttpTestingController;
   const mockApiUrl = 'http://localhost:8088/api/scheduler/';
-  const mockEnvironment = { apiVisitUrl: 'http://localhost:8088/api' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         SchedulerService,
-        { provide: 'environment', useValue: mockEnvironment }
+        { provide: 'environment', useValue: { apiVisitUrl: 'http://localhost:8088/api' } }
       ]
     });
 
@@ -26,26 +25,26 @@ describe('SchedulerService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Verifica que no hay peticiones pendientes
+    httpMock.verify(); // Verificar que no hay peticiones pendientes
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('createScheduler()', () => {
-    const mockScheduler: Scheduler = {
-      idHouse: 1,
-      startDate: new Date('2025-01-01T10:00:00Z'),
-      endDate: new Date('2025-01-01T12:00:00Z')
-    };
-
-    const mockResponse: SaveDtoResponse = {
-      time: '2025-01-01T00:00:00Z',
-      message: 'Scheduler created successfully'
-    };
-
+  describe('createScheduler', () => {
     it('should send POST request with scheduler data', () => {
+      const mockScheduler: Scheduler = {
+        idHouse: 1,
+        startDate: '2025-01-01T10:00:00',
+        endDate: '2025-01-01T12:00:00'
+      };
+
+      const mockResponse: SaveDtoResponse = {
+        time: '',
+        message: 'Scheduler created successfully'
+      };
+
       service.createScheduler(mockScheduler).subscribe(response => {
         expect(response).toEqual(mockResponse);
       });
@@ -53,11 +52,17 @@ describe('SchedulerService', () => {
       const req = httpMock.expectOne(mockApiUrl);
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(mockScheduler);
-
+      
       req.flush(mockResponse);
     });
 
     it('should handle errors when creating scheduler', () => {
+      const mockScheduler: Scheduler = {
+        idHouse: 1,
+        startDate: '2025-01-01T10:00:00',
+        endDate: '2025-01-01T12:00:00'
+      };
+
       service.createScheduler(mockScheduler).subscribe({
         next: () => fail('should have failed with 500 error'),
         error: (error) => {
@@ -71,98 +76,96 @@ describe('SchedulerService', () => {
         statusText: 'Internal Server Error' 
       });
     });
-
-    it('should include all required scheduler fields in the request', () => {
-      service.createScheduler(mockScheduler).subscribe();
-
-      const req = httpMock.expectOne(mockApiUrl);
-      expect(req.request.body.idHouse).toBe(1);
-      expect(req.request.body.startDate).toBe(mockScheduler.startDate);
-      expect(req.request.body.endDate).toBe(mockScheduler.endDate);
-      
-      req.flush(mockResponse);
-    });
   });
 
-  describe('getSchedulers()', () => {
-    const mockStartDate = new Date('2025-01-01T00:00:00Z');
-    const mockEndDate = new Date('2025-01-02T00:00:00Z');
-    const mockIdHouse = 1;
-    const mockPage = PAGINATION_CONSTANTS.PAGE;
-    const mockSize = PAGINATION_CONSTANTS.SIZE;
-
+  describe('getSchedulers', () => {
     const mockSchedulers: Scheduler[] = [
-      {
-        idHouse: 1,
-        startDate: new Date('2025-01-01T10:00:00Z'),
-        endDate: new Date('2025-01-01T12:00:00Z')
-      },
-      {
-        idHouse: 1,
-        startDate: new Date('2025-01-01T14:00:00Z'),
-        endDate: new Date('2025-01-01T16:00:00Z')
-      }
+      { idHouse: 1, startDate: '2025-01-01T10:00:00', endDate: '2025-01-01T12:00:00' },
+      { idHouse: 1, startDate: '2025-01-02T10:00:00', endDate: '2025-01-02T12:00:00' }
     ];
 
     const mockPaginationResponse: Pagination<Scheduler> = {
       content: mockSchedulers,
-      totalElements: 2,
-      totalPages: 1,
-      pageSize: mockSize,
-      pageNumber: mockPage,
-      last: true
+      totalElements: 10,
+      totalPages: 2,
+      pageSize: PAGINATION_CONSTANTS.SIZE,
+      pageNumber: PAGINATION_CONSTANTS.PAGE,
+      last: false
     };
 
-    // it('should send GET request with correct query parameters', () => {
-    //   service.getSchedulers(mockStartDate, mockEndDate, mockIdHouse, mockPage, mockSize).subscribe(response => {
-    //     expect(response).toEqual(mockPaginationResponse);
-    //   });
+    it('should send GET request with default parameters', () => {
+      service.getSchedulers().subscribe(response => {
+        expect(response).toEqual(mockPaginationResponse);
+      });
 
-    //   const req = httpMock.expectOne(`${mockApiUrl}?startDate=${mockStartDate.toString()}&endDate=${mockEndDate.toString()}&idHouse=${mockIdHouse}&page=${mockPage}&size=${mockSize}`);
-    //   expect(req.request.method).toBe('GET');
-    //   expect(req.request.params.get('startDate')).toBe(mockStartDate.toString());
-    //   expect(req.request.params.get('endDate')).toBe(mockEndDate.toString());
-    //   expect(req.request.params.get('idHouse')).toBe(mockIdHouse.toString());
-    //   expect(req.request.params.get('page')).toBe(mockPage.toString());
-    //   expect(req.request.params.get('size')).toBe(mockSize.toString());
+      const req = httpMock.expectOne(
+        `${mockApiUrl}?idHouse=0&page=${PAGINATION_CONSTANTS.PAGE}&size=${PAGINATION_CONSTANTS.SIZE}`
+      );
+      expect(req.request.method).toBe('GET');
+      
+      req.flush(mockPaginationResponse);
+    });
 
-    //   req.flush(mockPaginationResponse);
-    // });
+    it('should send GET request with custom parameters', () => {
+      const page = 2;
+      const size = 5;
+      const startDate = '2025-01-01';
+      const endDate = '2025-01-31';
+      const idHouse = 5;
 
-    // it('should use default pagination values if not provided', () => {
-    //   service.getSchedulers(mockStartDate, mockEndDate, mockIdHouse).subscribe();
+      service.getSchedulers(page, size, startDate, endDate, idHouse).subscribe();
 
-    //   const req = httpMock.expectOne(`${mockApiUrl}?startDate=${mockStartDate.toString()}&endDate=${mockEndDate.toString()}&idHouse=${mockIdHouse}&page=${PAGINATION_CONSTANTS.PAGE}&size=${PAGINATION_CONSTANTS.SIZE}`);
-    //   expect(req.request.params.get('page')).toBe(PAGINATION_CONSTANTS.PAGE.toString());
-    //   expect(req.request.params.get('size')).toBe(PAGINATION_CONSTANTS.SIZE.toString());
+      const req = httpMock.expectOne(
+        `${mockApiUrl}?idHouse=5&page=2&size=5&startDate=2025-01-01&endDate=2025-01-31`
+      );
+      expect(req.request.method).toBe('GET');
+      
+      req.flush(mockPaginationResponse);
+    });
 
-    //   req.flush(mockPaginationResponse);
-    // });
+    it('should handle empty response', () => {
+      const emptyResponse: Pagination<Scheduler> = {
+        content: [],
+        totalElements: 0,
+        totalPages: 0,
+        pageSize: PAGINATION_CONSTANTS.SIZE,
+        pageNumber: PAGINATION_CONSTANTS.PAGE,
+        last: true
+      };
 
-    // it('should handle errors when fetching schedulers', () => {
-    //   service.getSchedulers(mockStartDate, mockEndDate, mockIdHouse, mockPage, mockSize).subscribe({
-    //     next: () => fail('should have failed with 500 error'),
-    //     error: (error) => {
-    //       expect(error.status).toBe(500);
-    //     }
-    //   });
+      service.getSchedulers().subscribe(response => {
+        expect(response).toEqual(emptyResponse);
+      });
 
-    //   const req = httpMock.expectOne(`${mockApiUrl}?startDate=${mockStartDate}&endDate=${mockEndDate}&idHouse=${mockIdHouse}&page=${mockPage}&size=${mockSize}`);
-    //   req.flush('Server Error', { 
-    //     status: 500, 
-    //     statusText: 'Internal Server Error' 
-    //   });
-    // });
+      const req = httpMock.expectOne(req => req.url === mockApiUrl);
+      req.flush(emptyResponse);
+    });
 
-    // it('should return paginated scheduler data', () => {
-    //   service.getSchedulers(mockStartDate, mockEndDate, mockIdHouse, mockPage, mockSize).subscribe(response => {
-    //     expect(response.content.length).toBe(2);
-    //     expect(response.totalElements).toBe(2);
-    //     expect(response.content).toEqual(mockSchedulers);
-    //   });
+    it('should handle errors when fetching schedulers', () => {
+      service.getSchedulers().subscribe({
+        next: () => fail('should have failed with 404 error'),
+        error: (error) => {
+          expect(error.status).toBe(404);
+        }
+      });
 
-    //   const req = httpMock.expectOne(`${mockApiUrl}?startDate=${mockStartDate.toString()}&endDate=${mockEndDate.toString()}&idHouse=${mockIdHouse}&page=${mockPage}&size=${mockSize}`);
-    //   req.flush(mockPaginationResponse);
-    // });
+      const req = httpMock.expectOne(req => req.url === mockApiUrl);
+      req.flush('Not Found', { 
+        status: 404, 
+        statusText: 'Not Found' 
+      });
+    });
+
+    it('should not include date params when null', () => {
+      service.getSchedulers(1, 10, null, null, 5).subscribe();
+
+      const req = httpMock.expectOne(
+        `${mockApiUrl}?idHouse=5&page=1&size=10`
+      );
+      
+      expect(req.request.params.has('startDate')).toBe(false);
+      expect(req.request.params.has('endDate')).toBe(false);
+      req.flush(mockPaginationResponse);
+    });
   });
 });

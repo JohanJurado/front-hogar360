@@ -44,4 +44,10 @@
             (actionClick)="onActionClick($event)">
         </app-table>
     </section>
+
+    <app-visits-modal 
+        [isOpen]="modalIsOpen"
+        [idHouse]="idHouseListVisits"
+        (close)="closeModal()"
+    ></app-visits-modal>
 </main>

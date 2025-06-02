@@ -13,6 +13,7 @@ export class TableComponent<T = any> {
   @Input() currentPage: number = 0;
   @Input() itemsPerPage: number = 10;
   @Input() totalItems: number = 0;
+  @Input() modalColor: boolean = false;
   @Output() pageChange = new EventEmitter<number>();
   @Output() order = new EventEmitter<{ orderBy: string, orderAsc: boolean }>();
   @Output() actionClick = new EventEmitter<{ obj: T, action: string }>();

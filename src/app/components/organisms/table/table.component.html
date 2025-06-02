@@ -1,5 +1,5 @@
   <table class="table-container">
-    <thead>
+    <thead [class.thead--blue]="modalColor">
       <tr>
         <th *ngFor="let col of columns">
           {{ col.title }}
@@ -33,7 +33,7 @@
             </span>
 
             <span *ngSwitchCase="'date'">
-              {{ getProperty(item, col.key) | date:'dd/MM/yyyy' }}
+              {{ getProperty(item, col.key) | date:'yyyy-MM-dd HH:mm:ss' }}
             </span>
 
             <span *ngSwitchDefault>
@@ -52,7 +52,7 @@
             </button>
           </div>
 
-          <button *ngIf="columnActions?.length == 0"><img src="./assets/img/delete-icon.svg" alt="delete-icon"></button>
+          <button *ngIf="columnActions == undefined"><img src="./assets/img/delete-icon.svg" alt="delete-icon"></button>
         </td>
       </tr>
 

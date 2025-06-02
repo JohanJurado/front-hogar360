@@ -1,0 +1,98 @@
+@import '../../../../styles/variables.scss';
+
+.modal__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+    .modal__container {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+        width: 90%;
+        max-height: 95vh;
+        overflow-y: auto;
+        position: relative;
+        animation: fadeIn 0.3s ease-in-out;
+
+        .br {
+          height: 5px;
+          width: 100%;
+          padding: 0rem 2.5rem 0rem 2.5rem 0rem;
+          border-top: 1px solid $thirdBorder;  // Línea visible
+          margin-top: 10px; // Espacio superior
+          margin-bottom: 10px; // Espacio inferior
+        }
+
+        .modal__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 1.7rem 0.5rem 1.7rem;
+
+            &__title {
+                font-size: 24px;
+                font-weight: 400;
+                color: $fifthText;
+                margin: 20px 0rem 10px 0rem;
+            }
+
+            &__close-button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 5px;
+            }
+        }
+
+        .modal__content {
+          padding: 10px 1.7rem 20px 1.7rem;
+          display: flex;
+          flex-direction: column;
+
+          .form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            
+            &__row {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 1rem;        
+
+                .input {
+                  flex: 1;
+                }
+            }
+          }
+        }
+    }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-container {
+    width: 95%;
+  }
+}

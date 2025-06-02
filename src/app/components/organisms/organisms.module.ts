@@ -12,6 +12,7 @@ import { LocationFormComponent } from './location-form/location-form.component';
 import { UserFormComponent } from './user-form/user-form.component';
 import { HouseFormComponent } from './house-form/house-form.component';
 import { HouseFiltersComponent } from './house-filters/house-filters.component';
+import { VisitsModalComponent } from './visits-modal/visits-modal.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { HouseFiltersComponent } from './house-filters/house-filters.component';
     UserFormComponent,
     HouseFormComponent,
     HouseFiltersComponent,
+    VisitsModalComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +45,7 @@ import { HouseFiltersComponent } from './house-filters/house-filters.component';
     UserFormComponent,
     HouseFormComponent,
     HouseFiltersComponent,
+    VisitsModalComponent
   ]
 })
 export class OrganismsModule { }

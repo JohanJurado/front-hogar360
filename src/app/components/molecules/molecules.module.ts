@@ -15,20 +15,21 @@ import { CardComponent } from './card/card.component';
     SidebarLinkComponent,
     SelectComponent,
     PaginationComponent,
-    CardComponent
+    CardComponent,
+    
   ],
   imports: [
     CommonModule,
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
     SidebarLinkComponent,
     SelectComponent,
     PaginationComponent,
-    CardComponent
+    CardComponent,
   ]
 })
 export class MoleculesModule { }

@@ -20,22 +20,27 @@ export class SchedulerService {
     return this.http.post<SaveDtoResponse>(this.apiVisitScheduler, schedulerData);
   }
 
-  // getSchedulers(
-  //   startDate: Date,
-  //   endDate: Date,
-  //   idHouse: number,
-  //   page: number = PAGINATION_CONSTANTS.PAGE, 
-  //   size: number = PAGINATION_CONSTANTS.SIZE, 
-  // ): Observable<Pagination<Scheduler>> {
+  getSchedulers(
+    page: number = PAGINATION_CONSTANTS.PAGE, 
+    size: number = PAGINATION_CONSTANTS.SIZE, 
+    startDate: string | null = null,
+    endDate: string | null = null,
+    idHouse: number = 0,
+  ): Observable<Pagination<Scheduler>> {
 
-  //   const params = new HttpParams()
-  //     .set('startDate', startDate.toString())
-  //     .set('endDate', endDate.toString())
-  //     .set('idHouse', idHouse.toString())
-  //     .set('page', page.toString())
-  //     .set('size', size.toString()
-  //   );
+    let params = new HttpParams()
+      .set('idHouse', idHouse.toString())
+      .set('page', page.toString())
+      .set('size', size.toString()
+    );
+
+    if (startDate != null){      
+      params = params.set('startDate', startDate);
+    }
+    if (endDate != null){
+      params = params.set('endDate', endDate);    
+    }
       
-  //   return this.http.get<Pagination<Scheduler>>(this.apiVisitScheduler, { params });
-  // }
+    return this.http.get<Pagination<Scheduler>>(this.apiVisitScheduler, { params });
+  }
 }

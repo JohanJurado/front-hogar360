@@ -24,11 +24,21 @@ export class SchedulerPageComponent {
   orderAsc: boolean = PAGINATION_CONSTANTS.ORDER_ASC;
   totalItems: number = PAGINATION_CONSTANTS.TOTAL_ITEMS;
 
+  modalIsOpen = false;
+
+  closeModal(){
+    this.modalIsOpen = false;
+  }
+
+  openModal(){
+    this.modalIsOpen = true;
+  }
+
   columns: TableColumn[] = TABLE_COLUMNS.HOUSES as TableColumn[];
   columnActions: TableColumn[] = TABLE_COLUMNS.HOUSES_ACTIONS as TableColumn[];
 
   houseNewScheduler: House | null = null;
-  houseListVisits: House | null = null;
+  idHouseListVisits: number = 0;
 
   private readonly notificationService = inject(NotificationService);
   private readonly translatorService = inject(TranslatorService);
@@ -67,7 +77,7 @@ export class SchedulerPageComponent {
     }
     const startDate = new Date(control.value);
     const today = new Date();
-    
+
     let minDate = new Date();
     let maxDate = new Date();
 
@@ -84,7 +94,8 @@ export class SchedulerPageComponent {
         idHouse: event.obj.id
       });
     } else if (event.action === 'list-schedulers') {
-      this.houseListVisits = event.obj;
+      this.idHouseListVisits = event.obj.id!;
+      this.openModal();
     }
   }
 

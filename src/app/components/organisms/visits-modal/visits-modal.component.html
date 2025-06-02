@@ -1,0 +1,44 @@
+
+<div *ngIf="isOpen" class="modal__backdrop" (click)="onClose()">
+  <div class="modal__container" (click)="$event.stopPropagation()">
+    <div class="modal__header">
+      <h4 class="modal__header__title">Listado de visitas agendadas</h4>
+      <button class="modal__header__close-button" (click)="onClose()" aria-label="Close modal">
+        <img src="./assets/img/filter-icons/close-icon.svg" alt="Close" />
+      </button>
+    </div>
+    <p class="br"></p>
+    <div class="modal__content">
+        <form class="form" [formGroup]="filterForm" (ngSubmit)="filterChange()">
+          <div class="form__row">
+            <app-input 
+                class="input"
+                label="Fecha Inicio"
+                type="datetime-local"
+                [showRequiredSymbol]="false"
+                [formControl]="startDateControl"
+            ></app-input>
+            <app-input 
+                class="input"
+                label="Fecha Fin"
+                type="datetime-local"
+                [showRequiredSymbol]="false"
+                [formControl]="endDateControl"
+            ></app-input>
+            <button type="submit" class="btn btn--primary">Filtrar</button>
+          </div>
+        </form>
+        <app-table
+            class="modal__content__table"
+            [modalColor]="true"
+            [data]="schedulers$ | async"
+            [columns]="columns"
+            [columnActions]="columnAction"
+            [currentPage]="page"
+            [itemsPerPage]="size"
+            [totalItems]="totalItems"
+            (pageChange)="onPageChange($event)">
+        </app-table>
+    </div>
+  </div>
+</div>

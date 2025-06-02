@@ -22,5 +22,10 @@ export const TABLE_COLUMNS = {
     HOUSES_ACTIONS: [
       { key: 'new-scheduler', type: 'action', icon: './assets/img/new-scheduler-icon.svg'},
       { key: 'list-schedulers', type: 'action', icon: './assets/img/list-schedulers-icon.svg'},
-    ]
+    ],
+    SCHEDULERS: [
+      { key: 'id', title: 'ID', type: 'id', prefix: 'SCH-2025' },
+      { key: 'startDate', title: 'Fecha Inicio', type: 'date' },
+      { key: 'endDate', title: 'Fecha Fin', type: 'date' },
+    ],
 }

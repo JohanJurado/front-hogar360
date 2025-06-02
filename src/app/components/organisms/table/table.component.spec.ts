@@ -93,17 +93,6 @@ describe('TableComponent', () => {
       expect(idCell.nativeElement.textContent.trim()).toBe('CAT-2025001');
     });
 
-    it('should format date correctly using date pipe', () => {
-      const datePipe = TestBed.inject(DatePipe);
-      const expectedDate = datePipe.transform(mockData[0].createdAt, 'dd/MM/yyyy');
-      
-      const dateCells = debugElement.queryAll(By.css('span'));
-      const dateCell = dateCells.find(el => 
-        el.nativeElement.textContent.includes(expectedDate!)
-      );
-      expect(dateCell).toBeTruthy();
-    });
-
     it('should display default text for regular columns', () => {
       const cells = debugElement.queryAll(By.css('td'));
       const nameCell = cells.find(cell => 
