@@ -23,7 +23,7 @@ describe('CategoryService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Verifica que no hay peticiones pendientes
+    httpMock.verify();
   });
 
   it('should be created', () => {

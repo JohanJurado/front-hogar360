@@ -20,6 +20,7 @@ export class VisitsModalComponent {
   @Input() columnAction? : TableColumn[];
 
   @Output() close = new EventEmitter<void>();
+  @Output() newVisit = new EventEmitter<number>();
 
   onClose(): void {
     this.close.emit();
@@ -78,5 +79,9 @@ export class VisitsModalComponent {
 
   filterChange(){
     this.pageSubject.next(this.page);
+  }
+
+  newVisitAction(event: { obj: Scheduler; action: string; }){
+    this.newVisit.emit(event.obj.id);
   }
 }

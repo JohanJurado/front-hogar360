@@ -27,7 +27,7 @@ describe('HouseService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Verifica que no hay peticiones pendientes
+    httpMock.verify();
   });
 
   it('should be created', () => {
@@ -60,13 +60,10 @@ describe('HouseService', () => {
 
       const req = httpMock.expectOne(mockApiUrl);
       
-      // Verificar método HTTP y headers
       expect(req.request.method).toBe('POST');
       
-      // Verificar cuerpo de la petición
       expect(req.request.body).toEqual(mockHouseData);
       
-      // Simular respuesta exitosa
       req.flush(mockSuccessResponse);
     });
 

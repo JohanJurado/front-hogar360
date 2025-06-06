@@ -19,7 +19,7 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
     const isLoginRequest = request.url.includes('/api/auth/login');
 
     if (authToken && !isLoginRequest) {
-
+      
       if (this.tokenService.isTokenExpired()) {
         this.tokenService.setRedirectUrl(this.router.url);
         this.tokenService.removeToken();

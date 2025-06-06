@@ -44,12 +44,10 @@ describe('CategoryFormComponent', () => {
       ]
     }).compileComponents();
 
-    // Obtener instancias de los servicios mockeados
     categoryService = TestBed.inject(CategoryService) as jest.Mocked<CategoryService>;
     notificationService = TestBed.inject(NotificationService) as jest.Mocked<NotificationService>;
     translatorService = TestBed.inject(TranslatorService) as jest.Mocked<TranslatorService>;
 
-    // Configurar mock por defecto para éxito
     categoryService.createCategory.mockReturnValue(of({ message: 'Success', time: '' }));
 
     fixture = TestBed.createComponent(CategoryFormComponent);
@@ -101,7 +99,6 @@ describe('CategoryFormComponent', () => {
     });
 
     it('should call service with form value on valid submission', () => {
-      // Set valid values
       component.nameControl.setValue('Test Category');
       component.descriptionControl.setValue('Test Description');
       

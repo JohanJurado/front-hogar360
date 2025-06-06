@@ -6,6 +6,8 @@ import { LocationService } from '@app/core/services/api/location/location.servic
 import { CategoryService } from '@app/core/services/api/category/category.service';
 import { PAGINATION_CONSTANTS } from '@app/shared/constants/pagination';
 import { HomeFilterFields } from '@app/core/models/dtos/homeFilterFields';
+import { Router } from '@angular/router';
+import { House } from '@app/core/models/house';
 
 @Component({
   selector: 'app-landing-page',
@@ -13,13 +15,14 @@ import { HomeFilterFields } from '@app/core/models/dtos/homeFilterFields';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent {
+  private readonly router = inject(Router);
   private readonly houseService = inject(HouseService);
   private readonly locationService = inject(LocationService);
   private readonly categoryService = inject(CategoryService);
   private readonly fb = inject(FormBuilder);
 
   page = PAGINATION_CONSTANTS.PAGE;
-  size = PAGINATION_CONSTANTS.SIZE;
+  size = PAGINATION_CONSTANTS.SIZE_HOUSES;
   totalItems = PAGINATION_CONSTANTS.TOTAL_ITEMS;
   modalFilterOptions = false;
   idDepartment = 0;
@@ -106,5 +109,11 @@ export class LandingPageComponent {
         return response.content;
       })
     );
+  }
+
+  navigateToDetailsHouse(house: House, imgId: number){
+    this.router.navigate(['/house-details'], { 
+      state: { house: house, imgId: imgId }
+    });
   }
 }

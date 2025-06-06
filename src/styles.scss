@@ -15,6 +15,14 @@
     font-family: 'Manrope', sans-serif;
     transition: all 0.3s ease;
 
+    &--success {
+        background-color: #24913f;
+
+        &:hover {
+            background-color: $secondaryColor;
+        }
+    }
+
     &--primary {
         background-color: $primaryColor;
 

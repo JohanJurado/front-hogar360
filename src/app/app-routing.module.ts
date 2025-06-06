@@ -12,6 +12,7 @@ import { LandingPageComponent } from './components/pages/landing-page/landing-pa
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { authGuard } from './core/guards/auth.guard';
 import { SchedulerPageComponent } from './components/pages/scheduler-page/scheduler-page.component';
+import { HouseDetailsPageComponent } from './components/pages/house-details-page/house-details-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent,
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: '', redirectTo: '', pathMatch: 'full' },
       { path: '', component: LandingPageComponent },
       { path: 'login', component: LoginPageComponent },
+      { path: 'house-details', component: HouseDetailsPageComponent },
     ]
   },
   { path: 'admin', component: AdminLayoutComponent,

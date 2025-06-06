@@ -7,4 +7,5 @@ export interface TableColumn {
   orderAsc?: boolean | null;
   orderBy?: string;
   icon?: string;
+  success?: boolean
 }

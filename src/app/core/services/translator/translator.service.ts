@@ -13,6 +13,8 @@ export class TranslatorService {
     'The document of user already exist': 'El documento ya existe',
     'The date range has already been set aside': 'El rango de fechas ya ha sido reservado',
     'Invalid date range, start date cannot be greater than the end date': 'La fecha de inicio no puede ser mayor que la fecha final',
+    'This buyer email already exist in this scheduler': 'El correo electrónico ya fue agendado en este horario de visita',
+    'The visit cannot have more than two clients on the same scheduler': 'Esta visita ya ha superado la cantidad máxima permitida',
 
     // login exceptions
     'User not found': 'Usuario no encontrado',

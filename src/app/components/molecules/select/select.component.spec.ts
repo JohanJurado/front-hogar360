@@ -37,12 +37,10 @@ describe('SelectComponent', () => {
     fixture = TestBed.createComponent(SelectComponent);
     component = fixture.componentInstance;
     
-    // Mock del servicio
     component.service = mockService.mockImplementation((name: string, id: number) => {
       return of([{id: 1, name: 'Option 1'}, {id: 2, name: 'Option 2'}]);
     });
     
-    // Mock ControlValueAccessor
     component.onChange = jest.fn();
     component.onTouched = jest.fn();
     
@@ -91,29 +89,23 @@ describe('SelectComponent', () => {
     });
 
     it('should select option and emit event', fakeAsync(() => {
-    // 1. Configura el estado necesario
     const testOption = {id: 1, name: 'Option 1'};
     component.filteredOptions = [testOption];
-    component.isOpen = true; // Asegura que el dropdown esté abierto
+    component.isOpen = true;
     
-    // 2. Dispara el cambio de detección
     fixture.detectChanges();
-    tick(); // Para operaciones asíncronas
+    tick();
     
-    // 3. Busca el elemento en el DOM
     const option = fixture.debugElement.query(By.css('.option-item'));
-    expect(option).not.toBeNull(); // Verifica que existe antes de interactuar
+    expect(option).not.toBeNull();
     
-    // 4. Prepara los spies
     jest.spyOn(component, 'onChange');
     jest.spyOn(component.getId, 'emit');
     
-    // 5. Dispara el evento
     option.triggerEventHandler('mousedown', { 
-      preventDefault: jest.fn() // Mock para preventDefault si es necesario
+      preventDefault: jest.fn()
     });
     
-    // 6. Verifica los resultados
     expect(component._selectedOption).toEqual(testOption);
     expect(component.onChange).toHaveBeenCalledWith(testOption.name);
     expect(component.getId.emit).toHaveBeenCalledWith(1);
@@ -123,7 +115,7 @@ describe('SelectComponent', () => {
       const input = fixture.debugElement.query(By.css('input'));
       input.triggerEventHandler('input', {target: {value: 'test'}});
       
-      tick(300); // Debounce time
+      tick(300);
       
       expect(mockService).toHaveBeenCalledWith('test', 0);
       expect(component.filteredOptions.length).toBeGreaterThan(0);
@@ -202,11 +194,10 @@ describe('SelectComponent', () => {
     }));
 
     it('should handle service errors and close dropdown', fakeAsync(() => {
-      // Mock servicio para que falle
       mockService.mockReturnValue(throwError(() => new Error('Test Error')));
       
       component.onSearchChange('test');
-      tick(); // Procesa el observable
+      tick();
       
       expect(component.isOpen).toBe(false);
       expect(component.filteredOptions).toEqual([]);

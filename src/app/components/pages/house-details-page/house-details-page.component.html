@@ -1,0 +1,60 @@
+<main class="content">
+    <section class="content__house-img">
+        <img class="content__house-img__img" [src]="getHouseImage(imgId)" alt="house-img">
+        <small class="content__house-img__category">{{ house?.categoryName }}</small>
+        <small>BARRIO {{ house?.neighborhood }}, {{ house?.cityName }} - {{ house?.departmentName }}</small>
+        <small class="content__house-info__attribute">EMAIL VENDEDOR: {{ house?.emailSeller }}</small>
+    </section>
+    <section class="content__house-info">
+        <div>
+            <small class="content__house-info__attribute">NOMBRE DE LA PROPIEDAD:</small>
+            <h1 class="content__house-info__name">{{ house?.name }}</h1>
+        </div>
+        <div>
+            <small class="content__house-info__attribute">DESCRIPCION DE LA PROPIEDAD:</small>
+            <p class="content__house-info__description">{{ house?.description }}</p>
+        </div>
+        <section class="content__house-info__others">
+            <div>
+                <small class="content__house-info__attribute">PRECIO:</small>
+                <h2 class="content__house-info__description">{{ house?.price | currency: 'USD' }}</h2>
+            </div>
+            <section class="content__house-info__details">
+                <small class="content__house-info__attribute">CARACTERISTICAS:</small>
+                <div class="details-items">
+                    <div class="item">
+                        <img src="./assets/img/card-house-icons/bedroom-icon.svg" alt="bedroom-icon">
+                        <p>{{ house?.bedroomCount }}</p>
+                    </div>
+                    <div class="item">
+                        <img src="./assets/img/card-house-icons/bathroom-icon.svg" alt="bathroom-icon">
+                        <p>{{ house?.bathroomCount }}</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+        
+        <div class="content__house-info__buttons">
+            <small class="content__house-info__attribute">HORARIOS DISPONIBLES (digite su correo para poder agendar una visita)</small>
+            <div class="content__house-info__actions">
+                <app-input 
+                    class="input"
+                    placeholder="Ingrese el correo"
+                    type="email"
+                    [showRequiredSymbol]="false"
+                    [formControl]="emailControl"
+                ></app-input>
+                <button class="btn btn--primary" (click)="openModal()" [disabled]="emailBuyerForm.invalid">Agendar</button>
+                <button class="btn btn--third" (click)="router.navigate(['/'])">Atras</button>
+            </div>
+        </div>
+    </section>
+
+    <app-visits-modal 
+        [isOpen]="modalIsOpen"
+        [idHouse]="house?.id!"
+        [columnAction]="columnAction"
+        (close)="closeModal()"
+        (newVisit)="newVisit($event)"
+    ></app-visits-modal>
+</main>

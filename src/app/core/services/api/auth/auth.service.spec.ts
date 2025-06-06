@@ -9,7 +9,6 @@ describe('AuthService', () => {
   let httpMock: HttpTestingController;
   const mockApiUrl = 'http://localhost:8085/api/auth/login';
 
-  // Datos de prueba
   const mockLoginRequest: LoginRequest = {
     email: 'testuser@gmail.com',
     password: 'testpass'
@@ -31,7 +30,7 @@ describe('AuthService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Verifica que no hay peticiones pendientes
+    httpMock.verify();
   });
 
   it('should be created', () => {
@@ -48,7 +47,7 @@ describe('AuthService', () => {
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(mockLoginRequest);
 
-      req.flush(mockLoginResponse); // Simula respuesta exitosa
+      req.flush(mockLoginResponse);
     });
 
     it('should handle HTTP errors', () => {

@@ -25,7 +25,7 @@ describe('SchedulerService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Verificar que no hay peticiones pendientes
+    httpMock.verify();
   });
 
   it('should be created', () => {

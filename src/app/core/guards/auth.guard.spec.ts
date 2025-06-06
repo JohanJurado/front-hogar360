@@ -5,7 +5,6 @@ import { NotificationService } from '../services/notification/notification.servi
 import { authGuard } from './auth.guard';
 import { runInInjectionContext } from '@angular/core';
 
-// Mocks (se mantienen igual)
 class MockTokenService {
   getToken = jest.fn();
   isTokenExpired = jest.fn();
@@ -60,14 +59,11 @@ describe('authGuard', () => {
 
   describe('when no token exists', () => {
     it('should redirect to login with notification', () => {
-      // Arrange
       tokenService.getToken.mockReturnValue(null);
       const mockUrl = '/protected-route';
 
-      // Act
       const result = executeGuard({}, mockUrl);
 
-      // Assert
       expect(result instanceof UrlTree).toBe(true);
       expect(router.parseUrl).toHaveBeenCalledWith('/login');
       expect(tokenService.setRedirectUrl).toHaveBeenCalledWith(mockUrl);
@@ -75,18 +71,14 @@ describe('authGuard', () => {
     });
   });
 
-  // Resto de las pruebas usando executeGuard en lugar de llamar directamente a authGuard
   describe('when token is expired', () => {
     it('should remove token and redirect to login', () => {
-      // Arrange
       tokenService.getToken.mockReturnValue('expired.token');
       tokenService.isTokenExpired.mockReturnValue(true);
       const mockUrl = '/protected-route';
 
-      // Act
       const result = executeGuard({}, mockUrl);
 
-      // Assert
       expect(result instanceof UrlTree).toBe(true);
       expect(tokenService.removeToken).toHaveBeenCalled();
       expect(tokenService.setRedirectUrl).toHaveBeenCalledWith(mockUrl);
@@ -102,33 +94,25 @@ describe('authGuard', () => {
     });
 
     it('should allow access when no roles are required', () => {
-      // Act
       const result = executeGuard({}, '/any-route');
 
-      // Assert
       expect(result).toBe(true);
     });
 
     it('should allow access when user has required role', () => {
-      // Arrange
       tokenService.getRole.mockReturnValue('ADMIN');
 
-      // Act
       const result = executeGuard({ roles: ['ADMIN', 'EDITOR'] }, '/admin-route');
 
-      // Assert
       expect(result).toBe(true);
     });
 
     it('should deny access when user lacks required role', () => {
-      // Arrange
       tokenService.getRole.mockReturnValue('USER');
       const mockUrl = '/admin-route';
 
-      // Act
       const result = executeGuard({ roles: ['ADMIN'] }, mockUrl);
 
-      // Assert
       expect(result instanceof UrlTree).toBe(true);
       expect(notificationService.error).toHaveBeenCalledWith('No tienes permisos para acceder a esta ruta');
       expect(router.parseUrl).toHaveBeenCalledWith('/user/dashboard');

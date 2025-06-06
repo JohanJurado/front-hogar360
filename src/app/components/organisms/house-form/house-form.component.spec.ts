@@ -191,32 +191,26 @@ describe('HouseFormComponent', () => {
   describe('Form Submission', () => {
 
     it('should handle error on submission', fakeAsync(() => {
-      // Configurar mock de error
       const errorResponse = { error: { message: 'Error message' } };
       houseService.publishHouse.mockReturnValueOnce(throwError(() => errorResponse));
       
-      // Asegurar formulario válido
       fillValidForm();
       
       component.submit();
       tick();
       
-      // Verificar que se llamó al servicio de notificación
       expect(notificationService.error).toHaveBeenCalled();
       expect(translatorService.translate).toHaveBeenCalledWith('Error message');
     }));
 
     it('should use default error message when none provided', fakeAsync(() => {
-      // Mock de error sin mensaje
       houseService.publishHouse.mockReturnValueOnce(throwError(() => ({})));
       
-      // Asegurar formulario válido
       fillValidForm();
       
       component.submit();
       tick();
       
-      // Verificar que se usó el mensaje por defecto
       expect(notificationService.error).toHaveBeenCalled();
       expect(translatorService.translate).toHaveBeenCalledWith(FORM_MESSAGES.ERROR);
     }));
@@ -229,7 +223,6 @@ describe('HouseFormComponent', () => {
     });
 
   it('should return content from getCategories response', fakeAsync(() => {
-  // Configurar mock para devolver datos específicos
   const mockResponse = {
     content: [
       { id: 1, name: 'Category 1' },
@@ -254,7 +247,6 @@ describe('HouseFormComponent', () => {
 }));
 
 it('should handle successful house publication with form reset', fakeAsync(() => {
-  // Configurar valores válidos en el formulario
   component.nameControl.setValue('Test House');
   component.descriptionControl.setValue('Test Description');
   component.bedroomCountControl.setValue('3');
@@ -270,18 +262,14 @@ it('should handle successful house publication with form reset', fakeAsync(() =>
   component.nameCityControl.setValue('Test City');
   component.nameDepartmentControl.setValue('Test Department');
 
-  // Mock de respuesta exitosa
   const mockResponse = { message: 'House created successfully' };
   houseService.publishHouse.mockReturnValue(of(mockResponse));
 
-  // Espiar el método reset
   const formResetSpy = jest.spyOn(component.houseForm, 'reset');
 
-  // Ejecutar submit
   component.submit();
   tick();
 
-  // Verificaciones
   expect(houseService.publishHouse).toHaveBeenCalled();
   expect(notificationService.success).toHaveBeenCalledWith('House created successfully');
   expect(translatorService.translate).toHaveBeenCalledWith('House created successfully');
@@ -289,34 +277,26 @@ it('should handle successful house publication with form reset', fakeAsync(() =>
 }));
 
 it('should handle error with specific message', fakeAsync(() => {
-  // Configurar valores válidos en el formulario
   fillValidForm();
 
-  // Mock de error con mensaje específico
   const errorResponse = { error: { message: 'Custom error message' } };
   houseService.publishHouse.mockReturnValue(throwError(() => errorResponse));
 
-  // Ejecutar submit
   component.submit();
   tick();
 
-  // Verificaciones
   expect(notificationService.error).toHaveBeenCalledWith('Custom error message');
   expect(translatorService.translate).toHaveBeenCalledWith('Custom error message');
 }));
 
 it('should handle error with default message when none provided', fakeAsync(() => {
-  // Configurar valores válidos en el formulario
   fillValidForm();
 
-  // Mock de error sin mensaje específico
   houseService.publishHouse.mockReturnValue(throwError(() => ({})));
 
-  // Ejecutar submit
   component.submit();
   tick();
 
-  // Verificaciones
   expect(notificationService.error).toHaveBeenCalledWith(FORM_MESSAGES.ERROR);
   expect(translatorService.translate).toHaveBeenCalledWith(FORM_MESSAGES.ERROR);
 }));

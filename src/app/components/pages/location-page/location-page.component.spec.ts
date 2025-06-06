@@ -32,7 +32,7 @@ describe('LocationPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, HttpClientTestingModule],
-      declarations: [LocationPageComponent, InputComponent,  // Añade esto
+      declarations: [LocationPageComponent, InputComponent,
       SelectComponent ],
       providers: [
         FormBuilder,
@@ -178,7 +178,6 @@ describe('LocationPageComponent', () => {
 
   describe('Response Handling', () => {
   it('should update totalItems and return content from response', fakeAsync(() => {
-    // Mock de respuesta con datos específicos
     const testResponse: Pagination<Location> = {
       content: [
         {
@@ -196,17 +195,14 @@ describe('LocationPageComponent', () => {
     
     locationService.getLocations.mockReturnValueOnce(of(testResponse));
     
-    // Disparamos la recarga
     component.onListChange();
     tick();
     
-    // Verificamos los cambios
-    expect(component.totalItems).toBe(0); // Verifica que totalElements se asignó correctamente
+    expect(component.totalItems).toBe(0);
     
-    // Verificamos el observable locations$
     component.locations$.subscribe(locations => {
-      expect(locations).toEqual(testResponse.content); // Verifica que se retorna el content
-      expect(locations.length).toBe(1); // Verifica la cantidad de items
+      expect(locations).toEqual(testResponse.content);
+      expect(locations.length).toBe(1);
     });
   }));
 
@@ -245,7 +241,7 @@ describe('LocationPageComponent', () => {
     
     locationService.getLocations.mockReturnValueOnce(of(page2Response));
     
-    component.onPageChange(2); // Cambiamos a página 2
+    component.onPageChange(2);
     tick();
     
     expect(component.totalItems).toBe(0);

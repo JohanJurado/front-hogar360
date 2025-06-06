@@ -102,5 +102,17 @@
         vertical-align: middle;
       }
     }
+
+    .btn--success {
+      background-color: #24913f;
+      color: #f8f9fa; 
+      font-family: 'Poppins', sans-serif;
+      padding-left: 15px;
+      padding-right: 15px;
+
+      &:hover {
+        background-color: #24913fd5;
+      }
+    }
   }
 }

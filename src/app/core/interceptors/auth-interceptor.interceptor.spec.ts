@@ -5,7 +5,6 @@ import { TokenService } from '../services/api/auth/token.service';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
-// Mocks
 class MockTokenService {
   isTokenExpired = jest.fn();
   removeToken = jest.fn();
@@ -59,7 +58,6 @@ describe('AuthInterceptorInterceptor', () => {
     const mockLoginRequest = new HttpRequest('JSONP', '/api/auth/login');
 
     it('should add Authorization header when token exists and request is not login', () => {
-      // Arrange
       localStorage.setItem('authToken', 'valid.token.123');
       tokenService.isTokenExpired.mockReturnValue(false);
       jest.spyOn(httpHandler, 'handle').mockImplementation((req) => {
@@ -67,28 +65,23 @@ describe('AuthInterceptorInterceptor', () => {
         return of(null as any);
       });
 
-      // Act & Assert 
       interceptor.intercept(mockRequest, httpHandler).subscribe();
     });
 
     it('should not add Authorization header for login request', () => {
-      // Arrange
       localStorage.setItem('authToken', 'valid.token.123');
       jest.spyOn(httpHandler, 'handle').mockImplementation((req) => {
         expect(req.headers.has('Authorization')).toBe(false);
         return of(null as any);
       });
 
-      // Act & Assert
       interceptor.intercept(mockLoginRequest, httpHandler).subscribe();
     });
 
     it('should handle expired token by redirecting to login', () => {
-      // Arrange
       localStorage.setItem('authToken', 'expired.token.123');
       tokenService.isTokenExpired.mockReturnValue(true);
 
-      // Act & Assert
       interceptor.intercept(mockRequest, httpHandler).subscribe({
         error: (err) => {
           expect(err.message).toBe('Token expired');
@@ -100,11 +93,9 @@ describe('AuthInterceptorInterceptor', () => {
     });
 
     it('should pass through request when no token exists', () => {
-      // Arrange
       localStorage.removeItem('authToken');
       const handleSpy = jest.spyOn(httpHandler, 'handle').mockReturnValue(of(null as any));
 
-      // Act & Assert
       interceptor.intercept(mockRequest, httpHandler).subscribe(() => {
         expect(handleSpy).toHaveBeenCalledWith(mockRequest);
       });

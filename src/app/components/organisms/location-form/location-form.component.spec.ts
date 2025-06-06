@@ -47,11 +47,9 @@ describe('LocationFormComponent', () => {
       ]
     }).compileComponents();
 
-    // Obtener instancias de los servicios mockeados
     locationService = TestBed.inject(LocationService) as jest.Mocked<LocationService>;
     notificationService = TestBed.inject(NotificationService) as jest.Mocked<NotificationService>;
 
-    // Configurar mocks por defecto
     locationService.getDepartments.mockReturnValue(of([{id: 1, name: 'Test Department', description: ''}]));
     locationService.getCities.mockReturnValue(of([{id: 1, name: 'Test City', description: '' }]));
     locationService.createLocation.mockReturnValue(of({ message: 'Success', time: '' }));
@@ -151,7 +149,6 @@ describe('LocationFormComponent', () => {
     });
 
     it('should call service with form value on valid submission', () => {
-      // Set valid values
       component.departmentNameControl.setValue('Test Department');
       component.cityNameControl.setValue('Test City');
       component.neighborhoodControl.setValue('Test Neighborhood');

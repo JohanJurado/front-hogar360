@@ -27,5 +27,9 @@ export const TABLE_COLUMNS = {
       { key: 'id', title: 'ID', type: 'id', prefix: 'SCH-2025' },
       { key: 'startDate', title: 'Fecha Inicio', type: 'date' },
       { key: 'endDate', title: 'Fecha Fin', type: 'date' },
+      { key: 'visitsCount', title: 'Visitas', type: 'number' },
+    ],
+    VISIT_ACTION: [
+      { key: 'new-visit', type: 'action', title: 'Agendar', success: true},
     ],
 }

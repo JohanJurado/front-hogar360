@@ -13,7 +13,6 @@ describe('HomeComponent', () => {
   let tokenService: jest.Mocked<TokenService>;
 
   beforeEach(async () => {
-    // Mock del TokenService
     const tokenServiceMock = {
       isTokenExpired: jest.fn()
     };
@@ -21,12 +20,12 @@ describe('HomeComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        ToastrModule.forRoot() // Añade esto para proveer ToastConfig
+        ToastrModule.forRoot()
       ],
       declarations: [
         HomeComponent,
-        TopNavbarComponent,  // Componente hijo
-        FooterComponent     // Componente hijo
+        TopNavbarComponent,
+        FooterComponent
       ],
       providers: [
         { provide: TokenService, useValue: tokenServiceMock }

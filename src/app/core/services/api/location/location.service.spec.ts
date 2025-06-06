@@ -28,7 +28,7 @@ describe('LocationService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Verifica que no hay peticiones pendientes
+    httpMock.verify();
   });
 
   it('should be created', () => {
@@ -57,7 +57,6 @@ describe('LocationService', () => {
       const req = httpMock.expectOne(mockApiUrl);
       expect(req.request.method).toBe('POST');
       
-      // Verifica que se añadieron las descripciones
       expect(req.request.body.descriptionDepartment).toBe('none');
       expect(req.request.body.descriptionCity).toBe('none');
 

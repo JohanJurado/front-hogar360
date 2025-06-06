@@ -2,7 +2,7 @@
 export const FORM_MESSAGES = {
     REQUIRED: 'Este campo es obligatorio',
     MAX_LENGTH: 'Se excedió el máximo de caracteres',
-    EMAIL: 'El formato de correo electrónico ingresado no está permitido',
+    EMAIL: 'El formato es invalido',
     INVALID: 'Valor inválido',
     PHONE_NUMBER: 'El formato de teléfono ingresado no está permitido',
     BIRTHDATE: 'La fecha de nacimiento del usuario es menor de 18 años',

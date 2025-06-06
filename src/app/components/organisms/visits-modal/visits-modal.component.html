@@ -2,7 +2,7 @@
 <div *ngIf="isOpen" class="modal__backdrop" (click)="onClose()">
   <div class="modal__container" (click)="$event.stopPropagation()">
     <div class="modal__header">
-      <h4 class="modal__header__title">Listado de visitas agendadas</h4>
+      <h4 class="modal__header__title">Listado de visitas disponibles</h4>
       <button class="modal__header__close-button" (click)="onClose()" aria-label="Close modal">
         <img src="./assets/img/filter-icons/close-icon.svg" alt="Close" />
       </button>
@@ -37,6 +37,7 @@
             [currentPage]="page"
             [itemsPerPage]="size"
             [totalItems]="totalItems"
+            (actionClick)="newVisitAction($event)"
             (pageChange)="onPageChange($event)">
         </app-table>
     </div>

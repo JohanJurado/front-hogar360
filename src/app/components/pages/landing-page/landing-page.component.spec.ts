@@ -5,7 +5,6 @@ import { HouseService } from '@app/core/services/api/house/house.service';
 import { LocationService } from '@app/core/services/api/location/location.service';
 import { CategoryService } from '@app/core/services/api/category/category.service';
 import { of } from 'rxjs';
-import { HomeFilterFields } from '@app/core/models/dtos/homeFilterFields';
 import { By } from '@angular/platform-browser';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HouseFiltersComponent } from '@app/components/organisms/house-filters/house-filters.component';
@@ -23,7 +22,6 @@ describe('LandingPageComponent', () => {
   let categoryServiceMock: jest.Mocked<CategoryService>;
 
   beforeEach(async () => {
-    // Configurar mocks para los servicios
     houseServiceMock = {
       getHouses: jest.fn().mockReturnValue(of({
         content: [],
@@ -57,7 +55,7 @@ describe('LandingPageComponent', () => {
         { provide: LocationService, useValue: locationServiceMock },
         { provide: CategoryService, useValue: categoryServiceMock }
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Ignora componentes que no importamos
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LandingPageComponent);
@@ -72,7 +70,7 @@ describe('LandingPageComponent', () => {
   describe('Initialization', () => {
     it('should initialize with default values', () => {
       expect(component.page).toBe(0);
-      expect(component.size).toBe(10);
+      expect(component.size).toBe(9);
       expect(component.totalItems).toBe(0);
       expect(component.modalFilterOptions).toBe(false);
       expect(component.idDepartment).toBe(0);
@@ -117,7 +115,6 @@ describe('LandingPageComponent', () => {
     }));
 
     it('should reset filters and apply them', fakeAsync(() => {
-      // Setear valores iniciales
       component.filterForm.patchValue({
         nameDepartment: 'Test',
         nameCity: 'Test',
@@ -207,9 +204,9 @@ describe('LandingPageComponent', () => {
       component.getCategories(testName);
       
       expect(categoryServiceMock.getCategories).toHaveBeenCalledWith(
-        0, // PAGE
-        10, // SIZE
-        true, // ORDER_ASC
+        0,
+        10,
+        true,
         testName
       );
     });
@@ -218,7 +215,7 @@ describe('LandingPageComponent', () => {
   describe('Template Rendering', () => {
     it('should show no results when empty array returned', fakeAsync(() => {
       houseServiceMock.getHouses.mockReturnValueOnce(of({
-        content: [], // 3 items mock
+        content: [],
         pageNumber: 0,
         pageSize: 10,
         totalElements: 0,
@@ -248,7 +245,7 @@ describe('LandingPageComponent', () => {
           cityName: 'string',
           departmentName: 'string',
           categoryName: 'string'
-        }], // 3 items mock
+        }],
         pageNumber: 0,
         pageSize: 10,
         totalElements: 1,
@@ -279,7 +276,7 @@ describe('LandingPageComponent', () => {
           cityName: 'string',
           departmentName: 'string',
           categoryName: 'string'
-        }], // 3 items mock
+        }],
         pageNumber: 0,
         pageSize: 10,
         totalElements: 1,
@@ -327,7 +324,7 @@ describe('LandingPageComponent', () => {
           cityName: 'string',
           departmentName: 'string',
           categoryName: 'string'
-        }], // 3 items mock
+        }],
         pageNumber: 0,
         pageSize: 10,
         totalElements: 1,

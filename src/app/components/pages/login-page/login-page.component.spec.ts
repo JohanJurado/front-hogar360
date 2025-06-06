@@ -12,7 +12,6 @@ import { By } from '@angular/platform-browser';
 import { InputComponent } from '@app/components/atoms/input/input.component';
 import { SelectComponent } from '@app/components/molecules/select/select.component';
 
-// Mocks para servicios
 const mockAuthService = {
   login: jest.fn()
 };
@@ -55,14 +54,13 @@ describe('LoginPageComponent', () => {
         { provide: TranslatorService, useValue: mockTranslatorService },
         { provide: Router, useValue: mockRouter }
       ],
-      schemas: [NO_ERRORS_SCHEMA] // Para ignorar componentes hijos
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    // Resetear mocks antes de cada test
     jest.clearAllMocks();
   });
 

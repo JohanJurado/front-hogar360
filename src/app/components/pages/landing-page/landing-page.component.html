@@ -19,7 +19,7 @@
   
   <div class="content__list-houses">
     <ng-container *ngIf="houses$ | async as houses; else loading">
-      <app-card
+      <app-card (click)="navigateToDetailsHouse(house, i)"
         *ngFor="let house of houses; let i = index"
         [house]="house"
         [index]="i">

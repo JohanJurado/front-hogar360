@@ -14,12 +14,12 @@ describe('SidebarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SidebarComponent, SidebarLinkComponent] // Incluir el componente hijo
+      declarations: [SidebarComponent, SidebarLinkComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SidebarComponent);
     component = fixture.componentInstance;
-    component.links = mockLinks; // Asignar datos de prueba
+    component.links = mockLinks;
     fixture.detectChanges();
   });
 

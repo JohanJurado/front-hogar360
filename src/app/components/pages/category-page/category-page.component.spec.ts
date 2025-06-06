@@ -51,7 +51,7 @@ describe('CategoryPageComponent', () => {
         CategoryPageComponent,
         CategoryFormComponent,
         InputComponent,
-        TableComponent // Añadir esto
+        TableComponent
       ],
       providers: [
         { 
@@ -72,7 +72,6 @@ describe('CategoryPageComponent', () => {
     fixture = TestBed.createComponent(CategoryPageComponent);
     component = fixture.componentInstance;
     categoryService = TestBed.inject(CategoryService) as jest.Mocked<CategoryService>;
-    notificationService = TestBed.inject(NotificationService) as jest.Mocked<NotificationService>;
     fixture.detectChanges();
   });
 
@@ -160,23 +159,18 @@ describe('Integration with TableComponent', () => {
 
 describe('reloadCategoryList', () => {
   it('should call onPageChange with current page', fakeAsync(() => {
-    // Espiamos el método onPageChange
     const onPageChangeSpy = jest.spyOn(component, 'onPageChange');
     
-    // Establecemos un valor de página diferente al inicial
     component.page = 2;
     
-    // Llamamos al método a testear
     component.reloadCategoryList();
     tick();
     
-    // Verificaciones
-    expect(onPageChangeSpy).toHaveBeenCalledWith(2); // Debe llamarse con el page actual
+    expect(onPageChangeSpy).toHaveBeenCalledWith(2);
     expect(categoryService.getCategories).toHaveBeenCalledWith(2, component.size);
   }));
 
   it('should refresh categories list', fakeAsync(() => {
-    // Mock de nueva respuesta
     const newMockResponse = {
       content: [{ id: 3, name: 'Nueva Categoría', description: 'Descripción nueva' }],
       pageNumber: 0,
@@ -187,11 +181,9 @@ describe('reloadCategoryList', () => {
     };
     categoryService.getCategories.mockReturnValueOnce(of(newMockResponse as Pagination<Category>));
     
-    // Llamamos al método
     component.reloadCategoryList();
     tick();
     
-    // Verificamos que se actualizó la lista
     component.categories$.subscribe(categories => {
       expect(categories).toEqual(newMockResponse.content);
       expect(component.totalItems).toBe(newMockResponse.totalElements);

@@ -107,7 +107,6 @@ describe('TableComponent', () => {
       const sortIcons = debugElement.queryAll(By.css('img[alt^="filter"]'));
       expect(sortIcons.length).toBe(mockColumns.filter(c => c.isActive != null).length);
       
-      // Verificar icono activo descendente (name column)
       const activeDescIcon = debugElement.query(By.css('img[alt="filter-active-des"]'));
       expect(activeDescIcon).toBeTruthy();
     });
@@ -120,7 +119,7 @@ describe('TableComponent', () => {
       
       expect(component.order.emit).toHaveBeenCalledWith({ 
         orderBy: 'name', 
-        orderAsc: true // Cambia de false a true
+        orderAsc: true
       });
     });
 

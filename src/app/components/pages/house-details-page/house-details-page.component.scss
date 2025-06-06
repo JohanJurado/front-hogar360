@@ -1,0 +1,90 @@
+@import '../../../../styles/variables.scss';
+
+* {
+    margin: 0;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 5rem 0rem 5rem 2rem;
+
+    &__house-img {
+        flex: 1;
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+
+        &__img {
+            width: 500px;
+            border-radius: 8px;
+        }
+
+        &__category {
+            position: absolute;
+            right: 4.5rem;
+            top: 1rem;
+            padding: 5px 18px;
+            border-radius: 12px;
+            background-color: $primaryColor;
+            margin: 0;
+            color: $whiteText;
+        }
+    }
+
+    &__house-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 17px;
+        align-items: start;
+        justify-content: space-between;
+
+        &__others {
+            display: flex;
+            gap: 30px;
+        }
+
+        &__attribute {
+            font-size: 12px;
+            color: $thirdText;
+        }
+
+        &__name {
+            font-size: 25px;
+        }
+
+        &__description {
+            font-size: 16px;
+        }
+
+        &__details {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+
+            .details-items {
+                display: flex;
+                gap: 10px;
+
+                .item {
+                    display: flex;
+                    gap: 10px;
+                }
+            }
+        }
+
+        &__actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+    }
+}
+

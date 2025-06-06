@@ -11,7 +11,6 @@ describe('HouseFiltersComponent', () => {
   let fixture: ComponentFixture<HouseFiltersComponent>;
   let mockForm: FormGroup;
 
-  // Mocks para las funciones de servicio
   const mockGetDepartments = jest.fn().mockReturnValue(of([]));
   const mockGetCities = jest.fn().mockReturnValue(of([]));
   const mockGetNeighborhoods = jest.fn().mockReturnValue(of([]));
@@ -32,7 +31,6 @@ describe('HouseFiltersComponent', () => {
     fixture = TestBed.createComponent(HouseFiltersComponent);
     component = fixture.componentInstance;
     
-    // Configurar el FormGroup mock
     const fb = TestBed.inject(FormBuilder);
     mockForm = fb.group({
       nameDepartment: [''],
@@ -47,7 +45,6 @@ describe('HouseFiltersComponent', () => {
       orderAsc: ['true']
     });
 
-    // Asignar inputs
     component.filterForm = mockForm;
     component.getDepartments = mockGetDepartments;
     component.getCities = mockGetCities;

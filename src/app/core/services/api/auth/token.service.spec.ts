@@ -2,13 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { TokenService } from './token.service';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
-// Mock de JwtHelperService
 const mockJwtHelper = {
   decodeToken: jest.fn(),
   isTokenExpired: jest.fn(),
 };
 
-// Mock de localStorage
 class LocalStorageMock {
   private store: Record<string, string> = {};
 
@@ -33,7 +31,6 @@ describe('TokenService', () => {
   let service: TokenService;
   let localStorageMock: LocalStorageMock;
 
-  // Tokens de prueba
   const validToken = 'eyJ.valid.token';
   const expiredToken = 'eyJ.expired.token';
   const invalidToken = 'invalid.token';
@@ -41,13 +38,11 @@ describe('TokenService', () => {
   beforeEach(() => {
     localStorageMock = new LocalStorageMock();
 
-    // Mock global de localStorage
     Object.defineProperty(window, 'localStorage', {
       value: localStorageMock,
       writable: true,
     });
 
-    // Mock de console.error
     jest.spyOn(console, 'error').mockImplementation(() => {});
 
     TestBed.configureTestingModule({

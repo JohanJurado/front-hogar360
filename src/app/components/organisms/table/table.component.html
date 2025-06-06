@@ -45,10 +45,14 @@
         
         <td class="actions-cell">
           <div *ngFor="let col of columnActions">
-            <button 
+            <button
+              [class.btn--success]="col.success"
               *ngIf="col.type == 'action'" 
               (click)="onClickAction(item, col.key)">
-              <img src="{{ col.icon }}" alt="{{ col.key }}-icon">
+              <img *ngIf="col.icon; else title" src="{{ col.icon }}" alt="{{ col.key }}-icon">
+              <ng-template #title>
+                {{ col.title }}
+              </ng-template>
             </button>
           </div>
 

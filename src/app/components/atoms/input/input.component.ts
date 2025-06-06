@@ -19,7 +19,7 @@ export class InputComponent implements ControlValueAccessor {
   @Input() maxwidth?: number;
   @Input() showRequiredSymbol: boolean = true;
   @Input() formControl?: FormControl;
-  @Input() disabled: boolean = false; // Cambiado a false por defecto
+  @Input() disabled: boolean = false;
 
   private _value: string = '';
   
